@@ -16,6 +16,7 @@ public class MyTableModel extends DefaultTableModel {
 	private MyArrayList cellUsedByPlayerList;
 
 	public MyTableModel() {
+		super();
 		cellUsedByPlayerList=new MyArrayList();
 	}
 
@@ -51,21 +52,23 @@ public class MyTableModel extends DefaultTableModel {
 	
 	@Override
 	public void addColumn(Object columnName) {
-		System.out.println("Hi");
 		super.addColumn(columnName);
 		cellUsedByPlayerList.addColumn();
+		this.fireTableStructureChanged();
 	}
 	
 	@Override
 	public void addRow(Object [] rowData){
 		super.addRow(rowData);
 		cellUsedByPlayerList.addRow();
+		this.fireTableStructureChanged();
 	}
 	
 	@Override
 	public void addRow(Vector rowData){
 		super.addRow(rowData);
 		cellUsedByPlayerList.addRow();
+		this.fireTableStructureChanged();
 	}
 	
 	

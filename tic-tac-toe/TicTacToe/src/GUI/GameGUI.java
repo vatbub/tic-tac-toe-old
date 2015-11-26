@@ -8,6 +8,7 @@ import java.awt.Color;
 import javax.swing.JToolBar;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JLabel;
+import javax.swing.JTable;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -16,7 +17,7 @@ public class GameGUI {
 
 	private JFrame frame;
 	private MyJTable gameTable;
-	private DefaultTableModel model;
+	private MyTableModel model;
 
 	/**
 	 * Launch the application.
@@ -66,15 +67,28 @@ public class GameGUI {
 		toolBar.add(turnLabel);
 		
 		gameTable = new MyJTable();
+		gameTable.setModel(new MyTableModel(
+			new Object[][] {
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+			},
+			new String[] {
+				"New column", "New column", "New column", "New column"
+			}
+		));
+		
 		gameTable.setColumnSelectionAllowed(true);
 		gameTable.setCellSelectionEnabled(true);
 		
-		model=(DefaultTableModel) gameTable.getModel();
+		model=(MyTableModel) gameTable.getModel();
 		
 		model.addColumn("1");
-		model.addRow(new Object[]{"1"});
-		model.addRow(new Object[]{"2"});
+		//model.addRow(new Object[]{"1"});
+		//model.addRow(new Object[]{"2"});
 		model.addColumn("2");
+		
 		
 		frame.getContentPane().add(gameTable, BorderLayout.CENTER);
 	}

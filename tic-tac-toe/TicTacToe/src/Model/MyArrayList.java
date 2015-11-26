@@ -18,8 +18,9 @@ public class MyArrayList {
 		this.columnCount=columnCount;
 		
 		cellUsedByPlayerList=new ArrayList<ArrayList<Model.Player>>(rowCount);
+		System.out.println(cellUsedByPlayerList.size());
 		for (int i=0;i<rowCount;i++){
-			cellUsedByPlayerList.get(i).add(null);
+			cellUsedByPlayerList.set(i, new ArrayList<Model.Player>(columnCount));
 		}
 	}
 	

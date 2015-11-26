@@ -61,5 +61,10 @@ public class MyJTable extends JTable {
 		
 		return comp;
 	}
+	
+	@Override 
+	public MyTableModel getModel(){
+		return model;
+	}
 
 }
