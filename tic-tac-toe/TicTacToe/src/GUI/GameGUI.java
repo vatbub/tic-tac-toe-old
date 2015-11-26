@@ -1,18 +1,22 @@
 package GUI;
 
 import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import java.awt.BorderLayout;
+import java.awt.Color;
+
 import javax.swing.JToolBar;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.JLabel;
 import javax.swing.JButton;
-import javax.swing.JTable;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class GameGUI {
 
 	private JFrame frame;
-	private JTable table;
+	private MyJTable gameTable;
+	private DefaultTableModel model;
 
 	/**
 	 * Launch the application.
@@ -50,13 +54,29 @@ public class GameGUI {
 		frame.getContentPane().add(toolBar, BorderLayout.SOUTH);
 		
 		JButton btnQuit = new JButton("Quit");
+		btnQuit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Model.Main.Player1=new Model.Player();
+				((MyTableModel) gameTable.getModel()).setCellUsedByPlayer(Model.Main.Player1, 0, 0);
+			}
+		});
 		toolBar.add(btnQuit);
 		
 		JLabel turnLabel = new JLabel("It's Payer A's turn");
 		toolBar.add(turnLabel);
 		
-		table = new JTable();
-		frame.getContentPane().add(table, BorderLayout.CENTER);
+		gameTable = new MyJTable();
+		gameTable.setColumnSelectionAllowed(true);
+		gameTable.setCellSelectionEnabled(true);
+		
+		model=(DefaultTableModel) gameTable.getModel();
+		
+		model.addColumn("1");
+		model.addRow(new Object[]{"1"});
+		model.addRow(new Object[]{"2"});
+		model.addColumn("2");
+		
+		frame.getContentPane().add(gameTable, BorderLayout.CENTER);
 	}
 
 }
