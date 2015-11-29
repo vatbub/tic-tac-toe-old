@@ -82,30 +82,7 @@ public class GameGUI {
 				int column = gameTable.columnAtPoint(event.getPoint());
 				int row = gameTable.rowAtPoint(event.getPoint());
 
-				if (gameTable.getPlayerAt(row, column) == null) {
-					// Draw the corresponding field
-					gameTable.setPlayerAt(row, column, playerForNextTurn);
-
-					// set the next player for turning
-					if (playerForNextTurn.equals(Player.Player1)) {
-						playerForNextTurn = Player.Player2;
-					} else {
-						playerForNextTurn = Player.Player1;
-					}
-					
-					setTurnLabel();
-				}
-				
-				//Check for win
-				Player winningPlayer=winDetector();
-				if (!(winningPlayer==null)){
-					if (winningPlayer.equals(Player.PlayerTie)){
-						JOptionPane.showMessageDialog(null, "It's a tie!", "Tie", JOptionPane.OK_CANCEL_OPTION);
-					}else{
-						JOptionPane.showMessageDialog(null, winningPlayer.name + " won! Grats :)", "Player won", JOptionPane.OK_CANCEL_OPTION);
-					}
-					System.exit(0);
-				}
+				playerPlayed(row,column);
 			}
 		});
 
@@ -124,6 +101,33 @@ public class GameGUI {
 		gameTable.setCellSelectionEnabled(true);
 
 		frame.getContentPane().add(gameTable, BorderLayout.CENTER);
+	}
+	
+	public void playerPlayed(int row, int column){
+		if (gameTable.getPlayerAt(row, column) == null) {
+			// Draw the corresponding field
+			gameTable.setPlayerAt(row, column, playerForNextTurn);
+
+			// set the next player for turning
+			if (playerForNextTurn.equals(Player.Player1)) {
+				playerForNextTurn = Player.Player2;
+			} else {
+				playerForNextTurn = Player.Player1;
+			}
+			
+			setTurnLabel();
+		}
+		
+		//Check for win
+		Player winningPlayer=winDetector();
+		if (!(winningPlayer==null)){
+			if (winningPlayer.equals(Player.PlayerTie)){
+				JOptionPane.showMessageDialog(null, "It's a tie!", "Tie", JOptionPane.OK_CANCEL_OPTION);
+			}else{
+				JOptionPane.showMessageDialog(null, winningPlayer.name + " won! Grats :)", "Player won", JOptionPane.OK_CANCEL_OPTION);
+			}
+			System.exit(0);
+		}
 	}
 
 	private Player winDetector() {
