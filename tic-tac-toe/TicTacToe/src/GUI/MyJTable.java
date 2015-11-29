@@ -1,13 +1,14 @@
 package GUI;
 
 import java.awt.Color;
-import java.awt.Component;
-import java.util.EventObject;
 import java.util.Vector;
 
 import javax.swing.JTable;
-import javax.swing.table.TableCellRenderer;
-import Model.Main;
+import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
+import javax.swing.table.TableColumnModel;
+import javax.swing.table.TableModel;
+import Model.*;
 
 public class MyJTable extends JTable {
 
@@ -15,56 +16,66 @@ public class MyJTable extends JTable {
 	 * 
 	 */
 	private static final long serialVersionUID = -1925175781596366195L;
-	
-	private MyTableModel model;
-	private Color Player1Color=Color.RED;
-	private Color Player2Color=Color.GREEN;
-	private Color NoPlayerColor=Color.WHITE;
+
+	private Color player1Color = Color.red;
+	private Color player2Color = Color.black;
+	private String player1String = "X";
+	private String player2String = "O";
 
 	public MyJTable() {
-		// TODO Auto-generated constructor stub
-		model=new MyTableModel();
+
+	}
+
+	public MyJTable(TableModel dm) {
+		super(dm);
+	}
+
+	public MyJTable(TableModel dm, TableColumnModel cm) {
+		super(dm, cm);
 	}
 
 	public MyJTable(int numRows, int numColumns) {
 		super(numRows, numColumns);
-		model=new MyTableModel(numRows, numColumns);
 	}
 
 	public MyJTable(Vector rowData, Vector columnNames) {
 		super(rowData, columnNames);
-		model=new MyTableModel(this.getRowCount(), this.getColumnCount());
 	}
 
 	public MyJTable(Object[][] rowData, Object[] columnNames) {
 		super(rowData, columnNames);
-		model=new MyTableModel(this.getRowCount(), this.getColumnCount());
-	}
-	
-	@Override
-	public boolean editCellAt(int row,int  column,EventObject e){
-		return false;
-	}
-	
-	@Override
-	public Component prepareRenderer(TableCellRenderer renderer, int row, int col) {
-		
-		Component comp = super.prepareRenderer(renderer, row, col);
-		
-		if (model.getCellUsedByPlayer(row, col).equals(null)){
-			comp.setBackground(NoPlayerColor);
-		}else if (model.getCellUsedByPlayer(row, col).equals(Main.Player1)){
-			comp.setBackground(Player1Color);
-		}else if (model.getCellUsedByPlayer(row, col).equals(Main.Player2)){
-			comp.setBackground(Player2Color);
-		}
-		
-		return comp;
-	}
-	
-	@Override 
-	public MyTableModel getModel(){
-		return model;
 	}
 
+	public MyJTable(TableModel dm, TableColumnModel cm, ListSelectionModel sm) {
+		super(dm, cm, sm);
+	}
+
+	public void setPlayerAt(int row, int column, Player player) {
+		if (player.equals(Player.Player1)) {
+			//this.getCellRenderer(row, column).getTableCellRendererComponent(this, this.getValueAt(row, column),
+			//		this.isCellSelected(row, column), this.hasFocus(), row, column).setBackground(player1Color);
+			this.setValueAt(player1String, row, column);
+		} else if (player.equals(Player.Player2)) {
+			//this.getCellRenderer(row, column).getTableCellRendererComponent(this, this.getValueAt(row, column),
+			//		this.isCellSelected(row, column), this.hasFocus(), row, column).setBackground(player2Color);
+			this.setValueAt(player2String, row, column);
+		} else {
+			throw new InvalidPlayerException();
+		}
+	}
+
+	public Player getPlayerAt(int row, int column) {
+		String value = (String) this.getValueAt(row, column);
+		if (value == null) {
+			return null;
+		} else {
+			if (value.equals(player1String)) {
+				return Player.Player1;
+			} else if (value.equals(player2String)) {
+				return Player.Player2;
+			}else{
+				return null; //For the warning to disappear
+			}
+		}
+	}
 }
