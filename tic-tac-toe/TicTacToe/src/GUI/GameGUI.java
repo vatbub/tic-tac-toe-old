@@ -99,7 +99,11 @@ public class GameGUI {
 				//Check for win
 				Player winningPlayer=winDetector();
 				if (!(winningPlayer==null)){
-					JOptionPane.showMessageDialog(null, "Player " + winningPlayer.name + " won! Grats :)", "Player won", JOptionPane.OK_CANCEL_OPTION);
+					if (winningPlayer.equals(Player.PlayerTie)){
+						JOptionPane.showMessageDialog(null, "It's a tie!", "Tie", JOptionPane.OK_CANCEL_OPTION);
+					}else{
+						JOptionPane.showMessageDialog(null, winningPlayer.name + " won! Grats :)", "Player won", JOptionPane.OK_CANCEL_OPTION);
+					}
 					System.exit(0);
 				}
 			}
@@ -179,7 +183,25 @@ public class GameGUI {
 		}
 		
 		//We only arrive here if no one won yet
-		return null;
+		
+		boolean isTie=true;
+		
+		//Check if it is a tie
+		for (int r=0;r<gameTable.getRowCount();r++){
+			for(int c=0;c<gameTable.getColumnCount();c++){
+				if (gameTable.getPlayerAt(r, c)==null){
+					isTie=false;
+					break;
+				}
+			}
+		}
+		
+		if (isTie==true){
+			return Player.PlayerTie;
+		}else{
+			//Nobody won yet and it's no tie
+			return null;
+		}
 	}
 	
 	private void setTurnLabel(){
