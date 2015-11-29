@@ -4,6 +4,7 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import java.awt.BorderLayout;
 import javax.swing.JToolBar;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JButton;
@@ -110,7 +111,11 @@ public class GameGUI {
 		String[] columnHeaders = new String[] { "1", "2", "3" };
 		model = new MyTableModel(data, columnHeaders);
 		gameTable.setModel(model);
-
+		
+		DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+		centerRenderer.setHorizontalAlignment( JLabel.CENTER );
+		gameTable.setDefaultRenderer(String.class, centerRenderer);
+		
 		gameTable.setColumnSelectionAllowed(true);
 		gameTable.setCellSelectionEnabled(true);
 
