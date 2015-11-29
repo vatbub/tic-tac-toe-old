@@ -164,6 +164,7 @@ public class GameGUI {
 		}
 
 		// Check if the diagonal (from left bottom to right top) is not null
+		notNull=true;
 		for (int i = 0; i < 3; i++) {
 			if (gameTable.getPlayerAt(2-i, i) == null) {
 				notNull = false;
