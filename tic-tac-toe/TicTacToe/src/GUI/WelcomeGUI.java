@@ -12,7 +12,7 @@ import javax.swing.*;
 
 public class WelcomeGUI {
 
-	private JFrame frame;
+	private JFrame frmTicTacToe;
 	/**
 	 * Launch the application.
 	 */
@@ -34,20 +34,22 @@ public class WelcomeGUI {
 	 */
 	public WelcomeGUI() {
 		initialize();
-		this.frame.setVisible(true);
+		this.frmTicTacToe.setVisible(true);
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frame = new JFrame();
-		frame.setBounds(100, 100, 450, 300);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.X_AXIS));
+		frmTicTacToe = new JFrame();
+		frmTicTacToe.setTitle("Tic Tac Toe (Frederik Kammel)");
+		frmTicTacToe.setBounds(100, 100, 450, 202);
+		frmTicTacToe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmTicTacToe.getContentPane().setLayout(new BoxLayout(frmTicTacToe.getContentPane(), BoxLayout.X_AXIS));
 
 		JSplitPane splitPane = new JSplitPane();
-		frame.getContentPane().add(splitPane);
+		splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
+		frmTicTacToe.getContentPane().add(splitPane);
 		splitPane.setResizeWeight(0.5);
 		splitPane.setEnabled(false);
 
@@ -64,7 +66,7 @@ public class WelcomeGUI {
 		JButton button_1 = new JButton("Multiplayer (2 Players)");
 		button_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				frame.setVisible(false);
+				frmTicTacToe.setVisible(false);
 				GameGUI game = new GameGUI();
 			}
 		});

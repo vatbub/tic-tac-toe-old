@@ -36,8 +36,8 @@ public class MyCellRenderer extends DefaultTableCellRenderer {
 				cell.setForeground(MyJTable.player2ForeColor);
 			}
 		} else {
-			cell.setBackground(Color.white);
-			cell.setForeground(Color.black);
+			cell.setBackground(MyJTable.playerNoneColor);
+			cell.setForeground(MyJTable.playerNoneForeColor);
 		}
 
 		return cell;

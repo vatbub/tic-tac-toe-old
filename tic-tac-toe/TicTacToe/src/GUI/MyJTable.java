@@ -21,6 +21,9 @@ public class MyJTable extends JTable {
 	public static Color player1ForeColor=Color.black;
 	public static Color player2Color = Color.black;
 	public static Color player2ForeColor=Color.white;
+	public static Color playerNoneColor=Color.white;
+	public static Color playerNoneForeColor = Color.black;
+	
 	private static String player1String = "X";
 	private static String player2String = "O";
 

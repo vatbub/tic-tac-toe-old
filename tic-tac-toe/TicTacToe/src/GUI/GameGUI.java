@@ -22,7 +22,7 @@ import Model.*;
 
 public class GameGUI {
 
-	private JFrame frame;
+	private JFrame frmTicTacToe;
 	private MyJTable gameTable;
 	private MyTableModel model;
 	private Player playerForNextTurn;
@@ -55,20 +55,21 @@ public class GameGUI {
 		playerForNextTurn = Player.Player1;
 		initialize();
 		setTurnLabel();
-		this.frame.setVisible(true);
+		this.frmTicTacToe.setVisible(true);
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frame = new JFrame();
-		frame.setBounds(100, 100, 482, 349);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(new BorderLayout(0, 0));
+		frmTicTacToe = new JFrame();
+		frmTicTacToe.setTitle("Tic Tac Toe (Frederik Kammel)");
+		frmTicTacToe.setBounds(100, 100, 482, 349);
+		frmTicTacToe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmTicTacToe.getContentPane().setLayout(new BorderLayout(0, 0));
 
 		JToolBar toolBar = new JToolBar();
-		frame.getContentPane().add(toolBar, BorderLayout.SOUTH);
+		frmTicTacToe.getContentPane().add(toolBar, BorderLayout.SOUTH);
 
 		JButton btnQuit = new JButton("Quit");
 		btnQuit.addActionListener(new ActionListener() {
@@ -122,7 +123,7 @@ public class GameGUI {
 			}
 		});
 
-		frame.getContentPane().add(gameTable, BorderLayout.CENTER);
+		frmTicTacToe.getContentPane().add(gameTable, BorderLayout.CENTER);
 	}
 
 	public void playerPlayed(int row, int column) {
