@@ -17,37 +17,45 @@ public class MyJTable extends JTable {
 	 */
 	private static final long serialVersionUID = -1925175781596366195L;
 
-	private Color player1Color = Color.red;
-	private Color player2Color = Color.black;
-	private String player1String = "X";
-	private String player2String = "O";
+	public static Color player1Color = Color.red;
+	public static Color player1ForeColor=Color.black;
+	public static Color player2Color = Color.black;
+	public static Color player2ForeColor=Color.white;
+	private static String player1String = "X";
+	private static String player2String = "O";
 
 	public MyJTable() {
-
+		super.setDefaultRenderer(String.class, new MyCellRenderer());
 	}
 
 	public MyJTable(TableModel dm) {
 		super(dm);
+		super.setDefaultRenderer(String.class, new MyCellRenderer());
 	}
 
 	public MyJTable(TableModel dm, TableColumnModel cm) {
 		super(dm, cm);
+		super.setDefaultRenderer(String.class, new MyCellRenderer());
 	}
 
 	public MyJTable(int numRows, int numColumns) {
 		super(numRows, numColumns);
+		super.setDefaultRenderer(String.class, new MyCellRenderer());
 	}
 
 	public MyJTable(Vector rowData, Vector columnNames) {
 		super(rowData, columnNames);
+		super.setDefaultRenderer(String.class, new MyCellRenderer());
 	}
 
 	public MyJTable(Object[][] rowData, Object[] columnNames) {
 		super(rowData, columnNames);
+		super.setDefaultRenderer(String.class, new MyCellRenderer());
 	}
 
 	public MyJTable(TableModel dm, TableColumnModel cm, ListSelectionModel sm) {
 		super(dm, cm, sm);
+		super.setDefaultRenderer(String.class, new MyCellRenderer());
 	}
 
 	public void setPlayerAt(int row, int column, Player player) {
@@ -62,6 +70,8 @@ public class MyJTable extends JTable {
 		} else {
 			throw new InvalidPlayerException();
 		}
+		
+		
 	}
 
 	public Player getPlayerAt(int row, int column) {

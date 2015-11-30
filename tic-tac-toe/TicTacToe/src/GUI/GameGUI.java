@@ -1,14 +1,20 @@
 package GUI;
 
 import java.awt.EventQueue;
+import java.awt.Font;
+
 import javax.swing.JFrame;
 import java.awt.BorderLayout;
+import java.awt.Dimension;
+
 import javax.swing.JToolBar;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -57,7 +63,7 @@ public class GameGUI {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 224, 136);
+		frame.setBounds(100, 100, 482, 349);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new BorderLayout(0, 0));
 
@@ -82,7 +88,7 @@ public class GameGUI {
 				int column = gameTable.columnAtPoint(event.getPoint());
 				int row = gameTable.rowAtPoint(event.getPoint());
 
-				playerPlayed(row,column);
+				playerPlayed(row, column);
 			}
 		});
 
@@ -92,18 +98,34 @@ public class GameGUI {
 		String[] columnHeaders = new String[] { "1", "2", "3" };
 		model = new MyTableModel(data, columnHeaders);
 		gameTable.setModel(model);
-		
-		DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
-		centerRenderer.setHorizontalAlignment( JLabel.CENTER );
-		gameTable.setDefaultRenderer(String.class, centerRenderer);
-		
+
 		gameTable.setColumnSelectionAllowed(true);
 		gameTable.setCellSelectionEnabled(true);
 
+		// Make the rows fit the window
+		gameTable.addComponentListener(new ComponentAdapter() {
+			@Override
+			public void componentResized(ComponentEvent e) {
+				gameTable.setRowHeight(16);
+				Dimension p = gameTable.getPreferredSize();
+				Dimension v = gameTable.getSize();
+				if (v.height > p.height) {
+					int available = v.height - gameTable.getRowCount() * gameTable.getRowMargin();
+					int perRow = available / gameTable.getRowCount();
+					
+					//Set the row height
+					gameTable.setRowHeight(perRow);
+					
+					//Set the font size
+					gameTable.setFont(new Font("Serif", Font.BOLD, perRow));
+				}
+			}
+		});
+
 		frame.getContentPane().add(gameTable, BorderLayout.CENTER);
 	}
-	
-	public void playerPlayed(int row, int column){
+
+	public void playerPlayed(int row, int column) {
 		if (gameTable.getPlayerAt(row, column) == null) {
 			// Draw the corresponding field
 			gameTable.setPlayerAt(row, column, playerForNextTurn);
@@ -114,17 +136,18 @@ public class GameGUI {
 			} else {
 				playerForNextTurn = Player.Player1;
 			}
-			
+
 			setTurnLabel();
 		}
-		
-		//Check for win
-		Player winningPlayer=winDetector();
-		if (!(winningPlayer==null)){
-			if (winningPlayer.equals(Player.PlayerTie)){
+
+		// Check for win
+		Player winningPlayer = winDetector();
+		if (!(winningPlayer == null)) {
+			if (winningPlayer.equals(Player.PlayerTie)) {
 				JOptionPane.showMessageDialog(null, "It's a tie!", "Tie", JOptionPane.OK_CANCEL_OPTION);
-			}else{
-				JOptionPane.showMessageDialog(null, winningPlayer.name + " won! Grats :)", "Player won", JOptionPane.OK_CANCEL_OPTION);
+			} else {
+				JOptionPane.showMessageDialog(null, winningPlayer.name + " won! Grats :)", "Player won",
+						JOptionPane.OK_CANCEL_OPTION);
 			}
 			System.exit(0);
 		}
@@ -172,43 +195,43 @@ public class GameGUI {
 		}
 
 		// Check if the diagonal (from left bottom to right top) is not null
-		notNull=true;
+		notNull = true;
 		for (int i = 0; i < 3; i++) {
-			if (gameTable.getPlayerAt(2-i, i) == null) {
+			if (gameTable.getPlayerAt(2 - i, i) == null) {
 				notNull = false;
 			}
 		}
 
 		if (notNull == true) {
 			if (gameTable.getPlayerAt(2, 0).equals(gameTable.getPlayerAt(1, 1))
-					&& gameTable.getPlayerAt(2,0).equals(gameTable.getPlayerAt(0, 2))) {
+					&& gameTable.getPlayerAt(2, 0).equals(gameTable.getPlayerAt(0, 2))) {
 				return gameTable.getPlayerAt(2, 0);
 			}
 		}
-		
-		//We only arrive here if no one won yet
-		
-		boolean isTie=true;
-		
-		//Check if it is a tie
-		for (int r=0;r<gameTable.getRowCount();r++){
-			for(int c=0;c<gameTable.getColumnCount();c++){
-				if (gameTable.getPlayerAt(r, c)==null){
-					isTie=false;
+
+		// We only arrive here if no one won yet
+
+		boolean isTie = true;
+
+		// Check if it is a tie
+		for (int r = 0; r < gameTable.getRowCount(); r++) {
+			for (int c = 0; c < gameTable.getColumnCount(); c++) {
+				if (gameTable.getPlayerAt(r, c) == null) {
+					isTie = false;
 					break;
 				}
 			}
 		}
-		
-		if (isTie==true){
+
+		if (isTie == true) {
 			return Player.PlayerTie;
-		}else{
-			//Nobody won yet and it's no tie
+		} else {
+			// Nobody won yet and it's no tie
 			return null;
 		}
 	}
-	
-	private void setTurnLabel(){
+
+	private void setTurnLabel() {
 		turnLabel.setText("It's " + playerForNextTurn.name + "'s turn");
 	}
 }
