@@ -57,6 +57,12 @@ public class GameGUI {
 	 * Create the GameGUI window.
 	 */
 	public GameGUI() {
+		this(null);
+	}
+	
+	public GameGUI(WelcomeGUI caller){
+		this.caller=caller;
+		
 		if (Player.initPlayers() == false) {
 			this.quitGame();
 		}
@@ -65,11 +71,6 @@ public class GameGUI {
 		initialize();
 		setTurnLabel();
 		this.frmTicTacToe.setVisible(true);
-	}
-	
-	public GameGUI(WelcomeGUI caller){
-		this();
-		this.caller=caller;
 	}
 
 	/**
@@ -158,7 +159,9 @@ public class GameGUI {
 			System.exit(0);
 		}else{
 			//There is a welcome screen specified
-			frmTicTacToe.dispose();
+			if (frmTicTacToe!=null){
+				frmTicTacToe.dispose();
+			}
 			caller.getFrmTicTacToe().setVisible(true);
 		}
 	}
@@ -281,6 +284,8 @@ public class GameGUI {
 	}
 
 	private void setTurnLabel() {
-		turnLabel.setText("It's " + playerForNextTurn.name + "'s turn");
+		if (turnLabel!=null){
+			turnLabel.setText("It's " + playerForNextTurn.name + "'s turn");
+		}
 	}
 }
