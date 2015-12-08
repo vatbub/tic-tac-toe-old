@@ -75,14 +75,8 @@ public class GameGUI {
 		frmTicTacToe = new JFrame();
 		frmTicTacToe.addWindowListener(new MyWindowAdapter(this) {
 			@Override
-			public void windowClosed(WindowEvent e) {
-				//caller.quitGame();
-				System.out.println("Test1");
-			}
-			@Override
 			public void windowClosing(WindowEvent e) {
 				caller.quitGame();
-				System.out.println("Test2");
 			}
 		});
 		frmTicTacToe.setTitle("Tic Tac Toe (Frederik Kammel)");
@@ -149,6 +143,7 @@ public class GameGUI {
 	}
 	
 	public void quitGame(){
+		
 		if (caller==null){
 			//No caller specified, we shall quit the app completely
 			System.exit(0);

@@ -27,8 +27,18 @@ public class Player {
 		playerCount = 0;
 
 		// Ask for Player 1's name
+		String namePlayer1;
+		
+		if (Player1==null){
+			namePlayer1="Player " + (playerCount + 1);
+		} else if (Player1.name==""){
+			namePlayer1="Player " + (playerCount + 1);
+		}else{
+			namePlayer1=Player1.name;
+		}
+		
 		// String namePlayer2=(String)JOptionPane.showInputDialog(null, "Message", "Title", JOptionPane.INFORMATION_MESSAGE, null, null, "DefaultValue");
-		String namePlayer1=(String)JOptionPane.showInputDialog(null, "Player " + (playerCount + 1) + ", please enter your name", "Playernames", JOptionPane.INFORMATION_MESSAGE, null, null, "Player " + (playerCount + 1));
+		namePlayer1=(String)JOptionPane.showInputDialog(null, "Player " + (playerCount + 1) + ", please enter your name", "Playernames", JOptionPane.INFORMATION_MESSAGE, null, null, namePlayer1);
 
 		// Check if the player clicked Cancel
 		if (namePlayer1 == null) {
@@ -38,8 +48,17 @@ public class Player {
 		Player1 = new Player(namePlayer1);
 
 		// Ask for Player 2's name
+		String namePlayer2;
+		
+		if (Player2==null){
+			namePlayer2="Player " + (playerCount + 1);
+		} else if (Player2.name==""){
+			namePlayer2="Player " + (playerCount + 1);
+		}else{
+			namePlayer2=Player2.name;
+		}
 		// String namePlayer2=(String)JOptionPane.showInputDialog(null, "Message", "Title", JOptionPane.INFORMATION_MESSAGE, null, null, "DefaultValue");
-		String namePlayer2=(String)JOptionPane.showInputDialog(null, "Player " + (playerCount + 1) + ", please enter your name", "Playernames", JOptionPane.INFORMATION_MESSAGE, null, null, "Player " + (playerCount + 1));
+		namePlayer2=(String)JOptionPane.showInputDialog(null, "Player " + (playerCount + 1) + ", please enter your name", "Playernames", JOptionPane.INFORMATION_MESSAGE, null, null, namePlayer2);
 
 		// Check if the player clicked Cancel
 		if (namePlayer2 == null) {
