@@ -1,3 +1,9 @@
+/**
+ * Model of a Player
+ * 
+ * @author Frederik Kammel
+ */
+
 package Model;
 
 import javax.swing.JOptionPane;
@@ -10,6 +16,10 @@ public class Player {
 
 	public String name;
 
+	/**
+	 * Initializes a new Player.
+	 * @param name Name of the Player
+	 */
 	public Player(String name) {
 		playerCount = playerCount + 1;
 
@@ -19,7 +29,23 @@ public class Player {
 			this.name = name;
 		}
 	}
+	
+	/**
+	 * Switches Player.Player1 and Player.player2
+	 */
+	public static void switchPlayers(){
+		//Switches Player1 and Player 2
+		Player player1Copy=Player1;
+		Player player2Copy=Player2;
+		
+		Player2=player1Copy;
+		Player1=player2Copy;
+	}
 
+	/**
+	 * Guides the user through the name selection.
+	 * @return Returns true, if all dialogs were completed successfully and false if the user cancelled the operation
+	 */
 	public static boolean initPlayers() {
 		// returns false if the player wishes to cancel the game
 

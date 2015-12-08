@@ -1,3 +1,7 @@
+/**
+ * String Array with the possibility to check if the array contains a specific string
+ * @author Frederik Kammel
+ */
 package Model;
 
 public class MyStringArray {

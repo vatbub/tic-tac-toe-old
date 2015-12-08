@@ -1,3 +1,8 @@
+/**
+ * Overrides javax.swing.table.DefaultTableCellRenderer to add the possibility to color the cells for each player
+ * @author Frederik Kammel
+ */
+
 package GUI;
 
 import java.awt.Color;
@@ -10,16 +15,12 @@ import javax.swing.table.DefaultTableCellRenderer;
 import Model.Player;
 
 public class MyCellRenderer extends DefaultTableCellRenderer {
-
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -117877613993904379L;
 
 	public MyCellRenderer() {
 		super();
-		//set the cell alignment to the center
-		this.setHorizontalAlignment( JLabel.CENTER );
+		// set the cell alignment to the center
+		this.setHorizontalAlignment(JLabel.CENTER);
 	}
 
 	@Override

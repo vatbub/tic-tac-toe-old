@@ -1,3 +1,7 @@
+/**
+ * The Main Menu
+ * @author Frederik Kammel
+ */
 package GUI;
 
 
@@ -18,7 +22,7 @@ public class WelcomeGUI {
 
 	private JFrame frmTicTacToe;
 	/**
-	 * Launch the application.
+	 * Launch the Main Menu.
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -34,7 +38,7 @@ public class WelcomeGUI {
 	}
 
 	/**
-	 * Create the application.
+	 * Create the Main Menu.
 	 */
 	public WelcomeGUI() {
 		initialize();
@@ -72,7 +76,7 @@ public class WelcomeGUI {
 		splitPane.setLeftComponent(button);
 
 		JButton button_1 = new JButton("Multiplayer (2 Players)");
-		button_1.addActionListener(new MyActionListener(this) {
+		button_1.addActionListener(new MyActionListener<WelcomeGUI>(this) {
 			public void actionPerformed(ActionEvent arg0) {
 				frmTicTacToe.setVisible(false);
 				GameGUI game = new GameGUI(caller);

@@ -1,3 +1,8 @@
+/**
+ * Extends the default JTable to add the PlayerModel to it
+ * @author Frederik Kammel
+ */
+
 package GUI;
 
 import java.awt.Color;
@@ -11,10 +16,6 @@ import javax.swing.table.TableModel;
 import Model.*;
 
 public class MyJTable extends JTable {
-
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -1925175781596366195L;
 
 	public static Color player1Color = Color.red;
@@ -61,6 +62,12 @@ public class MyJTable extends JTable {
 		super.setDefaultRenderer(String.class, new MyCellRenderer());
 	}
 
+	/**
+	 * Set the cell contet of the specified cell to the players String and Color
+	 * @param row The row of the cell that will be changed
+	 * @param column The column of the cell that will be changed
+	 * @param player The player that should be set at the specified position
+	 */
 	public void setPlayerAt(int row, int column, Player player) {
 		if (player.equals(Player.Player1)) {
 			//this.getCellRenderer(row, column).getTableCellRendererComponent(this, this.getValueAt(row, column),
@@ -77,6 +84,12 @@ public class MyJTable extends JTable {
 		
 	}
 
+	/**
+	 * Returns the Player at the specified position
+	 * @param row
+	 * @param column
+	 * @return The Player in the specified cell
+	 */
 	public Player getPlayerAt(int row, int column) {
 		String value = (String) this.getValueAt(row, column);
 		if (value == null) {

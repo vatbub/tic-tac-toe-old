@@ -5,15 +5,15 @@ import java.awt.event.ActionListener;
 
 import GUI.WelcomeGUI;
 
-public abstract class MyActionListener implements ActionListener {
+public abstract class MyActionListener<CallerClass> implements ActionListener {
 
-	protected WelcomeGUI caller;
+	protected CallerClass caller;
 	
 	public MyActionListener() {
 		super();
 	}
 	
-	public MyActionListener(WelcomeGUI caller) {
+	public MyActionListener(CallerClass caller) {
 		this();
 		this.caller=caller;
 	}

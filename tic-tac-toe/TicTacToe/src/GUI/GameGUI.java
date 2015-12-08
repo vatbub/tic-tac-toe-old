@@ -1,3 +1,9 @@
+/**
+ * The Game window
+ * @author The WindowBuilder
+ * @author Frederik Kammel
+ */
+
 package GUI;
 
 import java.awt.EventQueue;
@@ -8,18 +14,15 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 
 import javax.swing.JToolBar;
-import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JButton;
-import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import Model.*;
-import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 public class GameGUI {
@@ -34,7 +37,8 @@ public class GameGUI {
 	public boolean gameFinished=false;
 
 	/**
-	 * Launch the application.
+	 * Launch the GameGUI window.
+	 * ATTENTION: It is highly recommended to launch the WelcomeGUi or the Main-class since lainching GameGUI directly will bypass the Main Menu
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -50,7 +54,7 @@ public class GameGUI {
 	}
 
 	/**
-	 * Create the application.
+	 * Create the GameGUI window.
 	 */
 	public GameGUI() {
 		if (Player.initPlayers() == false) {
@@ -88,9 +92,9 @@ public class GameGUI {
 		frmTicTacToe.getContentPane().add(toolBar, BorderLayout.SOUTH);
 
 		JButton btnQuit = new JButton("Quit");
-		btnQuit.addActionListener(new ActionListener() {
+		btnQuit.addActionListener(new MyActionListener<GameGUI>(this) {
 			public void actionPerformed(ActionEvent e) {
-				System.exit(0);
+				caller.quitGame();
 			}
 		});
 		toolBar.add(btnQuit);
@@ -142,7 +146,12 @@ public class GameGUI {
 		frmTicTacToe.getContentPane().add(gameTable, BorderLayout.CENTER);
 	}
 	
+	/**
+	 * Quits the current game and returns to the calling window (normally the WelcomeGUI) if applicable
+	 */
 	public void quitGame(){
+		//switch the Players
+		Player.switchPlayers();
 		
 		if (caller==null){
 			//No caller specified, we shall quit the app completely
@@ -154,6 +163,12 @@ public class GameGUI {
 		}
 	}
 
+	/**
+	 * Sets the symbol and color for the player who just played in the JTable of the GameGUI.
+	 * Also checks if a player won the game and shows the win-message and quits the game then.
+	 * @param row Row where the player played
+	 * @param column Column where the player played.
+	 */
 	public void playerPlayed(int row, int column) {
 		if (gameTable.getPlayerAt(row, column) == null) {
 			// Draw the corresponding field
@@ -183,6 +198,10 @@ public class GameGUI {
 		}
 	}
 
+	/**
+	 * Checks if a player has won the game
+	 * @return Player.Player1 if Player 1 has won, Player.Player2 if Player 2 has won, Player.PlayerTie if the game is a tie, null if the game is not finished yet
+	 */
 	private Player winDetector() {
 		// Check for 3 crosses in each line
 		for (int i = 0; i < 3; i++) {
