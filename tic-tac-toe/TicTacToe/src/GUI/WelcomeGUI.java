@@ -1,9 +1,13 @@
 package GUI;
 
+
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JSplitPane;
+
+import Model.MyActionListener;
+
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -36,6 +40,10 @@ public class WelcomeGUI {
 		initialize();
 		this.frmTicTacToe.setVisible(true);
 	}
+	
+	public JFrame getFrmTicTacToe(){
+		return frmTicTacToe;
+	}
 
 	/**
 	 * Initialize the contents of the frame.
@@ -64,10 +72,10 @@ public class WelcomeGUI {
 		splitPane.setLeftComponent(button);
 
 		JButton button_1 = new JButton("Multiplayer (2 Players)");
-		button_1.addActionListener(new ActionListener() {
+		button_1.addActionListener(new MyActionListener(this) {
 			public void actionPerformed(ActionEvent arg0) {
 				frmTicTacToe.setVisible(false);
-				GameGUI game = new GameGUI();
+				GameGUI game = new GameGUI(caller);
 			}
 		});
 		splitPane.setRightComponent(button_1);

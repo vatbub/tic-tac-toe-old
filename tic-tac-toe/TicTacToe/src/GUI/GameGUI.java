@@ -19,6 +19,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import Model.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class GameGUI {
 
@@ -27,6 +29,9 @@ public class GameGUI {
 	private MyTableModel model;
 	private Player playerForNextTurn;
 	private JLabel turnLabel;
+	private WelcomeGUI caller;
+	
+	public boolean gameFinished=false;
 
 	/**
 	 * Launch the application.
@@ -49,7 +54,7 @@ public class GameGUI {
 	 */
 	public GameGUI() {
 		if (Player.initPlayers() == false) {
-			System.exit(0);
+			this.quitGame();
 		}
 
 		playerForNextTurn = Player.Player1;
@@ -57,15 +62,32 @@ public class GameGUI {
 		setTurnLabel();
 		this.frmTicTacToe.setVisible(true);
 	}
+	
+	public GameGUI(WelcomeGUI caller){
+		this();
+		this.caller=caller;
+	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
 		frmTicTacToe = new JFrame();
+		frmTicTacToe.addWindowListener(new MyWindowAdapter(this) {
+			@Override
+			public void windowClosed(WindowEvent e) {
+				//caller.quitGame();
+				System.out.println("Test1");
+			}
+			@Override
+			public void windowClosing(WindowEvent e) {
+				caller.quitGame();
+				System.out.println("Test2");
+			}
+		});
 		frmTicTacToe.setTitle("Tic Tac Toe (Frederik Kammel)");
 		frmTicTacToe.setBounds(100, 100, 482, 349);
-		frmTicTacToe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmTicTacToe.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frmTicTacToe.getContentPane().setLayout(new BorderLayout(0, 0));
 
 		JToolBar toolBar = new JToolBar();
@@ -125,6 +147,17 @@ public class GameGUI {
 
 		frmTicTacToe.getContentPane().add(gameTable, BorderLayout.CENTER);
 	}
+	
+	public void quitGame(){
+		if (caller==null){
+			//No caller specified, we shall quit the app completely
+			System.exit(0);
+		}else{
+			//There is a welcome screen specified
+			frmTicTacToe.dispose();
+			caller.getFrmTicTacToe().setVisible(true);
+		}
+	}
 
 	public void playerPlayed(int row, int column) {
 		if (gameTable.getPlayerAt(row, column) == null) {
@@ -150,7 +183,8 @@ public class GameGUI {
 				JOptionPane.showMessageDialog(null, winningPlayer.name + " won! Grats :)", "Player won",
 						JOptionPane.OK_CANCEL_OPTION);
 			}
-			System.exit(0);
+			
+			quitGame();
 		}
 	}
 
