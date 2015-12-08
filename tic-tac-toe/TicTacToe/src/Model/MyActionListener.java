@@ -7,13 +7,13 @@ import GUI.WelcomeGUI;
 
 public abstract class MyActionListener implements ActionListener {
 
-	protected WindowGUI caller;
+	protected WelcomeGUI caller;
 	
 	public MyActionListener() {
 		super();
 	}
 	
-	public MyActionListener(WindowGUI caller) {
+	public MyActionListener(WelcomeGUI caller) {
 		this();
 		this.caller=caller;
 	}
