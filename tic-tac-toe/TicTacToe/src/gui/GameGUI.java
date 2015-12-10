@@ -69,8 +69,10 @@ public class GameGUI {
 
 		this.caller = caller;
 
-		if (Player.initPlayers() == false) {
-			this.quitGame();
+		if (Player.Player1 == null || Player.Player2 == null) {
+			if (Player.initPlayers() == false) {
+				this.quitGame();
+			}
 		}
 
 		playerForNextTurn = Player.Player1;
