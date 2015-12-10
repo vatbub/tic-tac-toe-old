@@ -19,6 +19,10 @@ import model.*;
 
 public class GameJTable extends JTable {
 	private static final long serialVersionUID = -1925175781596366195L;
+	
+	public int scoreIfStateIsReached;
+	public int playedAtRow;
+	public int playedAtColumn;
 
 	public GameJTable() {
 		super.setDefaultRenderer(String.class, new MyCellRenderer());
@@ -126,6 +130,9 @@ public class GameJTable extends JTable {
 			// Draw the corresponding field
 			this.setPlayerAt(row, column, player);
 
+			playedAtRow = row;
+			playedAtColumn = column;
+			
 			return true;
 		} else {
 			return false;
@@ -393,5 +400,15 @@ public class GameJTable extends JTable {
 		}
 		
 		return res;
+	}
+	
+	/**
+	 * negate the scoreIfStateIsReached value
+	 * 
+	 * @return the negated scoreIfStateIsReached.
+	 */
+	public int invertScoreIfStateIsReached() {
+		scoreIfStateIsReached = -scoreIfStateIsReached;
+		return scoreIfStateIsReached;
 	}
 }

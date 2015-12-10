@@ -5,19 +5,21 @@
 package model;
 
 import java.util.ArrayList;
+
+import gui.GameJTable;
 import model.*;
 
 public class TreeNode{
 
-	private AiGameTable object;
+	private GameJTable object;
 	private ArrayList<TreeNode> children;
 
 	// Getters and Setters
-	public AiGameTable getObject() {
+	public GameJTable getObject() {
 		return object;
 	}
 
-	public void setObject(AiGameTable object) {
+	public void setObject(GameJTable object) {
 		this.object = object;
 	}
 
@@ -26,11 +28,11 @@ public class TreeNode{
 		this(null);
 	}
 
-	public TreeNode(AiGameTable object) {
+	public TreeNode(GameJTable object) {
 		this(object, null);
 	}
 
-	public TreeNode(AiGameTable object, ArrayList<TreeNode> children) {
+	public TreeNode(GameJTable object, ArrayList<TreeNode> children) {
 		this.object = object;
 		this.children = children;
 	}

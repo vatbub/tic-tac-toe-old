@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
+import gui.GameGUI;
 import gui.GameJTable;
 
 public class Player {
@@ -19,11 +20,12 @@ public class Player {
 	public static int playerCount;
 
 	public String name;
-	
+
 	/**
-	 * Specifies if the player is an artificial intelligence (true) or a human (false)
+	 * Specifies if the player is an artificial intelligence (true) or a human
+	 * (false)
 	 */
-	public boolean isAi; 
+	public boolean isAi;
 
 	/**
 	 * Initializes a new Player.
@@ -123,32 +125,45 @@ public class Player {
 	 * Decides where the AI will do its next turn by implementing the
 	 * Mini-Max-Algorithm
 	 * 
-	 * @return The position where the AI will play.
+	 * Needs the reference to the callerGUI to send it the info about the played
+	 * spot
+	 * 
+	 * @param currentGameTable
+	 *            The gameTable of the current game situation
+	 * @param callerGui
+	 *            the GameGUI which calls the AI
 	 */
-	public void doAiTurn(GameJTable currentGameTable) {
-		TreeNode gameTree = buildGameTree((AiGameTable)currentGameTable);
+	public void doAiTurn(GameJTable currentGameTable, GameGUI callerGUI) {
+		TreeNode gameTree = buildGameTree(currentGameTable);
 		int bestTurn = gameTree.getBestTurnFromChildren();
-		
-		//do the actual turn
-		currentGameTable.playerPlayed(gameTree.getChildAt(bestTurn).getObject().playedAtRow, gameTree.getChildAt(bestTurn).getObject().playedAtColumn, this);
-	}
-	
-	/**
-	 * Builds a tree with all possible turn combinations
-	 * @param currentGameTable The current gameTable
-	 * @return The tree containing all possible turn combinations
-	 */
-	private TreeNode buildGameTree(AiGameTable currentGameTable){
-		return buildGameTree_recursive(currentGameTable,false);
+
+		// do the actual turn
+		callerGUI.playerPlayed(gameTree.getChildAt(bestTurn).getObject().playedAtRow,
+				gameTree.getChildAt(bestTurn).getObject().playedAtColumn);
 	}
 
 	/**
 	 * Builds a tree with all possible turn combinations
-	 * @param currentGameTable The current gameTable
-	 * @param opponentsTurn Specifies if scores should be inverted in this part of the tree becase its the opponents turn
+	 * 
+	 * @param currentGameTable
+	 *            The current gameTable
 	 * @return The tree containing all possible turn combinations
 	 */
-	private TreeNode buildGameTree_recursive(AiGameTable currentGameTable, boolean opponentsTurn) {
+	private TreeNode buildGameTree(GameJTable currentGameTable) {
+		return buildGameTree_recursive(currentGameTable, false);
+	}
+
+	/**
+	 * Builds a tree with all possible turn combinations
+	 * 
+	 * @param currentGameTable
+	 *            The current gameTable
+	 * @param opponentsTurn
+	 *            Specifies if scores should be inverted in this part of the
+	 *            tree becase its the opponents turn
+	 * @return The tree containing all possible turn combinations
+	 */
+	private TreeNode buildGameTree_recursive(GameJTable currentGameTable, boolean opponentsTurn) {
 		TreeNode gameTree = new TreeNode();
 
 		int scoreCoeff = 1;
@@ -175,7 +190,7 @@ public class Player {
 
 		for (int i = 0; i < turns.size(); i++) {
 			// duplicate the table
-			AiGameTable tableTemp = gameTree.getObject().clone();
+			GameJTable tableTemp = gameTree.getObject().clone();
 
 			// do the turn
 			tableTemp.setPlayerAt(turns.get(i)[0], turns.get(i)[1], this);
@@ -192,7 +207,7 @@ public class Player {
 				if (playerWonTemp.equals(this)) {
 					tableTemp.scoreIfStateIsReached = 10 * scoreCoeff;
 				} else if (playerWonTemp.equals(PlayerTie)) {
-					//its a tie
+					// its a tie
 					tableTemp.scoreIfStateIsReached = 5 * scoreCoeff;
 				} else {
 					// opponent wins
