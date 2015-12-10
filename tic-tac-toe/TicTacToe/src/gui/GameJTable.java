@@ -444,17 +444,17 @@ public class GameJTable extends JTable {
 	}
 	
 	public boolean isEmpty(){
-		boolean res=false;
+		boolean res=true;
 		for (int r=0;r<this.getRowCount();r++){
 			for (int c=0;c<this.getColumnCount();c++){
 				if (this.getPlayerAt(r, c)!=null){
-					res=true;
+					res=false;
 					break;
 				}
 			}
 			
 			//break this loop too
-			if (res==true){
+			if (res==false){
 				break;
 			}
 		}
