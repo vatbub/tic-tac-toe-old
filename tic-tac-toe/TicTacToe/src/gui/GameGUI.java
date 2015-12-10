@@ -245,14 +245,8 @@ public class GameGUI {
 
 		// Do AI turns if selected
 		if (playerForNextTurn.isAi == true) {
-
-			System.out.println("Thinking...");
-			// playerForNextTurn.doAiTurn(gameTable, this,
-			// opponentOfPlayerForNextTurn);
 			MySwingWorker SWorker = new MySwingWorker(playerForNextTurn, gameTable, this, opponentOfPlayerForNextTurn);
 			SWorker.doInBackground();
-
-			System.out.println("Finished thinking");
 		}
 	}
 
