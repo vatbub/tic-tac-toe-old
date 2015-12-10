@@ -116,9 +116,20 @@ public class GameGUI {
 		});
 
 		// Generate empty data to set the table dimensions
-		Object[][] data = new Object[][] { { null, null, null }, { null, null, null }, { null, null, null }, };
+		// Object[][] data = new Object[][] { { null, null, null }, { null,
+		// null, null }, { null, null, null }, };
+		Object[][] data = new Object[Config.gameRowCount][Config.gameColumnCount];
+		String[] columnHeaders = new String[Config.gameColumnCount];
 
-		String[] columnHeaders = new String[] { "1", "2", "3" };
+		for (int c = 0; c < Config.gameColumnCount; c++) {
+			columnHeaders[c]="" + (c+1);
+			for (int r = 0; r < Config.gameRowCount; r++) {
+				data[r][c] = null;
+			}
+		}
+
+		// String[] columnHeaders = new String[] { "1", "2", "3" };
+
 		model = new MyTableModel(data, columnHeaders);
 		gameTable.setModel(model);
 
