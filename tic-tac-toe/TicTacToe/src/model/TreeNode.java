@@ -57,7 +57,11 @@ public class TreeNode {
 	}
 
 	public TreeNode getChildAt(int index) {
-		return children.get(index);
+		if (children != null) {
+			return children.get(index);
+		} else {
+			return null;
+		}
 	}
 
 	public int getChildCount() {
@@ -69,18 +73,19 @@ public class TreeNode {
 	}
 
 	public int getTotalScore(boolean overrideCache) {
-		if (lastTotalScore==0|overrideCache==true){
-		int sum = 0;
-		if (children == null) {
-			return object.scoreIfStateIsReached;
-		} else {
-			for (int i = 0; i < children.size(); i++) {
-				sum = sum + this.getChildAt(i).getTotalScore();
-			}
+		if (lastTotalScore == 0 | overrideCache == true) {
+			int sum = 0;
+			if (children == null) {
+				return object.scoreIfStateIsReached;
+			} else {
+				for (int i = 0; i < children.size(); i++) {
+					sum = sum + this.getChildAt(i).getTotalScore();
+				}
 
-			lastTotalScore = sum;
-			return sum;
-		}}else{
+				lastTotalScore = sum;
+				return sum;
+			}
+		} else {
 			return lastTotalScore;
 		}
 	}
