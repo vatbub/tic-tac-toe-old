@@ -65,7 +65,9 @@ public class GameJTable extends JTable {
 	 *            The player that should be set at the specified position
 	 */
 	public void setPlayerAt(int row, int column, Player player) {
-		if (player.equals(Player.Player1)) {
+		if (player == null) {
+			this.setValueAt("", row, column);
+		} else if (player.equals(Player.Player1)) {
 			// this.getCellRenderer(row,
 			// column).getTableCellRendererComponent(this, this.getValueAt(row,
 			// column),
@@ -117,7 +119,7 @@ public class GameJTable extends JTable {
 	 *            Row where the player played
 	 * @param column
 	 *            Column where the player played.
-	 * @return Returns wether the player was set successfully
+	 * @return Returns whether the player was set successfully
 	 */
 	public boolean playerPlayed(int row, int column, Player player) {
 		if (this.getPlayerAt(row, column) == null) {
@@ -125,7 +127,7 @@ public class GameJTable extends JTable {
 			this.setPlayerAt(row, column, player);
 
 			return true;
-		}else{
+		} else {
 			return false;
 		}
 	}
@@ -380,5 +382,16 @@ public class GameJTable extends JTable {
 			// Nobody won yet and it's no tie
 			return null;
 		}
+	}
+
+	public GameJTable clone() {
+		GameJTable res = new GameJTable(this.getModel());
+		for (int r = 0; r < this.getRowCount(); r++) {
+			for (int c = 0; c < this.getColumnCount(); c++) {
+				res.setPlayerAt(r, c, this.getPlayerAt(r, c));
+			}
+		}
+		
+		return res;
 	}
 }
