@@ -118,7 +118,7 @@ public class WelcomeGUI {
 					// Computer selected
 					player1NameTemp = player1Name.getText();
 					player1Name.setEnabled(false);
-					player1Name.setText("Computer");
+					player1Name.setText(Config.defaultAI1Name);
 				}
 			}
 
@@ -160,7 +160,7 @@ public class WelcomeGUI {
 					// Computer selected
 					player2NameTemp = player2Name.getText();
 					player2Name.setEnabled(false);
-					player2Name.setText("Computer");
+					player2Name.setText(Config.defaultAI2Name);
 				}
 			}
 
