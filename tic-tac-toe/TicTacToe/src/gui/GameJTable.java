@@ -438,4 +438,23 @@ public class GameJTable extends JTable {
 		res = res + "===end of table===";
 		return res;
 	}
+	
+	public boolean isEmpty(){
+		boolean res=false;
+		for (int r=0;r<this.getRowCount();r++){
+			for (int c=0;c<this.getColumnCount();c++){
+				if (this.getPlayerAt(r, c)==null){
+					res=true;
+					break;
+				}
+			}
+			
+			//break this loop too
+			if (res==true){
+				break;
+			}
+		}
+		
+		return res;
+	}
 }

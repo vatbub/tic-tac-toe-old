@@ -19,8 +19,6 @@ public class Player {
 	public static Player PlayerTie;
 	public static int playerCount;
 
-	public boolean isThinking=false;
-
 	public String name;
 
 	/**
@@ -136,15 +134,19 @@ public class Player {
 	 *            the GameGUI which calls the AI
 	 */
 	public void doAiTurn(GameJTable currentGameTable, GameGUI callerGUI, Player opponent) {
-		isThinking=true;
-		
-		TreeNode gameTree = buildGameTree(currentGameTable, opponent);
-		int bestTurn = gameTree.getBestTurnFromChildren();
 
-		// do the actual turn
-		callerGUI.playerPlayed(gameTree.getChildAt(bestTurn).playedAtRow,
-				gameTree.getChildAt(bestTurn).playedAtColumn);
-		isThinking=false;
+		if (currentGameTable.isEmpty() == false) {
+			TreeNode gameTree = buildGameTree(currentGameTable, opponent);
+			int bestTurn = gameTree.getBestTurnFromChildren();
+
+			// do the actual turn
+			callerGUI.playerPlayed(gameTree.getChildAt(bestTurn).playedAtRow,
+					gameTree.getChildAt(bestTurn).playedAtColumn);
+		} else {
+			// Game is empty -> pick a random field
+			callerGUI.playerPlayed((int) Math.round(Math.random()*(currentGameTable.getRowCount()-1)),
+					(int) Math.round(Math.random()*(currentGameTable.getColumnCount()-1)));
+		}
 	}
 
 	/**
@@ -198,7 +200,7 @@ public class Player {
 			GameJTable tableTemp = gameTree.getObject().clone();
 
 			// do the turn
-			
+
 			if (opponentsTurn == false) {
 				// My turn
 				tableTemp.setPlayerAt(turns.get(i)[0], turns.get(i)[1], this);
@@ -215,8 +217,8 @@ public class Player {
 			if (playerWonTemp == null) {
 				// opponents turn
 				TreeNode child = buildGameTree_recursive(tableTemp, !opponentsTurn, opponent);
-				child.playedAtColumn=turns.get(i)[1];
-				child.playedAtRow=turns.get(i)[0];
+				child.playedAtColumn = turns.get(i)[1];
+				child.playedAtRow = turns.get(i)[0];
 				gameTree.addChild(child);
 			} else {
 				if (playerWonTemp.equals(this)) {
@@ -229,8 +231,8 @@ public class Player {
 					tableTemp.scoreIfStateIsReached = -10 * scoreCoeff;
 				}
 				TreeNode childNode = new TreeNode(tableTemp);
-				childNode.playedAtColumn=turns.get(i)[1];
-				childNode.playedAtRow=turns.get(i)[0];
+				childNode.playedAtColumn = turns.get(i)[1];
+				childNode.playedAtRow = turns.get(i)[0];
 				gameTree.addChild(childNode);
 			}
 		}

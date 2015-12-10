@@ -14,6 +14,7 @@ public class TreeNode {
 	private GameJTable object;
 	public int playedAtRow;
 	public int playedAtColumn;
+	private int lastTotalScore;
 	private ArrayList<TreeNode> children;
 
 	// Getters and Setters
@@ -64,6 +65,11 @@ public class TreeNode {
 	}
 
 	public int getTotalScore() {
+		return getTotalScore(false);
+	}
+
+	public int getTotalScore(boolean overrideCache) {
+		if (lastTotalScore==0|overrideCache==true){
 		int sum = 0;
 		if (children == null) {
 			return object.scoreIfStateIsReached;
@@ -72,32 +78,35 @@ public class TreeNode {
 				sum = sum + this.getChildAt(i).getTotalScore();
 			}
 
+			lastTotalScore = sum;
 			return sum;
+		}}else{
+			return lastTotalScore;
 		}
 	}
 
 	public int getBestTurnFromChildren() {
 		ArrayList<int[]> maxIndeces = new ArrayList<int[]>();
-		int maxIndex=0;
+		int maxIndex = 0;
 		if (children != null) {
 			for (int i = 0; i < children.size(); i++) {
 				if (children.get(i).getTotalScore() > children.get(maxIndex).getTotalScore()) {
 					maxIndex = i;
 				}
 			}
-			
-			//randomize between all equal maxes
+
+			// randomize between all equal maxes
 			for (int i = 0; i < children.size(); i++) {
 				if (children.get(i).getTotalScore() == children.get(maxIndex).getTotalScore()) {
-					int[]e={i};
+					int[] e = { i };
 					maxIndeces.add(e);
 				}
 			}
-			
-			int randIndex=(int) Math.round(Math.random()*(maxIndeces.size()-1));
-			maxIndex=maxIndeces.get(randIndex)[0];
+
+			int randIndex = (int) Math.round(Math.random() * (maxIndeces.size() - 1));
+			maxIndex = maxIndeces.get(randIndex)[0];
 		}
-		
+
 		return maxIndex;
 	}
 }
