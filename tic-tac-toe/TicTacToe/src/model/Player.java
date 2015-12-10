@@ -208,7 +208,7 @@ public class Player {
 			}
 
 			// check if somebody won
-			Player playerWonTemp = tableTemp.winDetector2(turns.get(i)[0], turns.get(i)[1]);
+			Player playerWonTemp = tableTemp.winDetector(turns.get(i)[0], turns.get(i)[1]);
 
 			// set the score to 10 if I would win and to -10 if the opponent
 			// would win and continue if nobody would win

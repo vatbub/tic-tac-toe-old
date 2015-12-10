@@ -200,91 +200,6 @@ public class GameGUI {
 	}
 
 	/**
-	 * Checks if a player has won the game
-	 * 
-	 * @return Player.Player1 if Player 1 has won, Player.Player2 if Player 2
-	 *         has won, Player.PlayerTie if the game is a tie, null if the game
-	 *         is not finished yet
-	 */
-	private Player winDetector() {
-		// Check for 3 crosses in each line
-		for (int i = 0; i < 3; i++) {
-			if (!(gameTable.getPlayerAt(i, 0) == null) && !(gameTable.getPlayerAt(i, 1) == null)
-					&& !(gameTable.getPlayerAt(i, 2) == null)) {
-				if (gameTable.getPlayerAt(i, 0).equals(gameTable.getPlayerAt(i, 1))
-						&& gameTable.getPlayerAt(i, 0).equals(gameTable.getPlayerAt(i, 2))) {
-					// The Player won in one line
-					return gameTable.getPlayerAt(i, 0);
-				}
-			}
-		}
-
-		// Check for 3 crosses in each column
-		for (int i = 0; i < 3; i++) {
-			if (!(gameTable.getPlayerAt(0, i) == null) && !(gameTable.getPlayerAt(1, i) == null)
-					&& !(gameTable.getPlayerAt(2, i) == null)) {
-				if (gameTable.getPlayerAt(0, i).equals(gameTable.getPlayerAt(1, i))
-						&& gameTable.getPlayerAt(0, i).equals(gameTable.getPlayerAt(2, i))) {
-					// The Player won in one line
-					return gameTable.getPlayerAt(0, i);
-				}
-			}
-		}
-
-		// Check for diagonal wins
-		boolean notNull = true;
-		// Check if the diagonal (from left top to right bottom) is not null
-		for (int i = 0; i < 3; i++) {
-			if (gameTable.getPlayerAt(i, i) == null) {
-				notNull = false;
-			}
-		}
-
-		if (notNull == true) {
-			if (gameTable.getPlayerAt(0, 0).equals(gameTable.getPlayerAt(1, 1))
-					&& gameTable.getPlayerAt(0, 0).equals(gameTable.getPlayerAt(2, 2))) {
-				return gameTable.getPlayerAt(0, 0);
-			}
-		}
-
-		// Check if the diagonal (from left bottom to right top) is not null
-		notNull = true;
-		for (int i = 0; i < 3; i++) {
-			if (gameTable.getPlayerAt(2 - i, i) == null) {
-				notNull = false;
-			}
-		}
-
-		if (notNull == true) {
-			if (gameTable.getPlayerAt(2, 0).equals(gameTable.getPlayerAt(1, 1))
-					&& gameTable.getPlayerAt(2, 0).equals(gameTable.getPlayerAt(0, 2))) {
-				return gameTable.getPlayerAt(2, 0);
-			}
-		}
-
-		// We only arrive here if no one won yet
-
-		boolean isTie = true;
-
-		// Check if it is a tie
-		for (int r = 0; r < gameTable.getRowCount(); r++) {
-			for (int c = 0; c < gameTable.getColumnCount(); c++) {
-				if (gameTable.getPlayerAt(r, c) == null) {
-					isTie = false;
-					break;
-				}
-			}
-		}
-
-		if (isTie == true) {
-			return Player.PlayerTie;
-		} else {
-			// Nobody won yet and it's no tie
-			return null;
-		}
-	}
-
-	/**
 	 * Sets the symbol and color for the player who just played in the JTable of
 	 * the GameGUI. Also checks if a player won the game and shows the
 	 * win-message and quits the game then.
@@ -310,7 +225,7 @@ public class GameGUI {
 		setTurnLabel();
 
 		// Check for win
-		Player winningPlayer = gameTable.winDetector2(row, column);
+		Player winningPlayer = gameTable.winDetector(row, column);
 		if (!(winningPlayer == null)) {
 			if (winningPlayer.equals(Player.PlayerTie)) {
 				JOptionPane.showMessageDialog(null, "It's a tie!", "Tie", JOptionPane.OK_CANCEL_OPTION);
