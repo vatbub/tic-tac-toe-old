@@ -38,6 +38,7 @@ public class GameGUI {
 	private WelcomeGUI caller;
 
 	public boolean gameFinished = false;
+	public boolean dismissAllWinMessages = false;
 	private JLabel lblThinking;
 	private JLabel lblSpacing;
 
@@ -231,16 +232,19 @@ public class GameGUI {
 		setTurnLabel();
 
 		// Check for win
-		Player winningPlayer = gameTable.winDetector(row, column);
-		if (!(winningPlayer == null)) {
-			if (winningPlayer.equals(Player.PlayerTie)) {
-				JOptionPane.showMessageDialog(null, "It's a tie!", "Tie", JOptionPane.OK_CANCEL_OPTION);
-			} else {
-				JOptionPane.showMessageDialog(null, winningPlayer.name + " won! Grats :)", "Player won",
-						JOptionPane.OK_CANCEL_OPTION);
-			}
+		if (dismissAllWinMessages == false) {
+			Player winningPlayer = gameTable.winDetector(row, column);
+			if (!(winningPlayer == null)) {
+				if (winningPlayer.equals(Player.PlayerTie)) {
+					JOptionPane.showMessageDialog(null, "It's a tie!", "Tie", JOptionPane.OK_CANCEL_OPTION);
+				} else {
+					JOptionPane.showMessageDialog(null, winningPlayer.name + " won! Grats :)", "Player won",
+							JOptionPane.OK_CANCEL_OPTION);
+				}
 
-			quitGame();
+				dismissAllWinMessages = true;
+				quitGame();
+			}
 		}
 
 		// Do AI turns if selected
