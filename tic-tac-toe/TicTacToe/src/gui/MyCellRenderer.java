@@ -27,11 +27,11 @@ public class MyCellRenderer extends DefaultTableCellRenderer {
 			int row, int column) {
 		Component cell = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 
-		if (!(((MyJTable) table).getPlayerAt(row, column) == null)) {
-			if (((MyJTable) table).getPlayerAt(row, column).equals(Player.Player1)) {
+		if (!(((GameJTable) table).getPlayerAt(row, column) == null)) {
+			if (((GameJTable) table).getPlayerAt(row, column).equals(Player.Player1)) {
 				cell.setBackground(Config.player1Color);
 				cell.setForeground(Config.player1ForeColor);
-			} else if (((MyJTable) table).getPlayerAt(row, column).equals(Player.Player2)) {
+			} else if (((GameJTable) table).getPlayerAt(row, column).equals(Player.Player2)) {
 				cell.setBackground(Config.player2Color);
 				cell.setForeground(Config.player2ForeColor);
 			}

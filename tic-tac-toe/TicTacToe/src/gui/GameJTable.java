@@ -16,39 +16,39 @@ import javax.swing.table.TableModel;
 
 import model.*;
 
-public class MyJTable extends JTable {
+public class GameJTable extends JTable {
 	private static final long serialVersionUID = -1925175781596366195L;
 
-	public MyJTable() {
+	public GameJTable() {
 		super.setDefaultRenderer(String.class, new MyCellRenderer());
 	}
 
-	public MyJTable(TableModel dm) {
+	public GameJTable(TableModel dm) {
 		super(dm);
 		super.setDefaultRenderer(String.class, new MyCellRenderer());
 	}
 
-	public MyJTable(TableModel dm, TableColumnModel cm) {
+	public GameJTable(TableModel dm, TableColumnModel cm) {
 		super(dm, cm);
 		super.setDefaultRenderer(String.class, new MyCellRenderer());
 	}
 
-	public MyJTable(int numRows, int numColumns) {
+	public GameJTable(int numRows, int numColumns) {
 		super(numRows, numColumns);
 		super.setDefaultRenderer(String.class, new MyCellRenderer());
 	}
 
-	public MyJTable(Vector rowData, Vector columnNames) {
+	public GameJTable(Vector rowData, Vector columnNames) {
 		super(rowData, columnNames);
 		super.setDefaultRenderer(String.class, new MyCellRenderer());
 	}
 
-	public MyJTable(Object[][] rowData, Object[] columnNames) {
+	public GameJTable(Object[][] rowData, Object[] columnNames) {
 		super(rowData, columnNames);
 		super.setDefaultRenderer(String.class, new MyCellRenderer());
 	}
 
-	public MyJTable(TableModel dm, TableColumnModel cm, ListSelectionModel sm) {
+	public GameJTable(TableModel dm, TableColumnModel cm, ListSelectionModel sm) {
 		super(dm, cm, sm);
 		super.setDefaultRenderer(String.class, new MyCellRenderer());
 	}

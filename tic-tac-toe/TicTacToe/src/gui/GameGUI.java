@@ -30,7 +30,7 @@ import java.awt.event.WindowEvent;
 public class GameGUI {
 
 	private JFrame frmTicTacToe;
-	private MyJTable gameTable;
+	private GameJTable gameTable;
 	private MyTableModel model;
 	private Player playerForNextTurn;
 	private JLabel turnLabel;
@@ -109,7 +109,7 @@ public class GameGUI {
 		turnLabel = new JLabel("It's Payer A's turn");
 		toolBar.add(turnLabel);
 
-		gameTable = new MyJTable();
+		gameTable = new GameJTable();
 		gameTable.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent event) {
