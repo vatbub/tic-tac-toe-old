@@ -33,6 +33,7 @@ public class GameGUI {
 	public GameJTable gameTable;
 	private MyTableModel model;
 	private Player playerForNextTurn;
+	private Player opponentOfPlayerForNextTurn;
 	private JLabel turnLabel;
 	private WelcomeGUI caller;
 
@@ -288,13 +289,10 @@ public class GameGUI {
 			// set the next player for turning
 			if (playerForNextTurn.equals(Player.Player1)) {
 				playerForNextTurn = Player.Player2;
+				opponentOfPlayerForNextTurn=Player.Player1;
 			} else {
 				playerForNextTurn = Player.Player1;
-			}
-			
-			//Do AI turns if selected
-			if (playerForNextTurn.isAi==true){
-				playerForNextTurn.doAiTurn(gameTable, this);
+				opponentOfPlayerForNextTurn=Player.Player2;
 			}
 		}
 		setTurnLabel();
@@ -310,6 +308,11 @@ public class GameGUI {
 			}
 
 			quitGame();
+		}
+		
+		//Do AI turns if selected
+		if (playerForNextTurn.isAi==true){
+			playerForNextTurn.doAiTurn(gameTable, this, opponentOfPlayerForNextTurn);
 		}
 	}
 

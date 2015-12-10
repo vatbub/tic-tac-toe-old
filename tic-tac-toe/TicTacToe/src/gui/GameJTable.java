@@ -68,7 +68,10 @@ public class GameJTable extends JTable {
 	 * @param player
 	 *            The player that should be set at the specified position
 	 */
-	public void setPlayerAt(int row, int column, Player player) {
+	public void setPlayerAt(int row, int column, Player player, String caller) {
+		if (row==2&&column==2&&Player.counter==2 && !caller.equals("Clone")){
+			System.out.println("Stop2222222!");
+		}
 		if (player == null) {
 			this.setValueAt("", row, column);
 		} else if (player.equals(Player.Player1)) {
@@ -89,6 +92,9 @@ public class GameJTable extends JTable {
 		} else {
 			throw new InvalidPlayerException();
 		}
+
+		playedAtRow = row;
+		playedAtColumn = column;
 
 	}
 
@@ -128,10 +134,7 @@ public class GameJTable extends JTable {
 	public boolean playerPlayed(int row, int column, Player player) {
 		if (this.getPlayerAt(row, column) == null) {
 			// Draw the corresponding field
-			this.setPlayerAt(row, column, player);
-
-			playedAtRow = row;
-			playedAtColumn = column;
+			this.setPlayerAt(row, column, player,"");
 
 			return true;
 		} else {
@@ -392,10 +395,15 @@ public class GameJTable extends JTable {
 	}
 
 	public GameJTable clone() {
-		GameJTable res = new GameJTable(this.getModel());
+		//clone the TableModel
+		MyTableModel model=((MyTableModel)this.getModel()).clone();
+		
+		//MyTableModel model=new MyTableModel();
+		
+		GameJTable res = new GameJTable(model);
 		for (int r = 0; r < this.getRowCount(); r++) {
 			for (int c = 0; c < this.getColumnCount(); c++) {
-				res.setPlayerAt(r, c, this.getPlayerAt(r, c));
+				res.setPlayerAt(r, c, this.getPlayerAt(r, c),"Clone");
 			}
 		}
 

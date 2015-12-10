@@ -19,6 +19,8 @@ public class Player {
 	public static Player PlayerTie;
 	public static int playerCount;
 
+	public static int counter = 0;
+
 	public String name;
 
 	/**
@@ -133,11 +135,21 @@ public class Player {
 	 * @param callerGui
 	 *            the GameGUI which calls the AI
 	 */
-	public void doAiTurn(GameJTable currentGameTable, GameGUI callerGUI) {
-		TreeNode gameTree = buildGameTree(currentGameTable);
+	public void doAiTurn(GameJTable currentGameTable, GameGUI callerGUI, Player opponent) {
+		counter++;
+		TreeNode gameTree = buildGameTree(currentGameTable, opponent);
 		int bestTurn = gameTree.getBestTurnFromChildren();
 
 		// do the actual turn
+
+		for (int i = 0; i < gameTree.getChildCount(); i++) {
+			//System.out.println(i + ": " + gameTree.getChildAt(i).getTotalScore());
+			System.out.println(gameTree.getChildAt(i).getObject().playedAtRow + ", " + gameTree.getChildAt(i).getObject().playedAtColumn);
+		}
+
+		System.out.println("Row: " + gameTree.getChildAt(bestTurn).getObject().playedAtRow);
+		System.out.println("Column: " + gameTree.getChildAt(bestTurn).getObject().playedAtColumn);
+		System.out.println(gameTree.getChildAt(bestTurn).getObject().toString());
 		callerGUI.playerPlayed(gameTree.getChildAt(bestTurn).getObject().playedAtRow,
 				gameTree.getChildAt(bestTurn).getObject().playedAtColumn);
 	}
@@ -149,8 +161,8 @@ public class Player {
 	 *            The current gameTable
 	 * @return The tree containing all possible turn combinations
 	 */
-	private TreeNode buildGameTree(GameJTable currentGameTable) {
-		return buildGameTree_recursive(currentGameTable, false);
+	private TreeNode buildGameTree(GameJTable currentGameTable, Player opponent) {
+		return buildGameTree_recursive(currentGameTable, false, opponent);
 	}
 
 	/**
@@ -160,10 +172,10 @@ public class Player {
 	 *            The current gameTable
 	 * @param opponentsTurn
 	 *            Specifies if scores should be inverted in this part of the
-	 *            tree becase its the opponents turn
+	 *            tree because its the opponents turn
 	 * @return The tree containing all possible turn combinations
 	 */
-	private TreeNode buildGameTree_recursive(GameJTable currentGameTable, boolean opponentsTurn) {
+	private TreeNode buildGameTree_recursive(GameJTable currentGameTable, boolean opponentsTurn, Player opponent) {
 		TreeNode gameTree = new TreeNode();
 
 		int scoreCoeff = 1;
@@ -186,14 +198,31 @@ public class Player {
 			}
 		}
 
-		gameTree.setObject(currentGameTable);
+		gameTree.setObject(currentGameTable.clone());
 
 		for (int i = 0; i < turns.size(); i++) {
 			// duplicate the table
 			GameJTable tableTemp = gameTree.getObject().clone();
 
 			// do the turn
-			tableTemp.setPlayerAt(turns.get(i)[0], turns.get(i)[1], this);
+			System.out.println("R: " + turns.get(i)[0]);
+			System.out.println("C: " + turns.get(i)[1]);
+			if (turns.get(i)[0] == 2 && turns.get(i)[1] == 2) {
+				System.out.println(currentGameTable.toString());
+				System.out.println(turns.get(i)[0] + ":::" + turns.get(i)[1]);
+				System.out.println(counter);
+				if (counter == 2) {
+					System.out.println("Stop!");
+				}
+			}
+			if (opponentsTurn == false) {
+				// My turn
+				tableTemp.setPlayerAt(turns.get(i)[0], turns.get(i)[1], this,"");
+			} else {
+				// opponents turn
+				tableTemp.setPlayerAt(turns.get(i)[0], turns.get(i)[1], opponent,"");
+			}
+			System.out.println(tableTemp.toString());
 
 			// check if somebody won
 			Player playerWonTemp = tableTemp.winDetector2(turns.get(i)[0], turns.get(i)[1]);
@@ -202,7 +231,7 @@ public class Player {
 			// would win and continue if nobody would win
 			if (playerWonTemp == null) {
 				// opponents turn
-				gameTree.addChild(buildGameTree_recursive(tableTemp, !opponentsTurn));
+				gameTree.addChild(buildGameTree_recursive(tableTemp, !opponentsTurn, opponent));
 			} else {
 				if (playerWonTemp.equals(this)) {
 					tableTemp.scoreIfStateIsReached = 10 * scoreCoeff;

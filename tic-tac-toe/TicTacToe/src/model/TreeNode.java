@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import gui.GameJTable;
 import model.*;
 
-public class TreeNode{
+public class TreeNode {
 
 	private GameJTable object;
 	private ArrayList<TreeNode> children;
@@ -39,6 +39,9 @@ public class TreeNode{
 
 	// Methods
 	public void addChild(TreeNode child) {
+		if (children == null) {
+			children = new ArrayList<TreeNode>();
+		}
 		this.addChildAt(children.size(), child);
 	}
 
@@ -46,37 +49,40 @@ public class TreeNode{
 		if (children == null) {
 			children = new ArrayList<TreeNode>();
 		}
-		
+
 		children.add(index, child);
 	}
-	
-	public TreeNode getChildAt(int index){
+
+	public TreeNode getChildAt(int index) {
 		return children.get(index);
 	}
-	
-	public int getChildCount(){
+
+	public int getChildCount() {
 		return children.size();
 	}
-	
-	public int getTotalScore(){
-		int sum=0;
-		
-		for (int i=0;i<children.size();i++){
-			sum=sum+this.getChildAt(i).getTotalScore();
+
+	public int getTotalScore() {
+		int sum = 0;
+		if (children == null) {
+			return object.scoreIfStateIsReached;
+		} else {
+			for (int i = 0; i < children.size(); i++) {
+				sum = sum + this.getChildAt(i).getTotalScore();
+			}
+
+			return sum;
 		}
-		
-		return sum;
 	}
-	
-	public int getBestTurnFromChildren(){
-		int maxIndex=0;
-		
-		for(int i=0;i<children.size();i++){
-			if (children.get(i).getTotalScore()>children.get(maxIndex).getTotalScore()){
-				maxIndex=i;
+
+	public int getBestTurnFromChildren() {
+		int maxIndex = 0;
+
+		for (int i = 0; i < children.size(); i++) {
+			if (children.get(i).getTotalScore() > children.get(maxIndex).getTotalScore()) {
+				maxIndex = i;
 			}
 		}
-		
+
 		return maxIndex;
 	}
 }

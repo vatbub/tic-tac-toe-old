@@ -22,4 +22,22 @@ public class MyTableModel extends DefaultTableModel {
 	public Class getColumnClass(int col) {
 		return String.class; // To force String as datatype in the GUI
 	}
+
+	public MyTableModel clone() {
+		Object data[][] = new String[this.getRowCount()][this.getColumnCount()];
+
+		for (int r = 0; r < this.getRowCount(); r++) {
+			for (int c = 0; c < this.getColumnCount(); c++) {
+				data[r][c] = this.getValueAt(r, c);
+			}
+		}
+
+		String[] columnNames = new String[this.getColumnCount()];
+
+		for (int c = 0; c < this.getColumnCount(); c++) {
+			columnNames[c] = super.getColumnName(c);
+		}
+		
+		return new MyTableModel(data, columnNames);
+	}
 }
