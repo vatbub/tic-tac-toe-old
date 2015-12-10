@@ -7,7 +7,7 @@ public class Main {
 	 */
 	public static void main(String[] args) {
 		// Show the welcome GUI
-		GUI.WelcomeGUI welcomeWindow = new GUI.WelcomeGUI();
+		gui.WelcomeGUI welcomeWindow = new gui.WelcomeGUI();
 	}
 
 }

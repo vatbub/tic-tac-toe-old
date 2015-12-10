@@ -2,7 +2,7 @@
  * The Main Menu
  * @author Frederik Kammel
  */
-package GUI;
+package gui;
 
 
 import java.awt.EventQueue;
@@ -10,7 +10,7 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JSplitPane;
 
-import Model.MyActionListener;
+import model.MyActionListener;
 
 import javax.swing.JButton;
 import java.awt.event.ActionListener;

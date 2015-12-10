@@ -1,4 +1,4 @@
-package Model;
+package model;
 import java.awt.Color;
 
 public class Config {
@@ -20,9 +20,17 @@ public class Config {
 	/**
 	 * Validates the config
 	 */
-	public void validate(){
+	public static void validate(){
 		if (gemsToWin<Math.max(gameRowCount,gameColumnCount)){
 			throw new InvalidConfigException("The player cannot win the game since gemsToWin is smaller than all game table dimensions");
+		}
+		
+		if (player1String==""){
+			throw new InvalidConfigException("player1String is an empty string");
+		}
+		
+		if (player2String==""){
+			throw new InvalidConfigException("player2String is an empty string");
 		}
 	}
 }

@@ -3,16 +3,15 @@
  * @author Frederik Kammel
  */
 
-package GUI;
+package gui;
 
 import java.awt.Component;
 
 import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
-import Model.*;
 
-import Model.Player;
+import model.*;
 
 public class MyCellRenderer extends DefaultTableCellRenderer {
 	private static final long serialVersionUID = -117877613993904379L;

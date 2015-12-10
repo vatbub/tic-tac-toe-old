@@ -1,8 +1,8 @@
-package Model;
+package model;
 
 import java.awt.event.WindowAdapter;
 
-import GUI.GameGUI;
+import gui.GameGUI;
 
 public class MyWindowAdapter extends WindowAdapter {
 

@@ -4,7 +4,7 @@
  * @author Frederik Kammel
  */
 
-package GUI;
+package gui;
 
 import java.awt.EventQueue;
 import java.awt.Font;
@@ -14,6 +14,9 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 
 import javax.swing.JToolBar;
+
+import model.*;
+
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JButton;
@@ -22,7 +25,6 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import Model.*;
 import java.awt.event.WindowEvent;
 
 public class GameGUI {
@@ -62,6 +64,9 @@ public class GameGUI {
 	}
 
 	public GameGUI(WelcomeGUI caller) {
+		//Validate the config
+		Config.validate();
+		
 		this.caller = caller;
 
 		if (Player.initPlayers() == false) {

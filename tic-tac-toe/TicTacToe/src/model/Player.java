@@ -4,7 +4,7 @@
  * @author Frederik Kammel
  */
 
-package Model;
+package model;
 
 import javax.swing.JOptionPane;
 

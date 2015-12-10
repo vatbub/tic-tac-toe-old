@@ -3,7 +3,7 @@
  * @author Frederik Kammel
  */
 
-package GUI;
+package gui;
 
 import java.awt.Color;
 import java.util.Vector;
@@ -13,7 +13,8 @@ import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
-import Model.*;
+
+import model.*;
 
 public class MyJTable extends JTable {
 	private static final long serialVersionUID = -1925175781596366195L;

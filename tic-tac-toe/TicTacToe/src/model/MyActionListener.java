@@ -1,9 +1,9 @@
-package Model;
+package model;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import GUI.WelcomeGUI;
+import gui.WelcomeGUI;
 
 public abstract class MyActionListener<CallerClass> implements ActionListener {
 
