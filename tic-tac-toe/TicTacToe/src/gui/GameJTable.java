@@ -19,7 +19,7 @@ import model.*;
 
 public class GameJTable extends JTable {
 	private static final long serialVersionUID = -1925175781596366195L;
-	
+
 	public int scoreIfStateIsReached;
 	public int playedAtRow;
 	public int playedAtColumn;
@@ -132,7 +132,7 @@ public class GameJTable extends JTable {
 
 			playedAtRow = row;
 			playedAtColumn = column;
-			
+
 			return true;
 		} else {
 			return false;
@@ -398,10 +398,10 @@ public class GameJTable extends JTable {
 				res.setPlayerAt(r, c, this.getPlayerAt(r, c));
 			}
 		}
-		
+
 		return res;
 	}
-	
+
 	/**
 	 * negate the scoreIfStateIsReached value
 	 * 
@@ -410,5 +410,32 @@ public class GameJTable extends JTable {
 	public int invertScoreIfStateIsReached() {
 		scoreIfStateIsReached = -scoreIfStateIsReached;
 		return scoreIfStateIsReached;
+	}
+
+	/**
+	 * Prints the gameTable to a String for debug purposes
+	 * 
+	 * @return The gameTable as a String
+	 */
+	public String toString() {
+		String res = "";
+
+		for (int r = 0; r < this.getRowCount(); r++) {
+			for (int c = 0; c < this.getColumnCount(); c++) {
+				if (this.getPlayerAt(r, c) == null) {
+					res = res + " ";
+				} else if (this.getPlayerAt(r, c).equals(Player.Player1)) {
+					res = res + Config.player1String;
+				} else if (this.getPlayerAt(r, c).equals(Player.Player2)) {
+					res = res + Config.player2String;
+				}
+			}
+
+			res = res + "\n";
+
+		}
+		
+		res=res + "===end of table===";
+		return res;
 	}
 }
