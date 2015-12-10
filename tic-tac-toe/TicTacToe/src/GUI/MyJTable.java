@@ -18,16 +18,6 @@ import Model.*;
 public class MyJTable extends JTable {
 	private static final long serialVersionUID = -1925175781596366195L;
 
-	public static Color player1Color = Color.red;
-	public static Color player1ForeColor=Color.black;
-	public static Color player2Color = Color.black;
-	public static Color player2ForeColor=Color.white;
-	public static Color playerNoneColor=Color.white;
-	public static Color playerNoneForeColor = Color.black;
-	
-	private static String player1String = "X";
-	private static String player2String = "O";
-
 	public MyJTable() {
 		super.setDefaultRenderer(String.class, new MyCellRenderer());
 	}
@@ -72,11 +62,12 @@ public class MyJTable extends JTable {
 		if (player.equals(Player.Player1)) {
 			//this.getCellRenderer(row, column).getTableCellRendererComponent(this, this.getValueAt(row, column),
 			//		this.isCellSelected(row, column), this.hasFocus(), row, column).setBackground(player1Color);
-			this.setValueAt(player1String, row, column);
+			
+			this.setValueAt(Config.player1String, row, column);
 		} else if (player.equals(Player.Player2)) {
 			//this.getCellRenderer(row, column).getTableCellRendererComponent(this, this.getValueAt(row, column),
 			//		this.isCellSelected(row, column), this.hasFocus(), row, column).setBackground(player2Color);
-			this.setValueAt(player2String, row, column);
+			this.setValueAt(Config.player2String, row, column);
 		} else {
 			throw new InvalidPlayerException();
 		}
@@ -95,9 +86,9 @@ public class MyJTable extends JTable {
 		if (value == null) {
 			return null;
 		} else {
-			if (value.equals(player1String)) {
+			if (value.equals(Config.player1String)) {
 				return Player.Player1;
-			} else if (value.equals(player2String)) {
+			} else if (value.equals(Config.player2String)) {
 				return Player.Player2;
 			}else{
 				return null; //For the warning to disappear

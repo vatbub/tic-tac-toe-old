@@ -5,12 +5,12 @@
 
 package GUI;
 
-import java.awt.Color;
 import java.awt.Component;
 
 import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
+import Model.*;
 
 import Model.Player;
 
@@ -30,15 +30,15 @@ public class MyCellRenderer extends DefaultTableCellRenderer {
 
 		if (!(((MyJTable) table).getPlayerAt(row, column) == null)) {
 			if (((MyJTable) table).getPlayerAt(row, column).equals(Player.Player1)) {
-				cell.setBackground(MyJTable.player1Color);
-				cell.setForeground(MyJTable.player1ForeColor);
+				cell.setBackground(Config.player1Color);
+				cell.setForeground(Config.player1ForeColor);
 			} else if (((MyJTable) table).getPlayerAt(row, column).equals(Player.Player2)) {
-				cell.setBackground(MyJTable.player2Color);
-				cell.setForeground(MyJTable.player2ForeColor);
+				cell.setBackground(Config.player2Color);
+				cell.setForeground(Config.player2ForeColor);
 			}
 		} else {
-			cell.setBackground(MyJTable.playerNoneColor);
-			cell.setForeground(MyJTable.playerNoneForeColor);
+			cell.setBackground(Config.playerNoneColor);
+			cell.setForeground(Config.playerNoneForeColor);
 		}
 
 		return cell;
