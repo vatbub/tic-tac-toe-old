@@ -78,13 +78,13 @@ public class TreeNode {
 
 	public int getBestTurnFromChildren() {
 		int maxIndex = 0;
-
-		for (int i = 0; i < children.size(); i++) {
-			if (children.get(i).getTotalScore() > children.get(maxIndex).getTotalScore()) {
-				maxIndex = i;
+		if (children != null) {
+			for (int i = 0; i < children.size(); i++) {
+				if (children.get(i).getTotalScore() > children.get(maxIndex).getTotalScore()) {
+					maxIndex = i;
+				}
 			}
 		}
-
 		return maxIndex;
 	}
 }
