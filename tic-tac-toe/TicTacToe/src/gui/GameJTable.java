@@ -145,7 +145,10 @@ public class GameJTable extends JTable {
 	 *         has won, Player.PlayerTie if the game is a tie, null if the game
 	 *         is not finished yet
 	 */
-	public Player winDetector(int row, int column) {
+	public Player winDetector(int row, int column, String caller) {
+		if (!caller.equals("")){
+			System.out.println("Stop!");
+		}
 		int gemCount = 0;
 		Player playerAtPosition = this.getPlayerAt(row, column);
 		Player playerTemp;
@@ -366,7 +369,7 @@ public class GameJTable extends JTable {
 		}
 
 		// We only arrive here if nobody won or if it is a tie
-		boolean isTie = true;
+		/*boolean isTie = true;
 
 		// Check if it is a tie
 		for (int r = 0; r < this.getRowCount(); r++) {
@@ -377,8 +380,9 @@ public class GameJTable extends JTable {
 				}
 			}
 		}
-
-		if (isTie == true) {
+*/
+		//if (isTie == true) {
+		if (isFull() == true) {
 			return Player.PlayerTie;
 		} else {
 			// Nobody won yet and it's no tie
@@ -443,7 +447,7 @@ public class GameJTable extends JTable {
 		boolean res=false;
 		for (int r=0;r<this.getRowCount();r++){
 			for (int c=0;c<this.getColumnCount();c++){
-				if (this.getPlayerAt(r, c)==null){
+				if (this.getPlayerAt(r, c)!=null){
 					res=true;
 					break;
 				}
@@ -451,6 +455,25 @@ public class GameJTable extends JTable {
 			
 			//break this loop too
 			if (res==true){
+				break;
+			}
+		}
+		
+		return res;
+	}
+	
+	public boolean isFull(){
+		boolean res=true;
+		for (int r=0;r<this.getRowCount();r++){
+			for (int c=0;c<this.getColumnCount();c++){
+				if (this.getPlayerAt(r, c)==null){
+					res=false;
+					break;
+				}
+			}
+			
+			//break this loop too
+			if (res==false){
 				break;
 			}
 		}
