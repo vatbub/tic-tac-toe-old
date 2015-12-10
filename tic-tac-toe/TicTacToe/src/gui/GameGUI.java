@@ -84,6 +84,12 @@ public class GameGUI {
 		initialize();
 		setTurnLabel();
 		this.frmTicTacToe.setVisible(true);
+
+		// Let the AI do her first turn if Player1 is AI
+		if (playerForNextTurn.isAi == true) {
+			MySwingWorker SWorker = new MySwingWorker(playerForNextTurn, gameTable, this, opponentOfPlayerForNextTurn);
+			SWorker.doInBackground();
+		}
 	}
 
 	/**
