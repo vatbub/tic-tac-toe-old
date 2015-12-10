@@ -30,7 +30,7 @@ import java.awt.event.WindowEvent;
 public class GameGUI {
 
 	private JFrame frmTicTacToe;
-	private GameJTable gameTable;
+	public GameJTable gameTable;
 	private MyTableModel model;
 	private Player playerForNextTurn;
 	private JLabel turnLabel;
@@ -290,6 +290,11 @@ public class GameGUI {
 				playerForNextTurn = Player.Player2;
 			} else {
 				playerForNextTurn = Player.Player1;
+			}
+			
+			//Do AI turns if selected
+			if (playerForNextTurn.isAi==true){
+				playerForNextTurn.doAiTurn(gameTable, this);
 			}
 		}
 		setTurnLabel();
