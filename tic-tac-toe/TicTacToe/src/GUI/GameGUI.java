@@ -33,12 +33,13 @@ public class GameGUI {
 	private Player playerForNextTurn;
 	private JLabel turnLabel;
 	private WelcomeGUI caller;
-	
-	public boolean gameFinished=false;
+
+	public boolean gameFinished = false;
 
 	/**
-	 * Launch the GameGUI window.
-	 * ATTENTION: It is highly recommended to launch the WelcomeGUi or the Main-class since lainching GameGUI directly will bypass the Main Menu
+	 * Launch the GameGUI window. ATTENTION: It is highly recommended to launch
+	 * the WelcomeGUi or the Main-class since lainching GameGUI directly will
+	 * bypass the Main Menu
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -59,10 +60,10 @@ public class GameGUI {
 	public GameGUI() {
 		this(null);
 	}
-	
-	public GameGUI(WelcomeGUI caller){
-		this.caller=caller;
-		
+
+	public GameGUI(WelcomeGUI caller) {
+		this.caller = caller;
+
 		if (Player.initPlayers() == false) {
 			this.quitGame();
 		}
@@ -134,11 +135,11 @@ public class GameGUI {
 				if (v.height > p.height) {
 					int available = v.height - gameTable.getRowCount() * gameTable.getRowMargin();
 					int perRow = available / gameTable.getRowCount();
-					
-					//Set the row height
+
+					// Set the row height
 					gameTable.setRowHeight(perRow);
-					
-					//Set the font size
+
+					// Set the font size
 					gameTable.setFont(new Font("Serif", Font.BOLD, perRow));
 				}
 			}
@@ -146,20 +147,21 @@ public class GameGUI {
 
 		frmTicTacToe.getContentPane().add(gameTable, BorderLayout.CENTER);
 	}
-	
+
 	/**
-	 * Quits the current game and returns to the calling window (normally the WelcomeGUI) if applicable
+	 * Quits the current game and returns to the calling window (normally the
+	 * WelcomeGUI) if applicable
 	 */
-	public void quitGame(){
-		//switch the Players
+	public void quitGame() {
+		// switch the Players
 		Player.switchPlayers();
-		
-		if (caller==null){
-			//No caller specified, we shall quit the app completely
+
+		if (caller == null) {
+			// No caller specified, we shall quit the app completely
 			System.exit(0);
-		}else{
-			//There is a welcome screen specified
-			if (frmTicTacToe!=null){
+		} else {
+			// There is a welcome screen specified
+			if (frmTicTacToe != null) {
 				frmTicTacToe.dispose();
 			}
 			caller.getFrmTicTacToe().setVisible(true);
@@ -167,10 +169,14 @@ public class GameGUI {
 	}
 
 	/**
-	 * Sets the symbol and color for the player who just played in the JTable of the GameGUI.
-	 * Also checks if a player won the game and shows the win-message and quits the game then.
-	 * @param row Row where the player played
-	 * @param column Column where the player played.
+	 * Sets the symbol and color for the player who just played in the JTable of
+	 * the GameGUI. Also checks if a player won the game and shows the
+	 * win-message and quits the game then.
+	 * 
+	 * @param row
+	 *            Row where the player played
+	 * @param column
+	 *            Column where the player played.
 	 */
 	public void playerPlayed(int row, int column) {
 		if (gameTable.getPlayerAt(row, column) == null) {
@@ -188,7 +194,7 @@ public class GameGUI {
 		}
 
 		// Check for win
-		Player winningPlayer = winDetector();
+		Player winningPlayer = winDetector2(row, column);
 		if (!(winningPlayer == null)) {
 			if (winningPlayer.equals(Player.PlayerTie)) {
 				JOptionPane.showMessageDialog(null, "It's a tie!", "Tie", JOptionPane.OK_CANCEL_OPTION);
@@ -196,14 +202,17 @@ public class GameGUI {
 				JOptionPane.showMessageDialog(null, winningPlayer.name + " won! Grats :)", "Player won",
 						JOptionPane.OK_CANCEL_OPTION);
 			}
-			
+
 			quitGame();
 		}
 	}
 
 	/**
 	 * Checks if a player has won the game
-	 * @return Player.Player1 if Player 1 has won, Player.Player2 if Player 2 has won, Player.PlayerTie if the game is a tie, null if the game is not finished yet
+	 * 
+	 * @return Player.Player1 if Player 1 has won, Player.Player2 if Player 2
+	 *         has won, Player.PlayerTie if the game is a tie, null if the game
+	 *         is not finished yet
 	 */
 	private Player winDetector() {
 		// Check for 3 crosses in each line
@@ -283,8 +292,236 @@ public class GameGUI {
 		}
 	}
 
+	/**
+	 * Checks if a player has won the game
+	 * 
+	 * @param row
+	 *            Row in which the last gem was set
+	 * @param column
+	 *            Column in which the last gem was set
+	 * @return Player.Player1 if Player 1 has won, Player.Player2 if Player 2
+	 *         has won, Player.PlayerTie if the game is a tie, null if the game
+	 *         is not finished yet
+	 */
+	public Player winDetector2(int row, int column) {
+		int gemCount = 0;
+		Player playerAtPosition = gameTable.getPlayerAt(row, column);
+		Player playerTemp;
+
+		// Go to the left of the last gem
+		for (int i = 0; i < Config.gemsToWin; i++) {
+			if (column - i >= 0) {
+				playerTemp = gameTable.getPlayerAt(row, column - i);
+				if (gameTable.getPlayerAt(row, column - i) == playerAtPosition) {
+					gemCount++;
+				} else {
+					// its a different player
+					// exit for
+					break;
+				}
+			} else {
+				// Its out of the bounds
+				// exit for
+				break;
+			}
+		}
+
+		if (gemCount == Config.gemsToWin) {
+			return playerAtPosition;
+		}
+
+		// Go to the right of the last gem
+		// i=1 since we've already verified the spot where the player set his
+		// gem
+		for (int i = 1; i < Config.gemsToWin; i++) {
+			// Check if the wanted cell is out of the bounds
+			if (column + i < gameTable.getColumnCount()) {
+				playerTemp = gameTable.getPlayerAt(row, column + i);
+				if (gameTable.getPlayerAt(row, column + i) == playerAtPosition) {
+					gemCount++;
+				} else {
+					// its a different player
+					// exit for
+					break;
+				}
+			} else {
+				// Its out of the bounds
+				// exit for
+				break;
+			}
+		}
+
+		if (gemCount == Config.gemsToWin) {
+			return playerAtPosition;
+		} else {
+			// Reset the gemCount
+			gemCount = 0;
+		}
+
+		// Go up from the last gem
+		for (int i = 0; i < Config.gemsToWin; i++) {
+			if (row - i >= 0) {
+				playerTemp = gameTable.getPlayerAt(row - i, column);
+				if (gameTable.getPlayerAt(row - i, column) == playerAtPosition) {
+					gemCount++;
+				} else {
+					// its a different player
+					// exit for
+					break;
+				}
+			} else {
+				// Its out of the bounds
+				// exit for
+				break;
+			}
+		}
+
+		if (gemCount == Config.gemsToWin) {
+			return playerAtPosition;
+		}
+
+		// Go down from the last gem
+		for (int i = 1; i < Config.gemsToWin; i++) {
+			if (row + i < gameTable.getRowCount()) {
+				playerTemp = gameTable.getPlayerAt(row + i, column);
+				if (gameTable.getPlayerAt(row + i, column) == playerAtPosition) {
+					gemCount++;
+				} else {
+					// its a different player
+					// exit for
+					break;
+				}
+			} else {
+				// Its out of the bounds
+				// exit for
+				break;
+			}
+		}
+
+		if (gemCount == Config.gemsToWin) {
+			return playerAtPosition;
+		} else {
+			// Reset the gemCount
+			gemCount = 0;
+		}
+
+		// Go diagonally up left from the last gem
+		for (int i = 0; i < Config.gemsToWin; i++) {
+			if (row - i >= 0 && column - i >= 0) {
+				playerTemp = gameTable.getPlayerAt(row - i, column - i);
+				if (gameTable.getPlayerAt(row - i, column - i) == playerAtPosition) {
+					gemCount++;
+				} else {
+					// its a different player
+					// exit for
+					break;
+				}
+			} else {
+				// Its out of the bounds
+				// exit for
+				break;
+			}
+		}
+
+		if (gemCount == Config.gemsToWin) {
+			return playerAtPosition;
+		}
+
+		// Go diagonally down right from the last gem
+		for (int i = 1; i < Config.gemsToWin; i++) {
+			if (row + i < gameTable.getRowCount() && column + i < gameTable.getColumnCount()) {
+				playerTemp = gameTable.getPlayerAt(row + i, column + i);
+				if (gameTable.getPlayerAt(row + i, column + i) == playerAtPosition) {
+					gemCount++;
+				} else {
+					// its a different player
+					// exit for
+					break;
+				}
+			} else {
+				// Its out of the bounds
+				// exit for
+				break;
+			}
+		}
+
+		if (gemCount == Config.gemsToWin) {
+			return playerAtPosition;
+		} else {
+			// Reset the gemCount
+			gemCount = 0;
+		}
+
+		// Go diagonally up right from the last gem
+		for (int i = 0; i < Config.gemsToWin; i++) {
+			if (row - i >= 0 && column + i < gameTable.getColumnCount()) {
+				playerTemp = gameTable.getPlayerAt(row - i, column + i);
+				if (gameTable.getPlayerAt(row - i, column + i) == playerAtPosition) {
+					gemCount++;
+				} else {
+					// its a different player
+					// exit for
+					break;
+				}
+			} else {
+				// Its out of the bounds
+				// exit for
+				break;
+			}
+		}
+
+		if (gemCount == Config.gemsToWin) {
+			return playerAtPosition;
+		}
+
+		// Go diagonally down left from the last gem
+		for (int i = 1; i < Config.gemsToWin; i++) {
+			if (row + i < gameTable.getRowCount() && column - i >= 0) {
+				playerTemp = gameTable.getPlayerAt(row + i, column - i);
+				if (gameTable.getPlayerAt(row + i, column - i) == playerAtPosition) {
+					gemCount++;
+				} else {
+					// its a different player
+					// exit for
+					break;
+				}
+			} else {
+				// Its out of the bounds
+				// exit for
+				break;
+			}
+		}
+
+		if (gemCount == Config.gemsToWin) {
+			return playerAtPosition;
+		} else {
+			// Reset the gemCount
+			gemCount = 0;
+		}
+
+		// We only arrive here if nobody won or if it is a tie
+		boolean isTie = true;
+
+		// Check if it is a tie
+		for (int r = 0; r < gameTable.getRowCount(); r++) {
+			for (int c = 0; c < gameTable.getColumnCount(); c++) {
+				if (gameTable.getPlayerAt(r, c) == null) {
+					isTie = false;
+					break;
+				}
+			}
+		}
+
+		if (isTie == true) {
+			return Player.PlayerTie;
+		} else {
+			// Nobody won yet and it's no tie
+			return null;
+		}
+	}
+
 	private void setTurnLabel() {
-		if (turnLabel!=null){
+		if (turnLabel != null) {
 			turnLabel.setText("It's " + playerForNextTurn.name + "'s turn");
 		}
 	}
