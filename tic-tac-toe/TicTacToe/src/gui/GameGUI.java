@@ -280,15 +280,16 @@ public class GameGUI {
 	 *            Column where the player played.
 	 */
 	public void playerPlayed(int row, int column) {
-		gameTable.playerPlayed(row, column, playerForNextTurn);
+		boolean res = gameTable.playerPlayed(row, column, playerForNextTurn);
 
-		// set the next player for turning
-		if (playerForNextTurn.equals(Player.Player1)) {
-			playerForNextTurn = Player.Player2;
-		} else {
-			playerForNextTurn = Player.Player1;
+		if (res == true) {
+			// set the next player for turning
+			if (playerForNextTurn.equals(Player.Player1)) {
+				playerForNextTurn = Player.Player2;
+			} else {
+				playerForNextTurn = Player.Player1;
+			}
 		}
-
 		setTurnLabel();
 
 		// Check for win

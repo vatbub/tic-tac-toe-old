@@ -56,29 +56,39 @@ public class GameJTable extends JTable {
 
 	/**
 	 * Set the cell contet of the specified cell to the players String and Color
-	 * @param row The row of the cell that will be changed
-	 * @param column The column of the cell that will be changed
-	 * @param player The player that should be set at the specified position
+	 * 
+	 * @param row
+	 *            The row of the cell that will be changed
+	 * @param column
+	 *            The column of the cell that will be changed
+	 * @param player
+	 *            The player that should be set at the specified position
 	 */
 	public void setPlayerAt(int row, int column, Player player) {
 		if (player.equals(Player.Player1)) {
-			//this.getCellRenderer(row, column).getTableCellRendererComponent(this, this.getValueAt(row, column),
-			//		this.isCellSelected(row, column), this.hasFocus(), row, column).setBackground(player1Color);
-			
+			// this.getCellRenderer(row,
+			// column).getTableCellRendererComponent(this, this.getValueAt(row,
+			// column),
+			// this.isCellSelected(row, column), this.hasFocus(), row,
+			// column).setBackground(player1Color);
+
 			this.setValueAt(Config.player1String, row, column);
 		} else if (player.equals(Player.Player2)) {
-			//this.getCellRenderer(row, column).getTableCellRendererComponent(this, this.getValueAt(row, column),
-			//		this.isCellSelected(row, column), this.hasFocus(), row, column).setBackground(player2Color);
+			// this.getCellRenderer(row,
+			// column).getTableCellRendererComponent(this, this.getValueAt(row,
+			// column),
+			// this.isCellSelected(row, column), this.hasFocus(), row,
+			// column).setBackground(player2Color);
 			this.setValueAt(Config.player2String, row, column);
 		} else {
 			throw new InvalidPlayerException();
 		}
-		
-		
+
 	}
 
 	/**
 	 * Returns the Player at the specified position
+	 * 
 	 * @param row
 	 * @param column
 	 * @return The Player in the specified cell
@@ -92,12 +102,12 @@ public class GameJTable extends JTable {
 				return Player.Player1;
 			} else if (value.equals(Config.player2String)) {
 				return Player.Player2;
-			}else{
-				return null; //For the warning to disappear
+			} else {
+				return null; // For the warning to disappear
 			}
 		}
 	}
-	
+
 	/**
 	 * Sets the symbol and color for the player who just played in the JTable of
 	 * the GameGUI. Also checks if a player won the game and shows the
@@ -107,16 +117,19 @@ public class GameJTable extends JTable {
 	 *            Row where the player played
 	 * @param column
 	 *            Column where the player played.
+	 * @return Returns wether the player was set successfully
 	 */
-	public void playerPlayed(int row, int column, Player player) {
+	public boolean playerPlayed(int row, int column, Player player) {
 		if (this.getPlayerAt(row, column) == null) {
 			// Draw the corresponding field
 			this.setPlayerAt(row, column, player);
 
-			
+			return true;
+		}else{
+			return false;
 		}
 	}
-	
+
 	/**
 	 * Checks if a player has won the game
 	 * 
@@ -139,7 +152,7 @@ public class GameJTable extends JTable {
 				playerTemp = this.getPlayerAt(row, column - i);
 				if (this.getPlayerAt(row, column - i) == playerAtPosition) {
 					gemCount++;
-					if (gemCount>=Config.gemsToWin){
+					if (gemCount >= Config.gemsToWin) {
 						break;
 					}
 				} else {
@@ -167,7 +180,7 @@ public class GameJTable extends JTable {
 				playerTemp = this.getPlayerAt(row, column + i);
 				if (this.getPlayerAt(row, column + i) == playerAtPosition) {
 					gemCount++;
-					if (gemCount>=Config.gemsToWin){
+					if (gemCount >= Config.gemsToWin) {
 						break;
 					}
 				} else {
@@ -195,7 +208,7 @@ public class GameJTable extends JTable {
 				playerTemp = this.getPlayerAt(row - i, column);
 				if (this.getPlayerAt(row - i, column) == playerAtPosition) {
 					gemCount++;
-					if (gemCount>=Config.gemsToWin){
+					if (gemCount >= Config.gemsToWin) {
 						break;
 					}
 				} else {
@@ -220,7 +233,7 @@ public class GameJTable extends JTable {
 				playerTemp = this.getPlayerAt(row + i, column);
 				if (this.getPlayerAt(row + i, column) == playerAtPosition) {
 					gemCount++;
-					if (gemCount>=Config.gemsToWin){
+					if (gemCount >= Config.gemsToWin) {
 						break;
 					}
 				} else {
@@ -248,7 +261,7 @@ public class GameJTable extends JTable {
 				playerTemp = this.getPlayerAt(row - i, column - i);
 				if (this.getPlayerAt(row - i, column - i) == playerAtPosition) {
 					gemCount++;
-					if (gemCount>=Config.gemsToWin){
+					if (gemCount >= Config.gemsToWin) {
 						break;
 					}
 				} else {
@@ -273,7 +286,7 @@ public class GameJTable extends JTable {
 				playerTemp = this.getPlayerAt(row + i, column + i);
 				if (this.getPlayerAt(row + i, column + i) == playerAtPosition) {
 					gemCount++;
-					if (gemCount>=Config.gemsToWin){
+					if (gemCount >= Config.gemsToWin) {
 						break;
 					}
 				} else {
@@ -301,7 +314,7 @@ public class GameJTable extends JTable {
 				playerTemp = this.getPlayerAt(row - i, column + i);
 				if (this.getPlayerAt(row - i, column + i) == playerAtPosition) {
 					gemCount++;
-					if (gemCount>=Config.gemsToWin){
+					if (gemCount >= Config.gemsToWin) {
 						break;
 					}
 				} else {
@@ -326,7 +339,7 @@ public class GameJTable extends JTable {
 				playerTemp = this.getPlayerAt(row + i, column - i);
 				if (this.getPlayerAt(row + i, column - i) == playerAtPosition) {
 					gemCount++;
-					if (gemCount>=Config.gemsToWin){
+					if (gemCount >= Config.gemsToWin) {
 						break;
 					}
 				} else {
