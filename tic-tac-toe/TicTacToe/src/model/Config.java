@@ -7,6 +7,9 @@ public class Config {
 	
 	public static int gemsToWin=3;
 	
+	public static String defaultPlayer1Name="Player 1";
+	public static String defaultPlayer2Name="Player 2";
+	
 	public static Color player1Color = Color.red;
 	public static Color player1ForeColor=Color.black;
 	public static Color player2Color = Color.black;
