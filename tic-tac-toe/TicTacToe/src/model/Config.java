@@ -21,8 +21,8 @@ public class Config {
 	 * Validates the config
 	 */
 	public static void validate(){
-		if (gemsToWin<Math.max(gameRowCount,gameColumnCount)){
-			throw new InvalidConfigException("The player cannot win the game since gemsToWin is smaller than all game table dimensions");
+		if (gemsToWin>Math.max(gameRowCount,gameColumnCount)){
+			throw new InvalidConfigException("The player cannot win the game since gemsToWin is bigger than all game table dimensions");
 		}
 		
 		if (player1String==""){
