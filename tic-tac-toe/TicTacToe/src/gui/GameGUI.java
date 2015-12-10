@@ -40,7 +40,7 @@ public class GameGUI {
 
 	/**
 	 * Launch the GameGUI window. ATTENTION: It is highly recommended to launch
-	 * the WelcomeGUi or the Main-class since lainching GameGUI directly will
+	 * the WelcomeGUi or the Main-class since launching GameGUI directly will
 	 * bypass the Main Menu
 	 */
 	public static void main(String[] args) {
