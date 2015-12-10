@@ -77,14 +77,27 @@ public class TreeNode {
 	}
 
 	public int getBestTurnFromChildren() {
-		int maxIndex = 0;
+		ArrayList<int[]> maxIndeces = new ArrayList<int[]>();
+		int maxIndex=0;
 		if (children != null) {
 			for (int i = 0; i < children.size(); i++) {
 				if (children.get(i).getTotalScore() > children.get(maxIndex).getTotalScore()) {
 					maxIndex = i;
 				}
 			}
+			
+			//randomize between all equal maxes
+			for (int i = 0; i < children.size(); i++) {
+				if (children.get(i).getTotalScore() == children.get(maxIndex).getTotalScore()) {
+					int[]e={i};
+					maxIndeces.add(e);
+				}
+			}
+			
+			int randIndex=(int) Math.round(Math.random()*(maxIndeces.size()-1));
+			maxIndex=maxIndeces.get(randIndex)[0];
 		}
+		
 		return maxIndex;
 	}
 }
