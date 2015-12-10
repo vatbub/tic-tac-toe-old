@@ -8,6 +8,7 @@ package gui;
 import java.awt.Color;
 import java.util.Vector;
 
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
@@ -94,6 +95,277 @@ public class GameJTable extends JTable {
 			}else{
 				return null; //For the warning to disappear
 			}
+		}
+	}
+	
+	/**
+	 * Sets the symbol and color for the player who just played in the JTable of
+	 * the GameGUI. Also checks if a player won the game and shows the
+	 * win-message and quits the game then.
+	 * 
+	 * @param row
+	 *            Row where the player played
+	 * @param column
+	 *            Column where the player played.
+	 */
+	public void playerPlayed(int row, int column, Player player) {
+		if (this.getPlayerAt(row, column) == null) {
+			// Draw the corresponding field
+			this.setPlayerAt(row, column, player);
+
+			
+		}
+	}
+	
+	/**
+	 * Checks if a player has won the game
+	 * 
+	 * @param row
+	 *            Row in which the last gem was set
+	 * @param column
+	 *            Column in which the last gem was set
+	 * @return Player.Player1 if Player 1 has won, Player.Player2 if Player 2
+	 *         has won, Player.PlayerTie if the game is a tie, null if the game
+	 *         is not finished yet
+	 */
+	public Player winDetector2(int row, int column) {
+		int gemCount = 0;
+		Player playerAtPosition = this.getPlayerAt(row, column);
+		Player playerTemp;
+
+		// Go to the left of the last gem
+		for (int i = 0; i < Config.gemsToWin; i++) {
+			if (column - i >= 0) {
+				playerTemp = this.getPlayerAt(row, column - i);
+				if (this.getPlayerAt(row, column - i) == playerAtPosition) {
+					gemCount++;
+					if (gemCount>=Config.gemsToWin){
+						break;
+					}
+				} else {
+					// its a different player
+					// exit for
+					break;
+				}
+			} else {
+				// Its out of the bounds
+				// exit for
+				break;
+			}
+		}
+
+		if (gemCount >= Config.gemsToWin) {
+			return playerAtPosition;
+		}
+
+		// Go to the right of the last gem
+		// i=1 since we've already verified the spot where the player set his
+		// gem
+		for (int i = 1; i < Config.gemsToWin; i++) {
+			// Check if the wanted cell is out of the bounds
+			if (column + i < this.getColumnCount()) {
+				playerTemp = this.getPlayerAt(row, column + i);
+				if (this.getPlayerAt(row, column + i) == playerAtPosition) {
+					gemCount++;
+					if (gemCount>=Config.gemsToWin){
+						break;
+					}
+				} else {
+					// its a different player
+					// exit for
+					break;
+				}
+			} else {
+				// Its out of the bounds
+				// exit for
+				break;
+			}
+		}
+
+		if (gemCount >= Config.gemsToWin) {
+			return playerAtPosition;
+		} else {
+			// Reset the gemCount
+			gemCount = 0;
+		}
+
+		// Go up from the last gem
+		for (int i = 0; i < Config.gemsToWin; i++) {
+			if (row - i >= 0) {
+				playerTemp = this.getPlayerAt(row - i, column);
+				if (this.getPlayerAt(row - i, column) == playerAtPosition) {
+					gemCount++;
+					if (gemCount>=Config.gemsToWin){
+						break;
+					}
+				} else {
+					// its a different player
+					// exit for
+					break;
+				}
+			} else {
+				// Its out of the bounds
+				// exit for
+				break;
+			}
+		}
+
+		if (gemCount >= Config.gemsToWin) {
+			return playerAtPosition;
+		}
+
+		// Go down from the last gem
+		for (int i = 1; i < Config.gemsToWin; i++) {
+			if (row + i < this.getRowCount()) {
+				playerTemp = this.getPlayerAt(row + i, column);
+				if (this.getPlayerAt(row + i, column) == playerAtPosition) {
+					gemCount++;
+					if (gemCount>=Config.gemsToWin){
+						break;
+					}
+				} else {
+					// its a different player
+					// exit for
+					break;
+				}
+			} else {
+				// Its out of the bounds
+				// exit for
+				break;
+			}
+		}
+
+		if (gemCount >= Config.gemsToWin) {
+			return playerAtPosition;
+		} else {
+			// Reset the gemCount
+			gemCount = 0;
+		}
+
+		// Go diagonally up left from the last gem
+		for (int i = 0; i < Config.gemsToWin; i++) {
+			if (row - i >= 0 && column - i >= 0) {
+				playerTemp = this.getPlayerAt(row - i, column - i);
+				if (this.getPlayerAt(row - i, column - i) == playerAtPosition) {
+					gemCount++;
+					if (gemCount>=Config.gemsToWin){
+						break;
+					}
+				} else {
+					// its a different player
+					// exit for
+					break;
+				}
+			} else {
+				// Its out of the bounds
+				// exit for
+				break;
+			}
+		}
+
+		if (gemCount >= Config.gemsToWin) {
+			return playerAtPosition;
+		}
+
+		// Go diagonally down right from the last gem
+		for (int i = 1; i < Config.gemsToWin; i++) {
+			if (row + i < this.getRowCount() && column + i < this.getColumnCount()) {
+				playerTemp = this.getPlayerAt(row + i, column + i);
+				if (this.getPlayerAt(row + i, column + i) == playerAtPosition) {
+					gemCount++;
+					if (gemCount>=Config.gemsToWin){
+						break;
+					}
+				} else {
+					// its a different player
+					// exit for
+					break;
+				}
+			} else {
+				// Its out of the bounds
+				// exit for
+				break;
+			}
+		}
+
+		if (gemCount >= Config.gemsToWin) {
+			return playerAtPosition;
+		} else {
+			// Reset the gemCount
+			gemCount = 0;
+		}
+
+		// Go diagonally up right from the last gem
+		for (int i = 0; i < Config.gemsToWin; i++) {
+			if (row - i >= 0 && column + i < this.getColumnCount()) {
+				playerTemp = this.getPlayerAt(row - i, column + i);
+				if (this.getPlayerAt(row - i, column + i) == playerAtPosition) {
+					gemCount++;
+					if (gemCount>=Config.gemsToWin){
+						break;
+					}
+				} else {
+					// its a different player
+					// exit for
+					break;
+				}
+			} else {
+				// Its out of the bounds
+				// exit for
+				break;
+			}
+		}
+
+		if (gemCount >= Config.gemsToWin) {
+			return playerAtPosition;
+		}
+
+		// Go diagonally down left from the last gem
+		for (int i = 1; i < Config.gemsToWin; i++) {
+			if (row + i < this.getRowCount() && column - i >= 0) {
+				playerTemp = this.getPlayerAt(row + i, column - i);
+				if (this.getPlayerAt(row + i, column - i) == playerAtPosition) {
+					gemCount++;
+					if (gemCount>=Config.gemsToWin){
+						break;
+					}
+				} else {
+					// its a different player
+					// exit for
+					break;
+				}
+			} else {
+				// Its out of the bounds
+				// exit for
+				break;
+			}
+		}
+
+		if (gemCount >= Config.gemsToWin) {
+			return playerAtPosition;
+		} else {
+			// Reset the gemCount
+			gemCount = 0;
+		}
+
+		// We only arrive here if nobody won or if it is a tie
+		boolean isTie = true;
+
+		// Check if it is a tie
+		for (int r = 0; r < this.getRowCount(); r++) {
+			for (int c = 0; c < this.getColumnCount(); c++) {
+				if (this.getPlayerAt(r, c) == null) {
+					isTie = false;
+					break;
+				}
+			}
+		}
+
+		if (isTie == true) {
+			return Player.PlayerTie;
+		} else {
+			// Nobody won yet and it's no tie
+			return null;
 		}
 	}
 }
