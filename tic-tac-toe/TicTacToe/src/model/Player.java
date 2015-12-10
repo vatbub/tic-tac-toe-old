@@ -19,7 +19,7 @@ public class Player {
 	public static Player PlayerTie;
 	public static int playerCount;
 
-	public static int counter = 0;
+	public boolean isThinking=false;
 
 	public String name;
 
@@ -136,22 +136,15 @@ public class Player {
 	 *            the GameGUI which calls the AI
 	 */
 	public void doAiTurn(GameJTable currentGameTable, GameGUI callerGUI, Player opponent) {
-		counter++;
+		isThinking=true;
+		
 		TreeNode gameTree = buildGameTree(currentGameTable, opponent);
 		int bestTurn = gameTree.getBestTurnFromChildren();
 
 		// do the actual turn
-
-		for (int i = 0; i < gameTree.getChildCount(); i++) {
-			//System.out.println(i + ": " + gameTree.getChildAt(i).getTotalScore());
-			System.out.println(gameTree.getChildAt(i).getObject().playedAtRow + ", " + gameTree.getChildAt(i).getObject().playedAtColumn);
-		}
-
-		System.out.println("Row: " + gameTree.getChildAt(bestTurn).getObject().playedAtRow);
-		System.out.println("Column: " + gameTree.getChildAt(bestTurn).getObject().playedAtColumn);
-		System.out.println(gameTree.getChildAt(bestTurn).getObject().toString());
-		callerGUI.playerPlayed(gameTree.getChildAt(bestTurn).getObject().playedAtRow,
-				gameTree.getChildAt(bestTurn).getObject().playedAtColumn);
+		callerGUI.playerPlayed(gameTree.getChildAt(bestTurn).playedAtRow,
+				gameTree.getChildAt(bestTurn).playedAtColumn);
+		isThinking=false;
 	}
 
 	/**
@@ -205,24 +198,14 @@ public class Player {
 			GameJTable tableTemp = gameTree.getObject().clone();
 
 			// do the turn
-			System.out.println("R: " + turns.get(i)[0]);
-			System.out.println("C: " + turns.get(i)[1]);
-			if (turns.get(i)[0] == 2 && turns.get(i)[1] == 2) {
-				System.out.println(currentGameTable.toString());
-				System.out.println(turns.get(i)[0] + ":::" + turns.get(i)[1]);
-				System.out.println(counter);
-				if (counter == 2) {
-					System.out.println("Stop!");
-				}
-			}
+			
 			if (opponentsTurn == false) {
 				// My turn
-				tableTemp.setPlayerAt(turns.get(i)[0], turns.get(i)[1], this,"");
+				tableTemp.setPlayerAt(turns.get(i)[0], turns.get(i)[1], this);
 			} else {
 				// opponents turn
-				tableTemp.setPlayerAt(turns.get(i)[0], turns.get(i)[1], opponent,"");
+				tableTemp.setPlayerAt(turns.get(i)[0], turns.get(i)[1], opponent);
 			}
-			System.out.println(tableTemp.toString());
 
 			// check if somebody won
 			Player playerWonTemp = tableTemp.winDetector2(turns.get(i)[0], turns.get(i)[1]);
@@ -231,7 +214,10 @@ public class Player {
 			// would win and continue if nobody would win
 			if (playerWonTemp == null) {
 				// opponents turn
-				gameTree.addChild(buildGameTree_recursive(tableTemp, !opponentsTurn, opponent));
+				TreeNode child = buildGameTree_recursive(tableTemp, !opponentsTurn, opponent);
+				child.playedAtColumn=turns.get(i)[1];
+				child.playedAtRow=turns.get(i)[0];
+				gameTree.addChild(child);
 			} else {
 				if (playerWonTemp.equals(this)) {
 					tableTemp.scoreIfStateIsReached = 10 * scoreCoeff;
@@ -242,7 +228,10 @@ public class Player {
 					// opponent wins
 					tableTemp.scoreIfStateIsReached = -10 * scoreCoeff;
 				}
-				gameTree.addChild(new TreeNode(tableTemp));
+				TreeNode childNode = new TreeNode(tableTemp);
+				childNode.playedAtColumn=turns.get(i)[1];
+				childNode.playedAtRow=turns.get(i)[0];
+				gameTree.addChild(childNode);
 			}
 		}
 

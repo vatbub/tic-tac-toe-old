@@ -21,8 +21,6 @@ public class GameJTable extends JTable {
 	private static final long serialVersionUID = -1925175781596366195L;
 
 	public int scoreIfStateIsReached;
-	public int playedAtRow;
-	public int playedAtColumn;
 
 	public GameJTable() {
 		super.setDefaultRenderer(String.class, new MyCellRenderer());
@@ -68,10 +66,7 @@ public class GameJTable extends JTable {
 	 * @param player
 	 *            The player that should be set at the specified position
 	 */
-	public void setPlayerAt(int row, int column, Player player, String caller) {
-		if (row==2&&column==2&&Player.counter==2 && !caller.equals("Clone")){
-			System.out.println("Stop2222222!");
-		}
+	public void setPlayerAt(int row, int column, Player player) {
 		if (player == null) {
 			this.setValueAt("", row, column);
 		} else if (player.equals(Player.Player1)) {
@@ -92,9 +87,6 @@ public class GameJTable extends JTable {
 		} else {
 			throw new InvalidPlayerException();
 		}
-
-		playedAtRow = row;
-		playedAtColumn = column;
 
 	}
 
@@ -134,7 +126,7 @@ public class GameJTable extends JTable {
 	public boolean playerPlayed(int row, int column, Player player) {
 		if (this.getPlayerAt(row, column) == null) {
 			// Draw the corresponding field
-			this.setPlayerAt(row, column, player,"");
+			this.setPlayerAt(row, column, player);
 
 			return true;
 		} else {
@@ -395,15 +387,15 @@ public class GameJTable extends JTable {
 	}
 
 	public GameJTable clone() {
-		//clone the TableModel
-		MyTableModel model=((MyTableModel)this.getModel()).clone();
-		
-		//MyTableModel model=new MyTableModel();
-		
+		// clone the TableModel
+		MyTableModel model = ((MyTableModel) this.getModel()).clone();
+
+		// MyTableModel model=new MyTableModel();
+
 		GameJTable res = new GameJTable(model);
 		for (int r = 0; r < this.getRowCount(); r++) {
 			for (int c = 0; c < this.getColumnCount(); c++) {
-				res.setPlayerAt(r, c, this.getPlayerAt(r, c),"Clone");
+				res.setPlayerAt(r, c, this.getPlayerAt(r, c));
 			}
 		}
 
@@ -442,8 +434,8 @@ public class GameJTable extends JTable {
 			res = res + "\n";
 
 		}
-		
-		res=res + "===end of table===";
+
+		res = res + "===end of table===";
 		return res;
 	}
 }

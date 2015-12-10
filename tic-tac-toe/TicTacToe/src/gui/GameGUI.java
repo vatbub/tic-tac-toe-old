@@ -38,6 +38,10 @@ public class GameGUI {
 	private WelcomeGUI caller;
 
 	public boolean gameFinished = false;
+	private JLabel lblThinking;
+	private JLabel lblSpacing;
+
+	private boolean guiLocked = false;
 
 	/**
 	 * Launch the GameGUI window. ATTENTION: It is highly recommended to launch
@@ -112,14 +116,22 @@ public class GameGUI {
 		turnLabel = new JLabel("It's Payer A's turn");
 		toolBar.add(turnLabel);
 
+		lblSpacing = new JLabel("   ");
+		toolBar.add(lblSpacing);
+
+		lblThinking = new JLabel("Thinking...");
+		toolBar.add(lblThinking);
+		lblThinking.setVisible(false);
+
 		gameTable = new GameJTable();
 		gameTable.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent event) {
 				int column = gameTable.columnAtPoint(event.getPoint());
 				int row = gameTable.rowAtPoint(event.getPoint());
-
-				playerPlayed(row, column);
+				if (guiLocked == false) {
+					playerPlayed(row, column);
+				}
 			}
 		});
 
@@ -289,10 +301,10 @@ public class GameGUI {
 			// set the next player for turning
 			if (playerForNextTurn.equals(Player.Player1)) {
 				playerForNextTurn = Player.Player2;
-				opponentOfPlayerForNextTurn=Player.Player1;
+				opponentOfPlayerForNextTurn = Player.Player1;
 			} else {
 				playerForNextTurn = Player.Player1;
-				opponentOfPlayerForNextTurn=Player.Player2;
+				opponentOfPlayerForNextTurn = Player.Player2;
 			}
 		}
 		setTurnLabel();
@@ -309,10 +321,17 @@ public class GameGUI {
 
 			quitGame();
 		}
-		
-		//Do AI turns if selected
-		if (playerForNextTurn.isAi==true){
-			playerForNextTurn.doAiTurn(gameTable, this, opponentOfPlayerForNextTurn);
+
+		// Do AI turns if selected
+		if (playerForNextTurn.isAi == true) {
+
+			System.out.println("Thinking...");
+			// playerForNextTurn.doAiTurn(gameTable, this,
+			// opponentOfPlayerForNextTurn);
+			MySwingWorker SWorker = new MySwingWorker(playerForNextTurn, gameTable, this, opponentOfPlayerForNextTurn);
+			SWorker.doInBackground();
+
+			System.out.println("Finished thinking");
 		}
 	}
 
@@ -320,5 +339,15 @@ public class GameGUI {
 		if (turnLabel != null) {
 			turnLabel.setText("It's " + playerForNextTurn.name + "'s turn");
 		}
+	}
+
+	public void lockUI() {
+		guiLocked = true;
+		lblThinking.setVisible(true);
+	}
+
+	public void unlockUI() {
+		guiLocked = false;
+		lblThinking.setVisible(false);
 	}
 }

@@ -12,6 +12,8 @@ import model.*;
 public class TreeNode {
 
 	private GameJTable object;
+	public int playedAtRow;
+	public int playedAtColumn;
 	private ArrayList<TreeNode> children;
 
 	// Getters and Setters
