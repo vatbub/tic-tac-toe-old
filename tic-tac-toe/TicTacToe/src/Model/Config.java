@@ -16,4 +16,13 @@ public class Config {
 	
 	public static String player1String = "X";
 	public static String player2String = "O";
+	
+	/**
+	 * Validates the config
+	 */
+	public void validate(){
+		if (gemsToWin<Math.max(gameRowCount,gameColumnCount)){
+			throw new InvalidConfigException("The player cannot win the game since gemsToWin is smaller than all game table dimensions");
+		}
+	}
 }
