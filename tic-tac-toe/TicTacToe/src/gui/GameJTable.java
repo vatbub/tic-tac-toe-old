@@ -146,9 +146,6 @@ public class GameJTable extends JTable {
 	 *         is not finished yet
 	 */
 	public Player winDetector(int row, int column, String caller) {
-		if (!caller.equals("")){
-			System.out.println("Stop!");
-		}
 		int gemCount = 0;
 		Player playerAtPosition = this.getPlayerAt(row, column);
 		Player playerTemp;

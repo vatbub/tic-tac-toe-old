@@ -245,8 +245,6 @@ public class GameGUI {
 			}
 
 			quitGame();
-		} else {
-			System.out.println("null");
 		}
 
 		// Do AI turns if selected
