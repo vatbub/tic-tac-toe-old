@@ -134,26 +134,29 @@ public class Player {
 	 */
 	public void doAiTurn(GameJTable currentGameTable, GameGUI callerGUI, Player opponent) {
 
-		if (currentGameTable.isEmpty() == false) {
-			TreeNode gameTree = buildGameTree(currentGameTable, opponent);
-			int bestTurn = gameTree.getBestTurnFromChildren();
+		if (currentGameTable != null) {
+			if (currentGameTable.isEmpty() == false) {
+				TreeNode gameTree = buildGameTree(currentGameTable, opponent);
+				int bestTurn = gameTree.getBestTurnFromChildren();
 
-			for (int i=0;i<gameTree.getChildCount();i++){
-				System.out.println("Score at " + i + ": " + gameTree.getChildAt(i).getTotalScore() + " - " + gameTree.getChildAt(i).playedAtRow + "/" + gameTree.getChildAt(i).playedAtColumn);
+				for (int i = 0; i < gameTree.getChildCount(); i++) {
+					System.out.println("Score at " + i + ": " + gameTree.getChildAt(i).getTotalScore() + " - "
+							+ gameTree.getChildAt(i).playedAtRow + "/" + gameTree.getChildAt(i).playedAtColumn);
+				}
+				// do the actual turn
+				if (gameTree.getChildAt(bestTurn) != null) {
+					// There is a turn to do
+					System.out.println("R: " + gameTree.getChildAt(bestTurn).playedAtRow);
+					System.out.println("C: " + gameTree.getChildAt(bestTurn).playedAtColumn);
+					System.out.println("Picked " + bestTurn);
+					callerGUI.playerPlayed(gameTree.getChildAt(bestTurn).playedAtRow,
+							gameTree.getChildAt(bestTurn).playedAtColumn);
+				}
+			} else {
+				// Game is empty -> pick a random field
+				callerGUI.playerPlayed((int) Math.round(Math.random() * (currentGameTable.getRowCount() - 1)),
+						(int) Math.round(Math.random() * (currentGameTable.getColumnCount() - 1)));
 			}
-			// do the actual turn
-			if (gameTree.getChildAt(bestTurn) != null) {
-				// There is a turn to do
-				System.out.println("R: " + gameTree.getChildAt(bestTurn).playedAtRow);
-				System.out.println("C: " + gameTree.getChildAt(bestTurn).playedAtColumn);
-				System.out.println("Picked " + bestTurn);
-				callerGUI.playerPlayed(gameTree.getChildAt(bestTurn).playedAtRow,
-						gameTree.getChildAt(bestTurn).playedAtColumn);
-			}
-		} else {
-			// Game is empty -> pick a random field
-			callerGUI.playerPlayed((int) Math.round(Math.random() * (currentGameTable.getRowCount() - 1)),
-					(int) Math.round(Math.random() * (currentGameTable.getColumnCount() - 1)));
 		}
 	}
 
@@ -178,7 +181,8 @@ public class Player {
 	 *            tree because its the opponents turn
 	 * @return The tree containing all possible turn combinations
 	 */
-	private TreeNode buildGameTree_recursive(GameJTable currentGameTable, boolean opponentsTurn, Player opponent, int intent) {
+	private TreeNode buildGameTree_recursive(GameJTable currentGameTable, boolean opponentsTurn, Player opponent,
+			int intent) {
 		TreeNode gameTree = new TreeNode();
 
 		int scoreCoeff = 1;
@@ -224,20 +228,20 @@ public class Player {
 			// would win and continue if nobody would win
 			if (playerWonTemp == null) {
 				// opponents turn
-				TreeNode child = buildGameTree_recursive(tableTemp, !opponentsTurn, opponent, intent+1);
+				TreeNode child = buildGameTree_recursive(tableTemp, !opponentsTurn, opponent, intent + 1);
 				child.playedAtColumn = turns.get(i)[1];
 				child.playedAtRow = turns.get(i)[0];
 				gameTree.addChild(child);
 			} else {
-				//System.out.println(10.0/intent);
+				// System.out.println(10.0/intent);
 				if (playerWonTemp.equals(this)) {
-					tableTemp.scoreIfStateIsReached = (int) (10.0/(intent)) * scoreCoeff;
+					tableTemp.scoreIfStateIsReached = (int) (10.0 / (intent)) * scoreCoeff;
 				} else if (playerWonTemp.equals(PlayerTie)) {
 					// its a tie
-					tableTemp.scoreIfStateIsReached = (int) (5.0/(intent)) * scoreCoeff;
+					tableTemp.scoreIfStateIsReached = (int) (5.0 / (intent)) * scoreCoeff;
 				} else {
 					// opponent wins
-					tableTemp.scoreIfStateIsReached = (int) (50.0/(intent)) * scoreCoeff;
+					tableTemp.scoreIfStateIsReached = (int) (50.0 / (intent)) * scoreCoeff;
 				}
 				TreeNode childNode = new TreeNode(tableTemp);
 				childNode.playedAtColumn = turns.get(i)[1];
