@@ -437,7 +437,7 @@ public class GameJTable extends JTable {
 			}
 		}
 
-		//We only arrive here if the table is empty
+		// We only arrive here if the table is empty
 		return true;
 	}
 
@@ -450,7 +450,7 @@ public class GameJTable extends JTable {
 			}
 		}
 
-		//We only arrive here if the table is full
+		// We only arrive here if the table is full
 		return true;
 	}
 
@@ -458,16 +458,25 @@ public class GameJTable extends JTable {
 		if (this.getRowCount() == gameTable.getRowCount() && this.getColumnCount() == gameTable.getColumnCount()) {
 			for (int r = 0; r < this.getRowCount(); r++) {
 				for (int c = 0; c < this.getColumnCount(); c++) {
-					if (!(this.getPlayerAt(r, c).equals(gameTable.getPlayerAt(r, c)))) {
+					if (this.getPlayerAt(r, c) == null && gameTable.getPlayerAt(r, c) != null) {
 						return false;
+					}
+					if (this.getPlayerAt(r, c) != null && gameTable.getPlayerAt(r, c) == null) {
+						return false;
+					}
+					if (this.getPlayerAt(r, c) != null && gameTable.getPlayerAt(r, c) != null) {
+						if (!(this.getPlayerAt(r, c).equals(gameTable.getPlayerAt(r, c)))) {
+							return false;
+
+						}
 					}
 				}
 			}
 		} else {
 			return false;
 		}
-		
-		//we only arrive here if the tables are equal
+
+		// we only arrive here if the tables are equal
 		return true;
 	}
 }
