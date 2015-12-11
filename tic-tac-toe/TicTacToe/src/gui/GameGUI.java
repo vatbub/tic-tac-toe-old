@@ -75,9 +75,9 @@ public class GameGUI {
 		// Validate the config
 		Config.validate();
 
-		//initialize the tie Player
+		// initialize the tie Player
 		Player.PlayerTie = new Player("tie");
-		
+
 		this.caller = caller;
 
 		if (Player.Player1 == null || Player.Player2 == null) {
@@ -127,14 +127,14 @@ public class GameGUI {
 
 		turnLabel = new JLabel("It's Payer A's turn");
 		toolBar.add(turnLabel);
-		
+
 		btnThinkForMe = new JButton("Think for me");
 		btnThinkForMe.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				thinkForMe();
 			}
 		});
-		
+
 		labelSpacing1 = new JLabel("   ");
 		toolBar.add(labelSpacing1);
 		toolBar.add(btnThinkForMe);
@@ -217,7 +217,7 @@ public class GameGUI {
 			// There is a welcome screen specified
 			if (frmTicTacToe != null) {
 				frmTicTacToe.dispose();
-				gameTable=null;
+				gameTable = null;
 			}
 			caller.getFrmTicTacToe().setVisible(true);
 		}
@@ -267,10 +267,12 @@ public class GameGUI {
 			SWorker.doInBackground();
 		}
 	}
-	
-	private void thinkForMe(){
-		MySwingWorker SWorker = new MySwingWorker(playerForNextTurn, gameTable, this, opponentOfPlayerForNextTurn);
-		SWorker.doInBackground();
+
+	private void thinkForMe() {
+		if (guiLocked == false) {
+			MySwingWorker SWorker = new MySwingWorker(playerForNextTurn, gameTable, this, opponentOfPlayerForNextTurn);
+			SWorker.doInBackground();
+		}
 	}
 
 	private void setTurnLabel() {
