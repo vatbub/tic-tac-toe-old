@@ -233,7 +233,7 @@ public class GameGUI {
 
 		// Check for win
 		if (dismissAllWinMessages == false) {
-			Player winningPlayer = gameTable.winDetector(row, column);
+			Player winningPlayer = gameTable.winDetector(row, column, "Me");
 			if (!(winningPlayer == null)) {
 				if (winningPlayer.equals(Player.PlayerTie)) {
 					JOptionPane.showMessageDialog(null, "It's a tie!", "Tie", JOptionPane.OK_CANCEL_OPTION);
@@ -244,6 +244,8 @@ public class GameGUI {
 
 				dismissAllWinMessages = true;
 				quitGame();
+			}else{
+				System.out.println("null");
 			}
 		}
 
