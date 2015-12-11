@@ -26,6 +26,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowEvent;
+import java.awt.event.ActionListener;
 
 public class GameGUI {
 
@@ -39,9 +40,11 @@ public class GameGUI {
 
 	public boolean gameFinished = false;
 	private JLabel lblThinking;
-	private JLabel lblSpacing;
+	private JLabel lblSpacing2;
 
 	private boolean guiLocked = false;
+	private JButton btnThinkForMe;
+	private JLabel labelSpacing1;
 
 	/**
 	 * Launch the GameGUI window. ATTENTION: It is highly recommended to launch
@@ -124,9 +127,20 @@ public class GameGUI {
 
 		turnLabel = new JLabel("It's Payer A's turn");
 		toolBar.add(turnLabel);
+		
+		btnThinkForMe = new JButton("Think for me");
+		btnThinkForMe.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				thinkForMe();
+			}
+		});
+		
+		labelSpacing1 = new JLabel("   ");
+		toolBar.add(labelSpacing1);
+		toolBar.add(btnThinkForMe);
 
-		lblSpacing = new JLabel("   ");
-		toolBar.add(lblSpacing);
+		lblSpacing2 = new JLabel("   ");
+		toolBar.add(lblSpacing2);
 
 		lblThinking = new JLabel("Thinking...");
 		toolBar.add(lblThinking);
@@ -252,6 +266,11 @@ public class GameGUI {
 			MySwingWorker SWorker = new MySwingWorker(playerForNextTurn, gameTable, this, opponentOfPlayerForNextTurn);
 			SWorker.doInBackground();
 		}
+	}
+	
+	private void thinkForMe(){
+		MySwingWorker SWorker = new MySwingWorker(playerForNextTurn, gameTable, this, opponentOfPlayerForNextTurn);
+		SWorker.doInBackground();
 	}
 
 	private void setTurnLabel() {
