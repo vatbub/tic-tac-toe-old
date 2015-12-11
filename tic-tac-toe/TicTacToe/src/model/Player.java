@@ -117,7 +117,6 @@ public class Player {
 		Player2 = new Player(namePlayer2);
 
 		// We only arrive here if no cancel button was clicked
-		PlayerTie = new Player("tie");
 		return true;
 	}
 

@@ -72,6 +72,9 @@ public class GameGUI {
 		// Validate the config
 		Config.validate();
 
+		//initialize the tie Player
+		Player.PlayerTie = new Player("tie");
+		
 		this.caller = caller;
 
 		if (Player.Player1 == null || Player.Player2 == null) {
