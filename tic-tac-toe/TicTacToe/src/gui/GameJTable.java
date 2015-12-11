@@ -429,41 +429,29 @@ public class GameJTable extends JTable {
 	}
 
 	public boolean isEmpty() {
-		boolean res = true;
 		for (int r = 0; r < this.getRowCount(); r++) {
 			for (int c = 0; c < this.getColumnCount(); c++) {
 				if (this.getPlayerAt(r, c) != null) {
-					res = false;
-					break;
+					return false;
 				}
-			}
-
-			// break this loop too
-			if (res == false) {
-				break;
 			}
 		}
 
-		return res;
+		//We only arrive here if the table is empty
+		return true;
 	}
 
 	public boolean isFull() {
-		boolean res = true;
 		for (int r = 0; r < this.getRowCount(); r++) {
 			for (int c = 0; c < this.getColumnCount(); c++) {
 				if (this.getPlayerAt(r, c) == null) {
-					res = false;
-					break;
+					return false;
 				}
-			}
-
-			// break this loop too
-			if (res == false) {
-				break;
 			}
 		}
 
-		return res;
+		//We only arrive here if the table is full
+		return true;
 	}
 
 	public boolean equals(GameJTable gameTable) {
