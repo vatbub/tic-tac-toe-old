@@ -139,11 +139,15 @@ public class Player {
 			TreeNode gameTree = buildGameTree(currentGameTable, opponent);
 			int bestTurn = gameTree.getBestTurnFromChildren();
 
+			for (int i=0;i<gameTree.getChildCount();i++){
+				System.out.println("Score at " + i + ": " + gameTree.getChildAt(i).getTotalScore() + " - " + gameTree.getChildAt(i).playedAtRow + "/" + gameTree.getChildAt(i).playedAtColumn);
+			}
 			// do the actual turn
 			if (gameTree.getChildAt(bestTurn) != null) {
 				// There is a turn to do
 				System.out.println("R: " + gameTree.getChildAt(bestTurn).playedAtRow);
 				System.out.println("C: " + gameTree.getChildAt(bestTurn).playedAtColumn);
+				System.out.println("Picked " + bestTurn);
 				callerGUI.playerPlayed(gameTree.getChildAt(bestTurn).playedAtRow,
 						gameTree.getChildAt(bestTurn).playedAtColumn);
 			}
@@ -226,14 +230,15 @@ public class Player {
 				child.playedAtRow = turns.get(i)[0];
 				gameTree.addChild(child);
 			} else {
+				//System.out.println(10.0/intent);
 				if (playerWonTemp.equals(this)) {
-					tableTemp.scoreIfStateIsReached = (10^(1/intent)) * scoreCoeff;
+					tableTemp.scoreIfStateIsReached = (int) (10.0/(intent)) * scoreCoeff;
 				} else if (playerWonTemp.equals(PlayerTie)) {
 					// its a tie
-					tableTemp.scoreIfStateIsReached = (5^(1/intent)) * scoreCoeff;
+					tableTemp.scoreIfStateIsReached = (int) (5.0/(intent)) * scoreCoeff;
 				} else {
 					// opponent wins
-					tableTemp.scoreIfStateIsReached = (10^(1/intent)) * scoreCoeff*-1;
+					tableTemp.scoreIfStateIsReached = (int) (50.0/(intent)) * scoreCoeff;
 				}
 				TreeNode childNode = new TreeNode(tableTemp);
 				childNode.playedAtColumn = turns.get(i)[1];
