@@ -21,6 +21,8 @@ public class Player {
 
 	public String name;
 
+	private TreeNode previousGameTree;
+
 	/**
 	 * Specifies if the player is an artificial intelligence (true) or a human
 	 * (false)
@@ -168,7 +170,18 @@ public class Player {
 	 * @return The tree containing all possible turn combinations
 	 */
 	private TreeNode buildGameTree(GameJTable currentGameTable, Player opponent) {
-		return buildGameTree_recursive(currentGameTable, false, opponent, 1);
+		if (previousGameTree != null) {
+			TreeNode child = previousGameTree.getChildByTable(currentGameTable);
+			if (child != null) {
+				previousGameTree = child;
+				return previousGameTree;
+			}
+		}
+
+		// We only arrive here if no tree was built before or if the child was
+		// not found
+		previousGameTree = buildGameTree_recursive(currentGameTable, false, opponent, 1);
+		return previousGameTree;
 	}
 
 	/**
