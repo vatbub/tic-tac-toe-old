@@ -366,19 +366,7 @@ public class GameJTable extends JTable {
 		}
 
 		// We only arrive here if nobody won or if it is a tie
-		/*boolean isTie = true;
-
-		// Check if it is a tie
-		for (int r = 0; r < this.getRowCount(); r++) {
-			for (int c = 0; c < this.getColumnCount(); c++) {
-				if (this.getPlayerAt(r, c) == null) {
-					isTie = false;
-					break;
-				}
-			}
-		}
-*/
-		//if (isTie == true) {
+		
 		if (isFull() == true) {
 			return Player.PlayerTie;
 		} else {
