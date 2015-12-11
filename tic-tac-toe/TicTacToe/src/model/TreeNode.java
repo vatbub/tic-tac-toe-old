@@ -116,4 +116,19 @@ public class TreeNode {
 
 		return maxIndex;
 	}
+	
+	public TreeNode getChildByTable(GameJTable gameTable){
+		TreeNode res;
+		res=null;
+		if (children!=null){
+			for (int i=0;i<children.size();i++){
+				if (children.get(i).getObject().equals(gameTable)){
+					res=children.get(i);
+					break;
+				}
+			}
+		}
+		
+		return res;
+	}
 }
