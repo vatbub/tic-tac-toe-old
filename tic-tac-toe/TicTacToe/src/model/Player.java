@@ -241,7 +241,7 @@ public class Player {
 					tableTemp.scoreIfStateIsReached = (int) (5.0 / (intent)) * scoreCoeff;
 				} else {
 					// opponent wins
-					tableTemp.scoreIfStateIsReached = (int) (50.0 / (intent)) * scoreCoeff;
+					tableTemp.scoreIfStateIsReached = (int) (10.0 / (intent)) * scoreCoeff;
 				}
 				TreeNode childNode = new TreeNode(tableTemp);
 				childNode.playedAtColumn = turns.get(i)[1];
