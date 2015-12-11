@@ -100,6 +100,8 @@ public class TreeNode {
 				}
 			}
 
+			System.out.println("Initial maxIndex: " + maxIndex);
+
 			// randomize between all equal maxes
 			for (int i = 0; i < children.size(); i++) {
 				if (children.get(i).getTotalScore() == children.get(maxIndex).getTotalScore()) {
