@@ -19,14 +19,9 @@ import java.awt.FlowLayout;
 import java.awt.BorderLayout;
 import java.awt.event.ItemListener;
 import java.awt.event.ItemEvent;
-import javax.swing.event.PopupMenuListener;
-import javax.swing.event.PopupMenuEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeEvent;
 
 public class WelcomeGUI {
 
