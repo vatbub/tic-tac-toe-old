@@ -3,10 +3,7 @@
  */
 package model;
 
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-import gui.WelcomeGUI;
 
 public abstract class MyActionListener<CallerClass> implements ActionListener {
 
