@@ -50,6 +50,9 @@ public class GameGUI {
 	 * Launch the GameGUI window. ATTENTION: It is highly recommended to launch
 	 * the WelcomeGUi or the Main-class since launching GameGUI directly will
 	 * bypass the Main Menu
+	 * 
+	 * @param args
+	 *            Command line arguments
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
