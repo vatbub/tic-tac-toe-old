@@ -143,7 +143,7 @@ public class GameJTable extends JTable {
 	 *         has won, Player.PlayerTie if the game is a tie, null if the game
 	 *         is not finished yet
 	 */
-	public Player winDetector(int row, int column, String caller) {
+	public Player winDetector(int row, int column) {
 		int gemCount = 0;
 		Player playerAtPosition = this.getPlayerAt(row, column);
 		
