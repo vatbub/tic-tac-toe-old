@@ -78,23 +78,23 @@ public class WelcomeGUI {
 			 */
 			public void componentShown(ComponentEvent arg0) {
 				if (Player.Player1 != null) {
-					player1Name.setText(Player.Player1.name);
 					if (Player.Player1.isAi) {
 						// it's an AI
 						comboBoxPlayer1.setSelectedIndex(1);
 					} else {
 						// it's a human
 						comboBoxPlayer1.setSelectedIndex(0);
+						player1Name.setText(Player.Player1.name);
 					}
 				}
 				if (Player.Player2 != null) {
-					player2Name.setText(Player.Player2.name);
 					if (Player.Player2.isAi) {
 						// it's an AI
 						comboBoxPlayer2.setSelectedIndex(1);
 					} else {
 						// it's a human
 						comboBoxPlayer2.setSelectedIndex(0);
+						player2Name.setText(Player.Player2.name);
 					}
 				}
 			}
