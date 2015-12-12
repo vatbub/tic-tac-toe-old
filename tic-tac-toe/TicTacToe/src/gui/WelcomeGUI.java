@@ -40,7 +40,7 @@ public class WelcomeGUI {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					WelcomeGUI window = new WelcomeGUI();
+					new WelcomeGUI();
 					// window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -112,7 +112,7 @@ public class WelcomeGUI {
 
 				// start the game
 				frmTicTacToe.setVisible(false);
-				GameGUI game = new GameGUI(caller);
+				new GameGUI(caller);
 			}
 		});
 		frmTicTacToe.getContentPane().add(btnStartGame, BorderLayout.SOUTH);
