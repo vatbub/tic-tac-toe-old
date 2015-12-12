@@ -1,3 +1,7 @@
+/**
+ * The game config
+ */
+
 package model;
 
 import java.awt.Color;
@@ -7,8 +11,8 @@ public class Config {
 	public static int gameColumnCount = 3;
 
 	public static int gemsToWin = 3;
-	
-	public static int cutGameTreeAtIntent=5;
+
+	public static int cutGameTreeAtIntent = 5;
 
 	public static String defaultPlayer1Name = "Player 1";
 	public static String defaultPlayer2Name = "Player 2";
