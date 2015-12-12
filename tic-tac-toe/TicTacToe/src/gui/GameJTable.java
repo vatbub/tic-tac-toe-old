@@ -428,6 +428,11 @@ public class GameJTable extends JTable {
 		return res;
 	}
 
+	/**
+	 * Checks if this GameJTable is empty
+	 * 
+	 * @return true if the table is empty
+	 */
 	public boolean isEmpty() {
 		for (int r = 0; r < this.getRowCount(); r++) {
 			for (int c = 0; c < this.getColumnCount(); c++) {
@@ -441,6 +446,11 @@ public class GameJTable extends JTable {
 		return true;
 	}
 
+	/**
+	 * Checks if this GameJTable is full
+	 * 
+	 * @return true if the table is full
+	 */
 	public boolean isFull() {
 		for (int r = 0; r < this.getRowCount(); r++) {
 			for (int c = 0; c < this.getColumnCount(); c++) {
@@ -454,6 +464,13 @@ public class GameJTable extends JTable {
 		return true;
 	}
 
+	/**
+	 * Checks if two GameJTables have equal contents.
+	 * 
+	 * @param gameTable
+	 *            The GameJTable this GameJTable should be compared to.
+	 * @return true if this GameJTable and gameTable have equal contents
+	 */
 	public boolean equals(GameJTable gameTable) {
 		if (this.getRowCount() == gameTable.getRowCount() && this.getColumnCount() == gameTable.getColumnCount()) {
 			for (int r = 0; r < this.getRowCount(); r++) {
