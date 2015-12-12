@@ -4,8 +4,6 @@
 
 package model;
 
-import java.awt.List;
-
 import javax.swing.SwingWorker;
 
 import gui.*;
