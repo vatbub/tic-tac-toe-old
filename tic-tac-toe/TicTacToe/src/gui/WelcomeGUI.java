@@ -35,6 +35,9 @@ public class WelcomeGUI {
 
 	/**
 	 * Launch the Main Menu.
+	 * 
+	 * @param args
+	 *            Command line arguments
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -129,8 +132,8 @@ public class WelcomeGUI {
 		comboBoxPlayer1 = new JComboBox<String>();
 		comboBoxPlayer1.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent arg0) {
-				if (arg0.getStateChange()==1){
-					//Selected an object
+				if (arg0.getStateChange() == 1) {
+					// Selected an object
 					if (comboBoxPlayer1.getSelectedIndex() == 0) {
 						// Human selected
 						player1Name.setEnabled(true);
@@ -168,8 +171,8 @@ public class WelcomeGUI {
 		comboBoxPlayer2 = new JComboBox<String>();
 		comboBoxPlayer2.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
-				if (e.getStateChange()==1){
-					//Selected an object
+				if (e.getStateChange() == 1) {
+					// Selected an object
 					if (comboBoxPlayer2.getSelectedIndex() == 0) {
 						// Human selected
 						player2Name.setEnabled(true);
