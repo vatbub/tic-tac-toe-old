@@ -129,8 +129,10 @@ public class Player {
 	 * 
 	 * @param currentGameTable
 	 *            The gameTable of the current game situation
-	 * @param callerGui
+	 * @param callerGUI
 	 *            the GameGUI which calls the AI
+	 * @param opponent
+	 *            The Player object of the opponent
 	 */
 	public void doAiTurn(GameJTable currentGameTable, GameGUI callerGUI, Player opponent) {
 
