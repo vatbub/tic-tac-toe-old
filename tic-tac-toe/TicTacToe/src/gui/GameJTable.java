@@ -92,7 +92,9 @@ public class GameJTable extends JTable {
 	 * Returns the Player at the specified position
 	 * 
 	 * @param row
+	 *            The row of the specified cell
 	 * @param column
+	 *            The column of the specified cell
 	 * @return The Player in the specified cell
 	 */
 	public Player getPlayerAt(int row, int column) {
@@ -119,6 +121,8 @@ public class GameJTable extends JTable {
 	 *            Row where the player played
 	 * @param column
 	 *            Column where the player played.
+	 * @param player
+	 *            The player that did the turn
 	 * @return Returns whether the player was set successfully
 	 */
 	public boolean playerPlayed(int row, int column, Player player) {
@@ -146,7 +150,7 @@ public class GameJTable extends JTable {
 	public Player winDetector(int row, int column) {
 		int gemCount = 0;
 		Player playerAtPosition = this.getPlayerAt(row, column);
-		
+
 		// Go to the left of the last gem
 		for (int i = 0; i < Config.gemsToWin; i++) {
 			if (column - i >= 0) {
