@@ -7,7 +7,6 @@ package model;
 import java.util.ArrayList;
 
 import gui.GameJTable;
-import model.*;
 
 public class TreeNode {
 
