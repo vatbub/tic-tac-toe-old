@@ -46,5 +46,9 @@ public class Config {
 		if (player2String == "") {
 			throw new InvalidConfigException("player2String is an empty string");
 		}
+		
+		if (cutGameTreeAtIntent<0){
+			throw new InvalidConfigException("cutGameTreeAtIntent must not be negative");
+		}
 	}
 }
