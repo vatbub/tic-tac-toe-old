@@ -18,6 +18,7 @@ public class MyTableModel extends DefaultTableModel {
 		return false;
 	}
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public Class getColumnClass(int col) {
 		return String.class; // To force String as datatype in the GUI
