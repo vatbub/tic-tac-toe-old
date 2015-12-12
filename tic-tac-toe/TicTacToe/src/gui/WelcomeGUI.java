@@ -23,6 +23,10 @@ import javax.swing.event.PopupMenuListener;
 import javax.swing.event.PopupMenuEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeEvent;
 
 public class WelcomeGUI {
 
@@ -67,6 +71,34 @@ public class WelcomeGUI {
 	 */
 	private void initialize() {
 		frmTicTacToe = new JFrame();
+		frmTicTacToe.addComponentListener(new ComponentAdapter() {
+			@Override
+			/**
+			 * Get the player names form the player objects if they exist
+			 */
+			public void componentShown(ComponentEvent arg0) {
+				if (Player.Player1 != null) {
+					player1Name.setText(Player.Player1.name);
+					if (Player.Player1.isAi) {
+						// it's an AI
+						comboBoxPlayer1.setSelectedIndex(1);
+					} else {
+						// it's a human
+						comboBoxPlayer1.setSelectedIndex(0);
+					}
+				}
+				if (Player.Player2 != null) {
+					player2Name.setText(Player.Player2.name);
+					if (Player.Player2.isAi) {
+						// it's an AI
+						comboBoxPlayer2.setSelectedIndex(1);
+					} else {
+						// it's a human
+						comboBoxPlayer2.setSelectedIndex(0);
+					}
+				}
+			}
+		});
 		frmTicTacToe.setTitle("Tic Tac Toe (Frederik Kammel)");
 		frmTicTacToe.setBounds(100, 100, 450, 202);
 		frmTicTacToe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -100,29 +132,26 @@ public class WelcomeGUI {
 		panel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 
 		comboBoxPlayer1 = new JComboBox<String>();
-		comboBoxPlayer1.addPopupMenuListener(new PopupMenuListener() {
-			public void popupMenuCanceled(PopupMenuEvent arg0) {
-			}
+		comboBoxPlayer1.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent arg0) {
+				if (arg0.getStateChange()==1){
+					//Selected an object
+					if (comboBoxPlayer1.getSelectedIndex() == 0) {
+						// Human selected
+						player1Name.setEnabled(true);
 
-			public void popupMenuWillBecomeInvisible(PopupMenuEvent arg0) {
-				if (comboBoxPlayer1.getSelectedIndex() == 0) {
-					// Human selected
-					player1Name.setEnabled(true);
-
-					if (player1NameTemp != "") {
-						player1Name.setText(player1NameTemp);
+						if (player1NameTemp != "") {
+							player1Name.setText(player1NameTemp);
+						} else {
+							player1Name.setText(Config.defaultPlayer1Name);
+						}
 					} else {
-						player1Name.setText(Config.defaultPlayer1Name);
+						// Computer selected
+						player1NameTemp = player1Name.getText();
+						player1Name.setEnabled(false);
+						player1Name.setText(Config.defaultAI1Name);
 					}
-				} else {
-					// Computer selected
-					player1NameTemp = player1Name.getText();
-					player1Name.setEnabled(false);
-					player1Name.setText(Config.defaultAI1Name);
 				}
-			}
-
-			public void popupMenuWillBecomeVisible(PopupMenuEvent arg0) {
 			}
 		});
 
@@ -142,29 +171,26 @@ public class WelcomeGUI {
 		panel_1.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 
 		comboBoxPlayer2 = new JComboBox<String>();
-		comboBoxPlayer2.addPopupMenuListener(new PopupMenuListener() {
-			public void popupMenuCanceled(PopupMenuEvent e) {
-			}
+		comboBoxPlayer2.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				if (e.getStateChange()==1){
+					//Selected an object
+					if (comboBoxPlayer2.getSelectedIndex() == 0) {
+						// Human selected
+						player2Name.setEnabled(true);
 
-			public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
-				if (comboBoxPlayer2.getSelectedIndex() == 0) {
-					// Human selected
-					player2Name.setEnabled(true);
-
-					if (player2NameTemp != "") {
-						player2Name.setText(player2NameTemp);
+						if (player2NameTemp != "") {
+							player2Name.setText(player2NameTemp);
+						} else {
+							player2Name.setText(Config.defaultPlayer2Name);
+						}
 					} else {
-						player2Name.setText(Config.defaultPlayer2Name);
+						// Computer selected
+						player2NameTemp = player2Name.getText();
+						player2Name.setEnabled(false);
+						player2Name.setText(Config.defaultAI2Name);
 					}
-				} else {
-					// Computer selected
-					player2NameTemp = player2Name.getText();
-					player2Name.setEnabled(false);
-					player2Name.setText(Config.defaultAI2Name);
 				}
-			}
-
-			public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
 			}
 		});
 
