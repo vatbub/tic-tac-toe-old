@@ -1,3 +1,6 @@
+/**
+ * Used when an action handler handled by an ActionListener needs to access methods or attributes of its caller
+ */
 package model;
 
 import java.awt.event.ActionEvent;
