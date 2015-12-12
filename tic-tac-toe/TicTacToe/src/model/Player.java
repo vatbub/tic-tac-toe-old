@@ -21,8 +21,6 @@ public class Player {
 
 	public String name;
 
-	private TreeNode previousGameTree;
-
 	/**
 	 * Specifies if the player is an artificial intelligence (true) or a human
 	 * (false)
@@ -170,18 +168,9 @@ public class Player {
 	 * @return The tree containing all possible turn combinations
 	 */
 	private TreeNode buildGameTree(GameJTable currentGameTable, Player opponent) {
-		if (previousGameTree != null) {
-			TreeNode child = previousGameTree.getChildByTable(currentGameTable);
-			if (child != null) {
-				previousGameTree = child;
-				return previousGameTree;
-			}
-		}
-
 		// We only arrive here if no tree was built before or if the child was
 		// not found
-		previousGameTree = buildGameTree_recursive(currentGameTable, false, opponent, 1);
-		return previousGameTree;
+		return buildGameTree_recursive(currentGameTable, false, opponent, 1);
 	}
 
 	/**
@@ -241,10 +230,13 @@ public class Player {
 			// would win and continue if nobody would win
 			if (playerWonTemp == null) {
 				// opponents turn
-				TreeNode child = buildGameTree_recursive(tableTemp, !opponentsTurn, opponent, intent + 1);
-				child.playedAtColumn = turns.get(i)[1];
-				child.playedAtRow = turns.get(i)[0];
-				gameTree.addChild(child);
+				// cut the tree at a specific intent
+				if (intent + 1 <= 5) {
+					TreeNode child = buildGameTree_recursive(tableTemp, !opponentsTurn, opponent, intent + 1);
+					child.playedAtColumn = turns.get(i)[1];
+					child.playedAtRow = turns.get(i)[0];
+					gameTree.addChild(child);
+				}
 			} else {
 				// System.out.println(10.0/intent);
 				if (playerWonTemp.equals(this)) {
@@ -256,6 +248,7 @@ public class Player {
 					// opponent wins
 					tableTemp.scoreIfStateIsReached = (int) (10.0 / (intent)) * scoreCoeff;
 				}
+				System.out.println(intent);
 				TreeNode childNode = new TreeNode(tableTemp);
 				childNode.playedAtColumn = turns.get(i)[1];
 				childNode.playedAtRow = turns.get(i)[0];
