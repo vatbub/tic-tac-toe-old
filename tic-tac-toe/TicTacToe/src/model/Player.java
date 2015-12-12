@@ -231,7 +231,7 @@ public class Player {
 			if (playerWonTemp == null) {
 				// opponents turn
 				// cut the tree at a specific intent
-				if (intent + 1 <= 5) {
+				if (intent + 1 <= Config.cutGameTreeAtIntent) {
 					TreeNode child = buildGameTree_recursive(tableTemp, !opponentsTurn, opponent, intent + 1);
 					child.playedAtColumn = turns.get(i)[1];
 					child.playedAtRow = turns.get(i)[0];
