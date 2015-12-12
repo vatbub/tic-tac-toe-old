@@ -5,12 +5,9 @@
 
 package gui;
 
-import java.awt.Color;
 import java.util.Vector;
 
-import javax.swing.JOptionPane;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
@@ -41,6 +38,7 @@ public class GameJTable extends JTable {
 		super.setDefaultRenderer(String.class, new MyCellRenderer());
 	}
 
+	@SuppressWarnings("rawtypes")
 	public GameJTable(Vector rowData, Vector columnNames) {
 		super(rowData, columnNames);
 		super.setDefaultRenderer(String.class, new MyCellRenderer());
@@ -148,12 +146,10 @@ public class GameJTable extends JTable {
 	public Player winDetector(int row, int column, String caller) {
 		int gemCount = 0;
 		Player playerAtPosition = this.getPlayerAt(row, column);
-		Player playerTemp;
-
+		
 		// Go to the left of the last gem
 		for (int i = 0; i < Config.gemsToWin; i++) {
 			if (column - i >= 0) {
-				playerTemp = this.getPlayerAt(row, column - i);
 				if (this.getPlayerAt(row, column - i) == playerAtPosition) {
 					gemCount++;
 					if (gemCount >= Config.gemsToWin) {
@@ -181,7 +177,6 @@ public class GameJTable extends JTable {
 		for (int i = 1; i < Config.gemsToWin; i++) {
 			// Check if the wanted cell is out of the bounds
 			if (column + i < this.getColumnCount()) {
-				playerTemp = this.getPlayerAt(row, column + i);
 				if (this.getPlayerAt(row, column + i) == playerAtPosition) {
 					gemCount++;
 					if (gemCount >= Config.gemsToWin) {
@@ -209,7 +204,6 @@ public class GameJTable extends JTable {
 		// Go up from the last gem
 		for (int i = 0; i < Config.gemsToWin; i++) {
 			if (row - i >= 0) {
-				playerTemp = this.getPlayerAt(row - i, column);
 				if (this.getPlayerAt(row - i, column) == playerAtPosition) {
 					gemCount++;
 					if (gemCount >= Config.gemsToWin) {
@@ -234,7 +228,6 @@ public class GameJTable extends JTable {
 		// Go down from the last gem
 		for (int i = 1; i < Config.gemsToWin; i++) {
 			if (row + i < this.getRowCount()) {
-				playerTemp = this.getPlayerAt(row + i, column);
 				if (this.getPlayerAt(row + i, column) == playerAtPosition) {
 					gemCount++;
 					if (gemCount >= Config.gemsToWin) {
@@ -262,7 +255,6 @@ public class GameJTable extends JTable {
 		// Go diagonally up left from the last gem
 		for (int i = 0; i < Config.gemsToWin; i++) {
 			if (row - i >= 0 && column - i >= 0) {
-				playerTemp = this.getPlayerAt(row - i, column - i);
 				if (this.getPlayerAt(row - i, column - i) == playerAtPosition) {
 					gemCount++;
 					if (gemCount >= Config.gemsToWin) {
@@ -287,7 +279,6 @@ public class GameJTable extends JTable {
 		// Go diagonally down right from the last gem
 		for (int i = 1; i < Config.gemsToWin; i++) {
 			if (row + i < this.getRowCount() && column + i < this.getColumnCount()) {
-				playerTemp = this.getPlayerAt(row + i, column + i);
 				if (this.getPlayerAt(row + i, column + i) == playerAtPosition) {
 					gemCount++;
 					if (gemCount >= Config.gemsToWin) {
@@ -315,7 +306,6 @@ public class GameJTable extends JTable {
 		// Go diagonally up right from the last gem
 		for (int i = 0; i < Config.gemsToWin; i++) {
 			if (row - i >= 0 && column + i < this.getColumnCount()) {
-				playerTemp = this.getPlayerAt(row - i, column + i);
 				if (this.getPlayerAt(row - i, column + i) == playerAtPosition) {
 					gemCount++;
 					if (gemCount >= Config.gemsToWin) {
@@ -340,7 +330,6 @@ public class GameJTable extends JTable {
 		// Go diagonally down left from the last gem
 		for (int i = 1; i < Config.gemsToWin; i++) {
 			if (row + i < this.getRowCount() && column - i >= 0) {
-				playerTemp = this.getPlayerAt(row + i, column - i);
 				if (this.getPlayerAt(row + i, column - i) == playerAtPosition) {
 					gemCount++;
 					if (gemCount >= Config.gemsToWin) {
