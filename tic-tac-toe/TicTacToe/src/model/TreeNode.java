@@ -41,6 +41,12 @@ public class TreeNode {
 	}
 
 	// Methods
+	/**
+	 * Adds a child to the tree
+	 * 
+	 * @param child
+	 *            The child node to be added
+	 */
 	public void addChild(TreeNode child) {
 		if (children == null) {
 			children = new ArrayList<TreeNode>();
@@ -48,6 +54,14 @@ public class TreeNode {
 		this.addChildAt(children.size(), child);
 	}
 
+	/**
+	 * Adds a child to the tree at the specified position
+	 * 
+	 * @param index
+	 *            Index where the child should be added
+	 * @param child
+	 *            The child node to be added
+	 */
 	public void addChildAt(int index, TreeNode child) {
 		if (children == null) {
 			children = new ArrayList<TreeNode>();
@@ -56,6 +70,13 @@ public class TreeNode {
 		children.add(index, child);
 	}
 
+	/**
+	 * Returns the child at the specified index
+	 * 
+	 * @param index
+	 *            The index of the desired child
+	 * @return The child at the index index
+	 */
 	public TreeNode getChildAt(int index) {
 		if (children != null) {
 			return children.get(index);
@@ -68,10 +89,24 @@ public class TreeNode {
 		return children.size();
 	}
 
+	/**
+	 * Sums up the score of this node and all of its child nodes. Total score is
+	 * cached for speed reasons. Use getTotalScore(true) to override the cache.
+	 * 
+	 * @return The total score of this node
+	 */
 	public int getTotalScore() {
 		return getTotalScore(false);
 	}
 
+	/**
+	 * Sums up the score of this node and all of its child nodes. Total score is
+	 * cached for speed reasons
+	 * 
+	 * @param overrideCache
+	 *            If true, the cache will be overridden
+	 * @return The total score of this node
+	 */
 	public int getTotalScore(boolean overrideCache) {
 		if (lastTotalScore == 0 | overrideCache == true) {
 			int sum = 0;
@@ -90,6 +125,14 @@ public class TreeNode {
 		}
 	}
 
+	/**
+	 * Determines the best possible turn of all of this nodes children by
+	 * determining the turn with the highest score. If there is more than one
+	 * turn with the highest score, a turn will be piyked by random among the
+	 * best turns.
+	 * 
+	 * @return The child index with the best turn
+	 */
 	public int getBestTurnFromChildren() {
 		ArrayList<int[]> maxIndeces = new ArrayList<int[]>();
 		int maxIndex = 0;
@@ -116,19 +159,19 @@ public class TreeNode {
 
 		return maxIndex;
 	}
-	
-	public TreeNode getChildByTable(GameJTable gameTable){
+
+	public TreeNode getChildByTable(GameJTable gameTable) {
 		TreeNode res;
-		res=null;
-		if (children!=null){
-			for (int i=0;i<children.size();i++){
-				if (children.get(i).getObject().equals(gameTable)){
-					res=children.get(i);
+		res = null;
+		if (children != null) {
+			for (int i = 0; i < children.size(); i++) {
+				if (children.get(i).getObject().equals(gameTable)) {
+					res = children.get(i);
 					break;
 				}
 			}
 		}
-		
+
 		return res;
 	}
 }

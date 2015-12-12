@@ -136,19 +136,23 @@ public class Player {
 
 		if (currentGameTable != null) {
 			if (currentGameTable.isEmpty() == false) {
+				// get the best turn
 				TreeNode gameTree = buildGameTree(currentGameTable, opponent);
 				int bestTurn = gameTree.getBestTurnFromChildren();
 
+				// print some stats
 				for (int i = 0; i < gameTree.getChildCount(); i++) {
 					System.out.println("Score at " + i + ": " + gameTree.getChildAt(i).getTotalScore() + " - "
 							+ gameTree.getChildAt(i).playedAtRow + "/" + gameTree.getChildAt(i).playedAtColumn);
 				}
-				// do the actual turn
 				if (gameTree.getChildAt(bestTurn) != null) {
 					// There is a turn to do
+					// print some more stats
 					System.out.println("R: " + gameTree.getChildAt(bestTurn).playedAtRow);
 					System.out.println("C: " + gameTree.getChildAt(bestTurn).playedAtColumn);
 					System.out.println("Picked " + bestTurn);
+
+					// do the actual turn
 					callerGUI.playerPlayed(gameTree.getChildAt(bestTurn).playedAtRow,
 							gameTree.getChildAt(bestTurn).playedAtColumn);
 				}
@@ -161,10 +165,13 @@ public class Player {
 	}
 
 	/**
-	 * Builds a tree with all possible turn combinations
+	 * Builds a tree with all possible turn combinations ATTENTION: For speed
+	 * reasons the tree will be cut at Config.cutGameTreeAtIntent
 	 * 
 	 * @param currentGameTable
 	 *            The current gameTable
+	 * @param opponent
+	 *            The Player object of the opponent
 	 * @return The tree containing all possible turn combinations
 	 */
 	private TreeNode buildGameTree(GameJTable currentGameTable, Player opponent) {
@@ -174,13 +181,18 @@ public class Player {
 	}
 
 	/**
-	 * Builds a tree with all possible turn combinations
+	 * Builds a tree with all possible turn combinations ATTENTION: For speed
+	 * reasons the tree will be cut at Config.cutGameTreeAtIntent
 	 * 
 	 * @param currentGameTable
 	 *            The current gameTable
 	 * @param opponentsTurn
 	 *            Specifies if scores should be inverted in this part of the
 	 *            tree because its the opponents turn
+	 * @param opponent
+	 *            The Player object of the opponent
+	 * @param intent
+	 *            the current intent of the tree
 	 * @return The tree containing all possible turn combinations
 	 */
 	private TreeNode buildGameTree_recursive(GameJTable currentGameTable, boolean opponentsTurn, Player opponent,
