@@ -1,3 +1,7 @@
+/**
+ * This class computes the next AI turn in a different thread so that the main thread can update the GUI
+ */
+
 package model;
 
 import java.awt.List;
