@@ -238,7 +238,6 @@ public class Player {
 					gameTree.addChild(child);
 				}
 			} else {
-				// System.out.println(10.0/intent);
 				if (playerWonTemp.equals(this)) {
 					tableTemp.scoreIfStateIsReached = (int) (10.0 / (intent)) * scoreCoeff;
 				} else if (playerWonTemp.equals(PlayerTie)) {
@@ -248,7 +247,6 @@ public class Player {
 					// opponent wins
 					tableTemp.scoreIfStateIsReached = (int) (10.0 / (intent)) * scoreCoeff;
 				}
-				System.out.println(intent);
 				TreeNode childNode = new TreeNode(tableTemp);
 				childNode.playedAtColumn = turns.get(i)[1];
 				childNode.playedAtRow = turns.get(i)[0];
