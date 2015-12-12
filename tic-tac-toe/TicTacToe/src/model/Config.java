@@ -12,6 +12,7 @@ public class Config {
 
 	public static int gemsToWin = 3;
 
+	// set this to 0 to build the fll tree
 	public static int cutGameTreeAtIntent = 5;
 
 	public static String defaultPlayer1Name = "Player 1";
