@@ -31,6 +31,9 @@ import java.awt.event.ActionListener;
 public class GameGUI {
 
 	private JFrame frmTicTacToe;
+	/**
+	 * the GameJTable of the GUI
+	 */
 	public GameJTable gameTable;
 	private MyTableModel model;
 	private Player playerForNextTurn;
@@ -284,11 +287,17 @@ public class GameGUI {
 		}
 	}
 
+	/**
+	 * Locks the GUI for user input. Useful while AI calculates its turn.
+	 */
 	public void lockUI() {
 		guiLocked = true;
 		lblThinking.setVisible(true);
 	}
 
+	/**
+	 * Unlocks the GUI again so that the user can do input.
+	 */
 	public void unlockUI() {
 		guiLocked = false;
 		lblThinking.setVisible(false);
