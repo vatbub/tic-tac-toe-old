@@ -160,6 +160,7 @@ public class TreeNode {
 		return maxIndex;
 	}
 
+	@Deprecated
 	public TreeNode getChildByTable(GameJTable gameTable) {
 		TreeNode res;
 		res = null;
