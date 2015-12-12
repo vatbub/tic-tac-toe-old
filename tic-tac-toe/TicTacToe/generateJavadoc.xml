@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<project default="javadoc">
-    <target name="javadoc">
-        <javadoc access="public" author="true" classpath="." destdir="doc" doctitle="Tic Tac Toe Documentation" nodeprecated="false" nodeprecatedlist="false" noindex="false" nonavbar="false" notree="false" packagenames="GUI,Model,org.eclipse.wb.swing" source="1.8" sourcefiles="src/Main.java" sourcepath="src" splitindex="true" use="true" version="true"/>
-    </target>
-</project>
