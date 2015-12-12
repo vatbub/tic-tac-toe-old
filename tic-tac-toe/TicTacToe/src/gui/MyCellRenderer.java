@@ -1,11 +1,7 @@
-/**
- * Overrides javax.swing.table.DefaultTableCellRenderer to add the possibility to color the cells for each player
- * @author Frederik Kammel
- */
-
 package gui;
 
 import java.awt.Component;
+import java.util.ArrayList;
 
 import javax.swing.JLabel;
 import javax.swing.JTable;
@@ -13,8 +9,14 @@ import javax.swing.table.DefaultTableCellRenderer;
 
 import model.*;
 
+/**
+ * Overrides javax.swing.table.DefaultTableCellRenderer to add the possibility to color the cells for each player
+ * @author Frederik Kammel
+ */
 public class MyCellRenderer extends DefaultTableCellRenderer {
 	private static final long serialVersionUID = -117877613993904379L;
+	
+	public ArrayList<int[]> playerWonAt = new ArrayList<int[]>();
 
 	public MyCellRenderer() {
 		super();
@@ -42,5 +44,4 @@ public class MyCellRenderer extends DefaultTableCellRenderer {
 
 		return cell;
 	}
-
 }
