@@ -1,8 +1,6 @@
 package gui;
 
 import java.awt.Component;
-import java.util.ArrayList;
-
 import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
