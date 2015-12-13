@@ -54,6 +54,7 @@ public class Player {
 		Player1 = player2Copy;
 	}
 
+	@Deprecated
 	/**
 	 * Guides the user through the name selection.
 	 * 
