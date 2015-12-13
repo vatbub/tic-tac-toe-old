@@ -85,7 +85,11 @@ public class TreeNode {
 	}
 
 	public int getChildCount() {
-		return children.size();
+		if (children != null) {
+			return children.size();
+		} else {
+			return 0;
+		}
 	}
 
 	/**
