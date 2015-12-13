@@ -609,7 +609,6 @@ public class GameJTable extends JTable {
 			this.setValueAt(prevValue, rc[0], rc[1]);
 		}
 		
-		((MyCellRenderer) this.getCellRenderer(rowStart, columnStart)).playerWonAt.printList();
 		this.repaint();
 	}
 }
