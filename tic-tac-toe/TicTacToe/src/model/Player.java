@@ -260,7 +260,7 @@ public class Player {
 			} else {
 				double intentWeight = 0.000000001;
 				if (playerWonTemp.equals(this)) {
-					tableTemp.scoreIfStateIsReached = (int) (10.0 / (intentWeight * intent)) * scoreCoeff;
+					tableTemp.scoreIfStateIsReached = (int) (10.0 / (intentWeight * intent + 1)) * scoreCoeff;
 				} else if (playerWonTemp.equals(PlayerTie)) {
 					// its a tie
 					// tableTemp.scoreIfStateIsReached = (int) (0.0 /
@@ -268,7 +268,7 @@ public class Player {
 					tableTemp.scoreIfStateIsReached = 0;
 				} else {
 					// opponent wins
-					tableTemp.scoreIfStateIsReached = (int) (15.0 / (intentWeight * intent)) * scoreCoeff;
+					tableTemp.scoreIfStateIsReached = (int) (15.0 / (intentWeight * intent + 1)) * scoreCoeff;
 				}
 				TreeNode childNode = new TreeNode(tableTemp);
 				childNode.playedAtColumn = turns.get(i)[1];
