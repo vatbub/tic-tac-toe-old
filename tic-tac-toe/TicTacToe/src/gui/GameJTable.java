@@ -603,10 +603,6 @@ public class GameJTable extends JTable {
 			}
 
 			((MyCellRenderer) this.getCellRenderer(rowStart, columnStart)).playerWonAt.add(rc);
-
-			String prevValue = (String) this.getValueAt(rc[0], rc[1]);
-			this.setValueAt("", rc[0], rc[1]);
-			this.setValueAt(prevValue, rc[0], rc[1]);
 		}
 		
 		this.repaint();
