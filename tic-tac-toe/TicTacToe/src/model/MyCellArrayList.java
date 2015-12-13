@@ -46,16 +46,4 @@ public class MyCellArrayList extends ArrayList<int[]> {
 			return false;
 		}
 	}
-
-	public void printList() {
-		for (int el = 0; el < this.size(); el++) {
-			String line = "";
-			for (int i = 0; i < this.get(el).length; i++) {
-				line = line + this.get(el)[i] + " ";
-			}
-			System.out.println(line);
-		}
-
-		System.out.println("===end of list===");
-	}
 }
