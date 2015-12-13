@@ -2,11 +2,13 @@ package gui;
 
 import javax.swing.table.DefaultTableModel;
 
+/**
+ * Customizes the JTable showing the game.
+ * Cells are not editable, only Strings are allowed as cell content
+ * Adds clone method
+ */
 public class MyTableModel extends DefaultTableModel {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -8709111641384632066L;
 
 	public MyTableModel(Object[][] data, String[] columnHeaders) {
@@ -24,6 +26,10 @@ public class MyTableModel extends DefaultTableModel {
 		return String.class; // To force String as datatype in the GUI
 	}
 
+	/**
+	 * Clones this instance of MyTableModel
+	 * @return A copy of this instance of MyTableModel.
+	 */
 	public MyTableModel clone() {
 		Object data[][] = new String[this.getRowCount()][this.getColumnCount()];
 
