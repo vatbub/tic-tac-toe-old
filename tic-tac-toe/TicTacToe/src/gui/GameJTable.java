@@ -451,6 +451,7 @@ public class GameJTable extends JTable {
 		return res;
 	}
 
+	@Deprecated
 	/**
 	 * negate the scoreIfStateIsReached value
 	 * 
