@@ -7,10 +7,10 @@ package model;
 import java.awt.Color;
 
 public class Config {
-	public static int gameRowCount = 20;
-	public static int gameColumnCount = 20;
+	public static int gameRowCount = 3;
+	public static int gameColumnCount = 3;
 
-	public static int gemsToWin = 5;
+	public static int gemsToWin = 3;
 
 	// set this to 0 to build the full tree
 	// set this to 1 to make the AI completely random (not smart at all)
