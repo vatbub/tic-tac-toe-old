@@ -7,13 +7,14 @@ package model;
 import java.awt.Color;
 
 public class Config {
-	public static int gameRowCount = 3;
-	public static int gameColumnCount = 3;
+	public static int gameRowCount = 20;
+	public static int gameColumnCount = 20;
 
-	public static int gemsToWin = 3;
+	public static int gemsToWin = 5;
 
 	// set this to 0 to build the full tree
-	public static int cutGameTreeAtIntent = 5;
+	// set this to 1 to make the AI completely random (not smart at all)
+	public static int cutGameTreeAtIntent = 1;
 
 	public static String defaultPlayer1Name = "Player 1";
 	public static String defaultPlayer2Name = "Player 2";
@@ -52,6 +53,10 @@ public class Config {
 		
 		if (cutGameTreeAtIntent<0){
 			throw new InvalidConfigException("cutGameTreeAtIntent must not be negative");
+		}
+		
+		if (cutGameTreeAtIntent==1){
+			System.out.println("WARNING in Config: With cutGameTreeAtIntent=1, the AI will make random turns.\nIt is recommended to set cutGameTreeAtIntent at least to 2");
 		}
 	}
 }
