@@ -14,7 +14,7 @@ public class Config {
 
 	// set this to 0 to build the full tree
 	// set this to 1 to make the AI completely random (not smart at all)
-	public static int cutGameTreeAtIntent = 1;
+	public static int cutGameTreeAtIntent = 5;
 
 	public static String defaultPlayer1Name = "Player 1";
 	public static String defaultPlayer2Name = "Player 2";
