@@ -1,11 +1,10 @@
-/**
- * The game config
- */
-
 package model;
 
 import java.awt.Color;
 
+/**
+ * The game config
+ */
 public class Config {
 	public static int gameRowCount = 3;
 	public static int gameColumnCount = 3;

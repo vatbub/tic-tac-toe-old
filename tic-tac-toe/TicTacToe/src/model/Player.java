@@ -1,9 +1,3 @@
-/**
- * Model of a Player
- * 
- * @author Frederik Kammel
- */
-
 package model;
 
 import java.util.ArrayList;
@@ -13,6 +7,11 @@ import javax.swing.JOptionPane;
 import gui.GameGUI;
 import gui.GameJTable;
 
+/**
+ * Model of a Player
+ * 
+ * @author Frederik Kammel
+ */
 public class Player {
 	public static Player Player1;
 	public static Player Player2;

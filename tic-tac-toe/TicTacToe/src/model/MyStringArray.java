@@ -1,9 +1,9 @@
+package model;
+
 /**
  * String Array with the possibility to check if the array contains a specific string
  * @author Frederik Kammel
  */
-package model;
-
 public class MyStringArray {
 
 	private String[] values;

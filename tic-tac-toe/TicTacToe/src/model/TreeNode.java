@@ -1,13 +1,12 @@
-/**
- * A node of a game tree (A Tree that contains all possible turns in a tic tac toe game)
- */
-
 package model;
 
 import java.util.ArrayList;
 
 import gui.GameJTable;
 
+/**
+ * A node of a game tree (A Tree that contains all possible turns in a tic tac toe game)
+ */
 public class TreeNode {
 
 	private GameJTable object;

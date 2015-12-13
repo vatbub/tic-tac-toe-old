@@ -1,9 +1,3 @@
-/**
- * The Game window
- * @author The WindowBuilder
- * @author Frederik Kammel
- */
-
 package gui;
 
 import java.awt.EventQueue;
@@ -28,6 +22,11 @@ import java.awt.event.MouseEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * The Game window
+ * @author The WindowBuilder
+ * @author Frederik Kammel
+ */
 public class GameGUI {
 
 	private JFrame frmTicTacToe;

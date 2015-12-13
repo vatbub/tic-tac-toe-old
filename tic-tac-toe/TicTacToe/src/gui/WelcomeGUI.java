@@ -1,7 +1,3 @@
-/**
- * The Main Menu
- * @author Frederik Kammel
- */
 package gui;
 
 import java.awt.EventQueue;
@@ -23,6 +19,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 
+/**
+ * The Main Menu
+ * @author Frederik Kammel
+ */
 public class WelcomeGUI {
 
 	private JComboBox<String> comboBoxPlayer1;

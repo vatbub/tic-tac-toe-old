@@ -1,8 +1,3 @@
-/**
- * Extends the default JTable to add the PlayerModel to it
- * @author Frederik Kammel
- */
-
 package gui;
 
 import java.util.Vector;
@@ -14,6 +9,10 @@ import javax.swing.table.TableModel;
 
 import model.*;
 
+/**
+ * Extends the default JTable to add the PlayerModel to it
+ * @author Frederik Kammel
+ */
 public class GameJTable extends JTable {
 	private static final long serialVersionUID = -1925175781596366195L;
 
