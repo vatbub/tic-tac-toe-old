@@ -122,7 +122,7 @@ public class Player {
 
 	/**
 	 * Decides where the AI will do its next turn by implementing the
-	 * Mini-Max-Algorithm
+	 * Mini-Max-Algorithm.
 	 * 
 	 * Needs the reference to the callerGUI to send it the info about the played
 	 * spot
