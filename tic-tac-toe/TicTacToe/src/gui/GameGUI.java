@@ -255,7 +255,7 @@ public class GameGUI {
 		setTurnLabel();
 
 		// Check for win
-		Player winningPlayer = gameTable.winDetector(row, column);
+		Player winningPlayer = gameTable.winDetector(row, column, true);
 		if (!(winningPlayer == null)) {
 			if (winningPlayer.equals(Player.PlayerTie)) {
 				JOptionPane.showMessageDialog(null, "It's a tie!", "Tie", JOptionPane.OK_CANCEL_OPTION);

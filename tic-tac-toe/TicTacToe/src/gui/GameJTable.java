@@ -148,8 +148,35 @@ public class GameJTable extends JTable {
 	 *         is not finished yet
 	 */
 	public Player winDetector(int row, int column) {
+		return winDetector(row, column, false);
+	}
+
+	/**
+	 * Checks if a player has won the game and draws a special line in the GUI
+	 * where the player won if desired
+	 * 
+	 * @param row
+	 *            Row in which the last gem was set
+	 * @param column
+	 *            Column in which the last gem was set
+	 * @param updateGUI
+	 *            If true, a line will be drawn in the GUI at the spot where the
+	 *            player has won
+	 * @return Player.Player1 if Player 1 has won, Player.Player2 if Player 2
+	 *         has won, Player.PlayerTie if the game is a tie, null if the game
+	 *         is not finished yet
+	 */
+	public Player winDetector(int row, int column, boolean updateGUI) {
+		/**
+		 * The number of gems a player has set in a line
+		 */
 		int gemCount = 0;
 		Player playerAtPosition = this.getPlayerAt(row, column);
+
+		/**
+		 * For drawing the winner line
+		 */
+		int gemOffset = 0;
 
 		// Go to the left of the last gem
 		for (int i = 0; i < Config.gemsToWin; i++) {
@@ -172,7 +199,12 @@ public class GameJTable extends JTable {
 		}
 
 		if (gemCount >= Config.gemsToWin) {
+			if (updateGUI == true) {
+				drawWinner(row, column, GUIDirection.left);
+			}
 			return playerAtPosition;
+		} else {
+			gemOffset = gemCount - 1;
 		}
 
 		// Go to the right of the last gem
@@ -199,10 +231,14 @@ public class GameJTable extends JTable {
 		}
 
 		if (gemCount >= Config.gemsToWin) {
+			if (updateGUI == true) {
+				drawWinner(row, column - gemOffset, GUIDirection.right);
+			}
 			return playerAtPosition;
 		} else {
 			// Reset the gemCount
 			gemCount = 0;
+			gemOffset = 0;
 		}
 
 		// Go up from the last gem
@@ -226,7 +262,12 @@ public class GameJTable extends JTable {
 		}
 
 		if (gemCount >= Config.gemsToWin) {
+			if (updateGUI == true) {
+				drawWinner(row, column, GUIDirection.up);
+			}
 			return playerAtPosition;
+		} else {
+			gemOffset = gemCount - 1;
 		}
 
 		// Go down from the last gem
@@ -250,9 +291,13 @@ public class GameJTable extends JTable {
 		}
 
 		if (gemCount >= Config.gemsToWin) {
+			if (updateGUI == true) {
+				drawWinner(row - gemOffset, column, GUIDirection.down);
+			}
 			return playerAtPosition;
 		} else {
 			// Reset the gemCount
+			gemOffset = 0;
 			gemCount = 0;
 		}
 
@@ -277,7 +322,12 @@ public class GameJTable extends JTable {
 		}
 
 		if (gemCount >= Config.gemsToWin) {
+			if (updateGUI == true) {
+				drawWinner(row, column, GUIDirection.upleft);
+			}
 			return playerAtPosition;
+		} else {
+			gemOffset = gemCount - 1;
 		}
 
 		// Go diagonally down right from the last gem
@@ -301,9 +351,13 @@ public class GameJTable extends JTable {
 		}
 
 		if (gemCount >= Config.gemsToWin) {
+			if (updateGUI == true) {
+				drawWinner(row - gemOffset, column - gemOffset, GUIDirection.downright);
+			}
 			return playerAtPosition;
 		} else {
 			// Reset the gemCount
+			gemOffset = 0;
 			gemCount = 0;
 		}
 
@@ -328,7 +382,12 @@ public class GameJTable extends JTable {
 		}
 
 		if (gemCount >= Config.gemsToWin) {
+			if (updateGUI == true) {
+				drawWinner(row, column, GUIDirection.upright);
+			}
 			return playerAtPosition;
+		} else {
+			gemOffset = gemCount - 1;
 		}
 
 		// Go diagonally down left from the last gem
@@ -352,9 +411,13 @@ public class GameJTable extends JTable {
 		}
 
 		if (gemCount >= Config.gemsToWin) {
+			if (updateGUI == true) {
+				drawWinner(row - gemOffset, column + gemOffset, GUIDirection.downleft);
+			}
 			return playerAtPosition;
 		} else {
 			// Reset the gemCount
+			gemOffset = 0;
 			gemCount = 0;
 		}
 
@@ -488,5 +551,65 @@ public class GameJTable extends JTable {
 
 		// we only arrive here if the tables are equal
 		return true;
+	}
+
+	/**
+	 * Draws a line where a player won the game (but does not detect the winner,
+	 * use winDetector for detecting the winner)
+	 * 
+	 * @param rowStart
+	 *            The row where the line starts
+	 * @param columnStart
+	 *            The column where the line starts
+	 * @param dir
+	 *            The direction of the line
+	 */
+	private void drawWinner(int rowStart, int columnStart, GUIDirection dir) throws ArrayIndexOutOfBoundsException {
+		for (int i = 0; i < Config.gemsToWin; i++) {
+			int[] rc = new int[2];
+			switch (dir) {
+			case down:
+				rc[0] = rowStart + i;
+				rc[1] = columnStart;
+				break;
+			case downleft:
+				rc[0] = rowStart + i;
+				rc[1] = columnStart - i;
+				break;
+			case downright:
+				rc[0] = rowStart + i;
+				rc[1] = columnStart + i;
+				break;
+			case left:
+				rc[0] = rowStart;
+				rc[1] = columnStart - i;
+				break;
+			case right:
+				rc[0] = rowStart;
+				rc[1] = columnStart + i;
+				break;
+			case up:
+				rc[0] = rowStart - i;
+				rc[1] = columnStart;
+				break;
+			case upleft:
+				rc[0] = rowStart - i;
+				rc[1] = columnStart - i;
+				break;
+			case upright:
+				rc[0] = rowStart - i;
+				rc[1] = columnStart + i;
+				break;
+			}
+
+			((MyCellRenderer) this.getCellRenderer(rowStart, columnStart)).playerWonAt.add(rc);
+
+			String prevValue = (String) this.getValueAt(rc[0], rc[1]);
+			this.setValueAt("", rc[0], rc[1]);
+			this.setValueAt(prevValue, rc[0], rc[1]);
+		}
+		
+		((MyCellRenderer) this.getCellRenderer(rowStart, columnStart)).playerWonAt.printList();
+		this.repaint();
 	}
 }

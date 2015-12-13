@@ -26,6 +26,9 @@ public class Config {
 	public static Color player2ForeColor = Color.white;
 	public static Color playerNoneColor = Color.white;
 	public static Color playerNoneForeColor = Color.black;
+	
+	public static Color playerWonColor = Color.yellow;
+	public static Color playerWonForeColor = Color.black;
 
 	public static String player1String = "X";
 	public static String player2String = "O";
