@@ -11,11 +11,16 @@ import model.*;
 
 /**
  * Extends the default JTable to add the PlayerModel to it
+ * 
  * @author Frederik Kammel
  */
 public class GameJTable extends JTable {
 	private static final long serialVersionUID = -1925175781596366195L;
 
+	/**
+	 * Score assigned to this turn by the minimax-Algorithm of the AI while
+	 * computing all possible turns
+	 */
 	public int scoreIfStateIsReached;
 
 	public GameJTable() {
@@ -603,7 +608,7 @@ public class GameJTable extends JTable {
 
 			((MyCellRenderer) this.getCellRenderer(rowStart, columnStart)).playerWonAt.add(rc);
 		}
-		
+
 		this.repaint();
 	}
 }
