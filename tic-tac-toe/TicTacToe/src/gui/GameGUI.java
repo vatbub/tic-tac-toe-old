@@ -24,6 +24,7 @@ import java.awt.event.ActionListener;
 
 /**
  * The Game window
+ * 
  * @author The WindowBuilder
  * @author Frederik Kammel
  */
@@ -40,6 +41,7 @@ public class GameGUI {
 	private JLabel turnLabel;
 	private WelcomeGUI caller;
 
+	@Deprecated
 	public boolean gameFinished = false;
 	private JLabel lblThinking;
 	private JLabel lblSpacing2;
@@ -50,7 +52,7 @@ public class GameGUI {
 
 	/**
 	 * Launch the GameGUI window. ATTENTION: It is highly recommended to launch
-	 * the WelcomeGUi or the Main-class since launching GameGUI directly will
+	 * the WelcomeGUI or the Main-class since launching GameGUI directly will
 	 * bypass the Main Menu
 	 * 
 	 * @param args
@@ -70,12 +72,19 @@ public class GameGUI {
 	}
 
 	/**
-	 * Create the GameGUI window.
+	 * Create the GameGUI window. Same as GameGUI(null)
 	 */
 	public GameGUI() {
 		this(null);
 	}
 
+	/**
+	 * Creates the GameGUI window and reopens the WelcomeGUI after the game ends
+	 * if caller object is not null.
+	 * 
+	 * @param caller The handle of the calling WelcomeGUI window
+	 */
+	@SuppressWarnings("deprecation")
 	public GameGUI(WelcomeGUI caller) {
 		// Validate the config
 		Config.validate();
