@@ -82,7 +82,8 @@ public class GameGUI {
 	 * Creates the GameGUI window and reopens the WelcomeGUI after the game ends
 	 * if caller object is not null.
 	 * 
-	 * @param caller The handle of the calling WelcomeGUI window
+	 * @param caller
+	 *            The handle of the calling WelcomeGUI window
 	 */
 	@SuppressWarnings("deprecation")
 	public GameGUI(WelcomeGUI caller) {
@@ -222,7 +223,9 @@ public class GameGUI {
 	 */
 	public void quitGame() {
 		// switch the Players
-		Player.switchPlayers();
+		if (Config.doNotSwitchPlayerAfterGame == false) {
+			Player.switchPlayers();
+		}
 
 		if (caller == null) {
 			// No caller specified, we shall quit the app completely

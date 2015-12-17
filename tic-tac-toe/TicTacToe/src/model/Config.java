@@ -74,6 +74,11 @@ public class Config {
 	 * String written into cells occupied by Player2
 	 */
 	public static String player2String = "O";
+	
+	/**
+	 * Specifies if the players should switch positions after each game
+	 */
+	public static boolean doNotSwitchPlayerAfterGame=false;
 
 	/**
 	 * Validates the config and throws exceptions or warnings if the game is configured improperly
