@@ -337,8 +337,8 @@ public class Player {
 		// determine if somebody has won
 		Player winner = node.getObject().winDetector(node.playedAtRow, node.playedAtColumn, false);
 
-		//double intentWeight = 0.000000001;
-		double intentWeight = 1/intent;
+		double intentWeight = 0.000000001;
+		//double intentWeight = 2;
 		
 		if (winner == null) {
 			// determine all possible turns
@@ -412,7 +412,7 @@ public class Player {
 		} else if (winner.equals(this)) {
 			gameTree.getObject().scoreIfStateIsReached = 15.0/ (intentWeight * intent + 1);
 		} else if (winner.equals(opponent)) {
-			gameTree.getObject().scoreIfStateIsReached = -15.0/ (intentWeight * intent + 1);
+			gameTree.getObject().scoreIfStateIsReached = -100.0/ (intentWeight * intent + 1);
 			//(15.0 / (intentWeight * intent + 1))
 		} else {
 			gameTree.getObject().scoreIfStateIsReached = 0;
