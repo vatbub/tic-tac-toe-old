@@ -5,14 +5,15 @@ import java.util.ArrayList;
 import gui.GameJTable;
 
 /**
- * A node of a game tree (A Tree that contains all possible turns in a tic tac toe game)
+ * A node of a game tree (A Tree that contains all possible turns in a tic tac
+ * toe game)
  */
 public class TreeNode {
 
 	private GameJTable object;
 	public int playedAtRow;
 	public int playedAtColumn;
-	private int lastTotalScore;
+	private double lastTotalScore;
 	private ArrayList<TreeNode> children;
 
 	// Getters and Setters
@@ -97,7 +98,7 @@ public class TreeNode {
 	 * 
 	 * @return The total score of this node
 	 */
-	public int getTotalScore() {
+	public double getTotalScore() {
 		return getTotalScore(false);
 	}
 
@@ -109,9 +110,9 @@ public class TreeNode {
 	 *            If true, the cache will be overridden
 	 * @return The total score of this node
 	 */
-	public int getTotalScore(boolean overrideCache) {
+	public double getTotalScore(boolean overrideCache) {
 		if (lastTotalScore == 0 | overrideCache == true) {
-			int sum = 0;
+			double sum = 0;
 			if (children == null) {
 				return object.scoreIfStateIsReached;
 			} else {
@@ -122,6 +123,33 @@ public class TreeNode {
 				lastTotalScore = sum;
 				return sum;
 			}
+		} else {
+			return lastTotalScore;
+		}
+	}
+
+	/**
+	 * Sums up the score of this node and all of its child nodes. Total score is
+	 * cached for speed reasons. Use getTotalScore(true) to override the cache.
+	 * 
+	 * @return The total score of this node
+	 */
+	public double getTotalScore2() {
+		return getTotalScore2(false);
+	}
+
+	/**
+	 * Sums up the score of this node and all of its child nodes. Total score is
+	 * cached for speed reasons
+	 * 
+	 * @param overrideCache
+	 *            If true, the cache will be overridden
+	 * @return The total score of this node
+	 */
+	public double getTotalScore2(boolean overrideCache) {
+		if (lastTotalScore == 0 | overrideCache == true) {
+			lastTotalScore = object.scoreIfStateIsReached;
+			return object.scoreIfStateIsReached;
 		} else {
 			return lastTotalScore;
 		}
@@ -174,6 +202,31 @@ public class TreeNode {
 				}
 			}
 		}
+
+		return res;
+	}
+
+	public TreeNode clone() {
+		/*
+		 * public int playedAtRow; 
+		 * public int playedAtColumn; 
+		 * private double lastTotalScore;
+		 */
+		
+		// Clone the object
+		TreeNode res = new TreeNode(this.getObject().clone());
+		
+		//Clone the cildren
+		if (children != null) {
+			for (int i = 0; i < this.getChildCount(); i++) {
+				res.addChild(this);
+				getChildAt(i);
+			}
+		}
+		
+		//Clone other variables
+		res.playedAtRow=playedAtRow;
+		res.playedAtColumn=playedAtColumn;
 
 		return res;
 	}

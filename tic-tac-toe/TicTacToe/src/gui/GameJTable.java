@@ -21,7 +21,7 @@ public class GameJTable extends JTable {
 	 * Score assigned to this turn by the minimax-Algorithm of the AI while
 	 * computing all possible turns
 	 */
-	public int scoreIfStateIsReached;
+	public double scoreIfStateIsReached;
 
 	public GameJTable() {
 		super.setDefaultRenderer(String.class, new MyCellRenderer());
@@ -457,7 +457,7 @@ public class GameJTable extends JTable {
 	 * 
 	 * @return the negated scoreIfStateIsReached.
 	 */
-	public int invertScoreIfStateIsReached() {
+	public double invertScoreIfStateIsReached() {
 		scoreIfStateIsReached = -scoreIfStateIsReached;
 		return scoreIfStateIsReached;
 	}

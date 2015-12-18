@@ -13,17 +13,23 @@ public class MySwingWorker extends SwingWorker<Void,Void> {
 	GameJTable currentGameTable;
 	GameGUI callerGUI;
 	Player opponent;
+	int lastPlayedAtRow;
+	int lastPlayedAtColumn;
 	
-	public MySwingWorker(Player player, GameJTable currentGameTable, GameGUI callerGUI, Player opponent){
+	public MySwingWorker(Player player, GameJTable currentGameTable,int lastPlayedAtRow, int lastPlayedAtColumn, GameGUI callerGUI, Player opponent){
 		this.player=player;
 		this.currentGameTable=currentGameTable;
 		this.callerGUI=callerGUI;
 		this.opponent=opponent;
+		this.lastPlayedAtRow=lastPlayedAtRow;
+		this.lastPlayedAtColumn=lastPlayedAtColumn;
 	}
 	
 	@Override
     public Void doInBackground() {
-        Thread t = new Thread(new AiWorker(player, currentGameTable, callerGUI, opponent));  
+        //Thread t = new Thread(new AiWorker(player, currentGameTable, callerGUI, opponent));
+		//public AiWorker(Player player, GameJTable currentGameTable,int lastPlayedAtRow, int lastPlayedAtColumn, GameGUI callerGUI, Player opponent) {
+		Thread t = new Thread(new AiWorker(player, currentGameTable,lastPlayedAtRow, lastPlayedAtColumn, callerGUI, opponent));
         t.start();
 		return null;
     }
