@@ -1,21 +1,15 @@
 package model;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.util.ArrayList;
 
 import gui.GameJTable;
 import org.jgrapht.EdgeFactory;
-import org.jgrapht.ext.VisioExporter;
+import org.jgrapht.ext.GraphMLExporter;
 import org.jgrapht.graph.ClassBasedEdgeFactory;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.SimpleDirectedGraph;
-
-import gui.*;
 
 /**
  * A node of a game tree (A Tree that contains all possible turns in a tic tac
@@ -183,16 +177,16 @@ public class GameTree extends SimpleDirectedGraph<GameJTable, DefaultEdge> {
 	}
 
 	public void printToVisioFile(String fileName) {
-		FileOutputStream fileWriter = null;
-		VisioExporter<GameJTable, DefaultEdge> exporter=new VisioExporter<GameJTable, DefaultEdge>();
+		FileWriter fileWriter = null;
+		GraphMLExporter<GameJTable, DefaultEdge> exporter=new GraphMLExporter<GameJTable, DefaultEdge>();
 
 		try {
 
-			fileWriter = new FileOutputStream(new File(fileName));
+			fileWriter = new FileWriter(fileName);
 
 			exporter.export(fileWriter, this);
 			
-			System.out.println("CSV file was created successfully !!!");
+			System.out.println("GraphML file was created successfully !!!");
 
 		} catch (Exception e) {
 

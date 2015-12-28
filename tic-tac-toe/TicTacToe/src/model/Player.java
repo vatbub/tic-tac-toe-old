@@ -150,8 +150,8 @@ public class Player {
 					// debugGameTree.print();
 
 					//output the tree as a visio file
-					System.out.println(System.getProperty("user.dir") + "\\gameTreeAsVisioFile.csv");
-					gameTree.printToVisioFile(System.getProperty("user.dir") + "\\gameTreeAsVisioFile.csv");
+					System.out.println(System.getProperty("user.dir") + "\\gameTreeAsVisioFile.graphml");
+					gameTree.printToVisioFile(System.getProperty("user.dir") + "\\gameTreeAsVisioFile.graphml");
 					
 					// print some stats
 					System.out.println("Score of the root: " + gameTree.getRoot().scoreIfStateIsReached);
