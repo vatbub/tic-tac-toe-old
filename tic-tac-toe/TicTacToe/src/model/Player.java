@@ -7,6 +7,8 @@ import javax.swing.JOptionPane;
 import gui.GameGUI;
 import gui.GameJTable;
 
+import debugging.*;
+
 /**
  * Model of a Player
  * 
@@ -19,6 +21,8 @@ public class Player {
 	public static int playerCount;
 
 	public String name;
+	
+	private printableTree<GameJTable> debugGameTree;
 
 	/**
 	 * Specifies if the player is an artificial intelligence (true) or a human
@@ -147,6 +151,9 @@ public class Player {
 				// Player opponent) {
 				TreeNode gameTree = buildGameTree2(currentGameTable, lastPlayedAtRow, lastPlayedAtRow, opponent);
 				if (gameTree.getChildCount() != 0) {
+					
+					debugGameTree.print();
+					
 					// print some stats
 					System.out.println("Score of the root: " + gameTree.getObject().scoreIfStateIsReached);
 					for (int i = 0; i < gameTree.getChildCount(); i++) {
@@ -289,8 +296,8 @@ public class Player {
 	}
 
 	/**
-	 * Builds a tree with all possible turn combinations ATTENTION: For speed
-	 * reasons the tree will be cut at Config.cutGameTreeAtIntent
+	 * Builds a tree with all possible turn combinations for use with the Mini Max Algorithm.<br>
+	 * This method uses alpha beta pruning.
 	 * 
 	 * @param currentGameTable
 	 *            The current gameTable
@@ -306,8 +313,9 @@ public class Player {
 		TreeNode gameTreeRoot = new TreeNode(currentGameTable);
 		gameTreeRoot.playedAtRow = lastPlayedAtRow;
 		gameTreeRoot.playedAtColumn = lastPlayedAtColumn;
+		debugGameTree=new printableTree<GameJTable>(currentGameTable);
 		return buildGameTree_recursive2(gameTreeRoot, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, false,
-				opponent, 1);
+				opponent, 1, debugGameTree);
 	}
 
 	/**
@@ -329,7 +337,7 @@ public class Player {
 	 * @return The explored gameTree
 	 */
 	private TreeNode buildGameTree_recursive2(TreeNode node, double alpha, double beta, boolean opponentsTurn,
-			Player opponent, int intent) {
+			Player opponent, int indent, printableTree<GameJTable> printableTreeNode) {
 
 		// initialize the return tree
 		TreeNode gameTree = node.clone();
@@ -364,9 +372,12 @@ public class Player {
 					child.playedAtRow=turns.get(i)[0];
 					child.playedAtColumn=turns.get(i)[1];
 					
+					printableTree<GameJTable> printableChild=new printableTree<GameJTable>(child.getObject());
+					printableTreeNode.addChild(printableChild);
+					
 					//System.out.println(child.getObject().toString());
 					
-					child = buildGameTree_recursive2(child, alpha, beta, true, opponent, intent + 1);
+					child = buildGameTree_recursive2(child, alpha, beta, true, opponent, indent + 1, printableChild);
 					
 					//System.out.println("===returned to node===");
 					//System.out.println(node.getObject().toString());
@@ -391,9 +402,12 @@ public class Player {
 					child.playedAtRow=turns.get(i)[0];
 					child.playedAtColumn=turns.get(i)[1];
 					
+					printableTree<GameJTable> printableChild=new printableTree<GameJTable>(child.getObject());
+					printableTreeNode.addChild(printableChild);
+					
 					//System.out.println(child.getObject().toString());
 
-					child = buildGameTree_recursive2(child, alpha, beta, false, opponent, intent + 1);
+					child = buildGameTree_recursive2(child, alpha, beta, false, opponent, indent + 1, printableChild);
 					
 					//System.out.println("===returned to node===");
 					//System.out.println(node.getObject().toString());
@@ -410,13 +424,15 @@ public class Player {
 				gameTree.getObject().scoreIfStateIsReached = beta;
 			}
 		} else if (winner.equals(this)) {
-			gameTree.getObject().scoreIfStateIsReached = 15.0/ (intentWeight * intent + 1);
+			gameTree.getObject().scoreIfStateIsReached = 15.0/ (intentWeight * indent + 1);
 		} else if (winner.equals(opponent)) {
-			gameTree.getObject().scoreIfStateIsReached = -100.0/ (intentWeight * intent + 1);
+			gameTree.getObject().scoreIfStateIsReached = -100.0/ (intentWeight * indent + 1);
 			//(15.0 / (intentWeight * intent + 1))
 		} else {
 			gameTree.getObject().scoreIfStateIsReached = 0;
 		}
+		
+		printableTreeNode.getValue().scoreIfStateIsReached=gameTree.getObject().scoreIfStateIsReached;
 		
 		return gameTree;
 	}
