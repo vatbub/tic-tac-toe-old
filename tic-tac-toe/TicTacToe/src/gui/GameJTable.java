@@ -22,6 +22,17 @@ public class GameJTable extends JTable {
 	 * computing all possible turns
 	 */
 	public double scoreIfStateIsReached;
+	
+	/**
+	 * Row, where the PLayer did his last turn
+	 */
+	public int playedAtRow;
+	
+	/**
+	 * Column, where the PLayer did his last turn
+	 */
+	public int playedAtColumn;
+	
 
 	public GameJTable() {
 		super.setDefaultRenderer(String.class, new MyCellRenderer());
@@ -69,6 +80,9 @@ public class GameJTable extends JTable {
 	 *            The player that should be set at the specified position
 	 */
 	public void setPlayerAt(int row, int column, Player player) {
+		this.playedAtColumn=column;
+		this.playedAtRow=row;
+		
 		if (player == null) {
 			this.setValueAt("", row, column);
 		} else if (player.equals(Player.Player1)) {
@@ -140,6 +154,17 @@ public class GameJTable extends JTable {
 		}
 	}
 
+	/**
+	 * Checks if a player has won the game
+	 * 
+	 * @return Player.Player1 if Player 1 has won, Player.Player2 if Player 2
+	 *         has won, Player.PlayerTie if the game is a tie, null if the game
+	 *         is not finished yet
+	 */
+	public Player winDetector(){
+		return winDetector(this.playedAtRow, this.playedAtColumn);
+	}
+	
 	/**
 	 * Checks if a player has won the game
 	 * 

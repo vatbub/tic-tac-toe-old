@@ -112,7 +112,7 @@ public class GameGUI {
 		// Let the AI do her first turn if Player1 is AI
 		if (playerForNextTurn.isAi == true) {
 			//Player player, GameJTable currentGameTable,int lastPlayedAtRow, int lastPlayedAtColumn, GameGUI callerGUI, Player opponent
-			MySwingWorker SWorker = new MySwingWorker(playerForNextTurn, gameTable,0, 0, this, opponentOfPlayerForNextTurn);
+			MySwingWorker SWorker = new MySwingWorker(playerForNextTurn, gameTable,this, opponentOfPlayerForNextTurn);
 			SWorker.doInBackground();
 		}
 	}
@@ -288,14 +288,14 @@ public class GameGUI {
 		// Do AI turns if selected
 		if (playerForNextTurn.isAi == true) {
 			//Player player, GameJTable currentGameTable,int lastPlayedAtRow, int lastPlayedAtColumn, GameGUI callerGUI, Player opponent
-			MySwingWorker SWorker = new MySwingWorker(playerForNextTurn, gameTable,row,column, this, opponentOfPlayerForNextTurn);
+			MySwingWorker SWorker = new MySwingWorker(playerForNextTurn, gameTable,this, opponentOfPlayerForNextTurn);
 			SWorker.doInBackground();
 		}
 	}
 
 	private void thinkForMe() {
 		if (guiLocked == false) {
-			MySwingWorker SWorker = new MySwingWorker(playerForNextTurn, gameTable,lastPlayedAtRow,lastPlayedAtColumn, this, opponentOfPlayerForNextTurn);
+			MySwingWorker SWorker = new MySwingWorker(playerForNextTurn, gameTable,this, opponentOfPlayerForNextTurn);
 			SWorker.doInBackground();
 		}
 	}
