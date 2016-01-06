@@ -1,10 +1,11 @@
 package model;
 
+/**
+ * Exception that is thrown when the game config is invalid
+ * @author Frederik
+ *
+ */
 public class InvalidConfigException extends RuntimeException {
-
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -7102087643546228380L;
 
 	public InvalidConfigException() {
