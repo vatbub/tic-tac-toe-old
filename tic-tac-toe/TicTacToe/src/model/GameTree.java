@@ -25,24 +25,6 @@ public class GameTree extends SimpleDirectedGraph<GameJTable, DefaultEdge> {
 	 */
 	private GameJTable root;
 
-	// Getters and Setters
-	
-	/**
-	 * Returns the root node
-	 * @return The root node
-	 */
-	public GameJTable getRoot() {
-		return root;
-	}
-
-	/**
-	 * Sets the root node
-	 * @param root The new root node
-	 */
-	public void setRoot(GameJTable root) {
-		this.root = root;
-	}
-
 	// Constructors
 
 	public GameTree(GameJTable object) {
@@ -57,7 +39,24 @@ public class GameTree extends SimpleDirectedGraph<GameJTable, DefaultEdge> {
 		this.addVertex(root);
 	}
 
-	// Methods
+	// Getters and Setters
+	
+		/**
+		 * Returns the root node
+		 * @return The root node
+		 */
+		public GameJTable getRoot() {
+			return root;
+		}
+
+		/**
+		 * Sets the root node
+		 * @param root The new root node
+		 */
+		public void setRoot(GameJTable root) {
+			this.root = root;
+		}
+	
 	/**
 	 * Adds a child to the tree
 	 * 
