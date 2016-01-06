@@ -13,28 +13,32 @@ import org.jgrapht.graph.SimpleDirectedGraph;
 import org.jgrapht.ext.*;
 
 /**
- * A node of a game tree (A Tree that contains all possible turns in a tic tac
+ * A game tree (A Tree that contains all possible turns in a tic tac
  * toe game)
  */
 
 public class GameTree extends SimpleDirectedGraph<GameJTable, DefaultEdge> {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -7983775946054813350L;
-	private GameJTable root;
 	
-	// private GameJTable object;
-	// public int playedAtRow;
-	// public int playedAtColumn;
-	// private ArrayList<TreeNode> children;
+	/**
+	 * The root element of the tree
+	 */
+	private GameJTable root;
 
 	// Getters and Setters
+	
+	/**
+	 * Returns the root node
+	 * @return The root node
+	 */
 	public GameJTable getRoot() {
-		// return object;
 		return root;
 	}
 
+	/**
+	 * Sets the root node
+	 * @param root The new root node
+	 */
 	public void setRoot(GameJTable root) {
 		this.root = root;
 	}
@@ -52,11 +56,6 @@ public class GameTree extends SimpleDirectedGraph<GameJTable, DefaultEdge> {
 		root = object;
 		this.addVertex(root);
 	}
-
-	/*
-	 * public TreeNode(GameJTable object, ArrayList<TreeNode> children) {
-	 * this.object = object; this.children = children; }
-	 */
 
 	// Methods
 	/**
@@ -242,18 +241,4 @@ public class GameTree extends SimpleDirectedGraph<GameJTable, DefaultEdge> {
 			}
 		}
 	}
-	/*
-	 * public GameTree clone() {
-	 * 
-	 * 
-	 * // Clone the object GameTree res = new GameTree(this.getRoot().clone());
-	 * 
-	 * // Clone the cildren if (children != null) { for (int i = 0; i <
-	 * this.getChildCount(); i++) { res.addChild(this); getChildAt(i); } }
-	 * 
-	 * // Clone other variables res.playedAtRow = playedAtRow;
-	 * res.playedAtColumn = playedAtColumn;
-	 * 
-	 * return res; }
-	 */
 }
