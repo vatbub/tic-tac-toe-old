@@ -13,9 +13,25 @@ import gui.GameJTable;
  * @author Frederik Kammel
  */
 public class Player {
+	
+	/**
+	 * An object representing Player1
+	 */
 	public static Player Player1;
+	
+	/**
+	 * An object representing Player2
+	 */
 	public static Player Player2;
+	
+	/**
+	 * Object to represent a tie in the game
+	 */
 	public static Player PlayerTie;
+	
+	/**
+	 * The number of initialized players
+	 */
 	public static int playerCount;
 
 	public String name;
@@ -121,7 +137,7 @@ public class Player {
 
 	/**
 	 * Decides where the AI will do its next turn by implementing the
-	 * Mini-Max-Algorithm.
+	 * Mini-Max-Algorithm with AlphaBeta pruning.
 	 * 
 	 * Needs the reference to the callerGUI to send it the info about the played
 	 * spot
