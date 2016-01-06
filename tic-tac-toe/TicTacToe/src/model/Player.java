@@ -150,8 +150,8 @@ public class Player {
 					// debugGameTree.print();
 
 					//output the tree as a visio file
-					System.out.println(System.getProperty("user.dir") + "\\gameTreeAsVisioFile.graphml");
-					gameTree.printToVisioFile(System.getProperty("user.dir") + "\\gameTreeAsVisioFile.graphml");
+					System.out.println(System.getProperty("user.dir") + "\\gameTreeAsVisioFile.dot");
+					gameTree.printToVisioFile(System.getProperty("user.dir") + "\\gameTreeAsVisioFile.dot");
 					
 					// print some stats
 					System.out.println("Score of the root: " + gameTree.getRoot().scoreIfStateIsReached);
@@ -259,6 +259,8 @@ public class Player {
 				for (int i = 0; i < turns.size(); i++) {
 					// duplicate the table
 					GameJTable child = node.clone();
+					child.alpha=alpha;
+					child.beta=beta;
 
 					// do the turn
 					child.setPlayerAt(turns.get(i)[0], turns.get(i)[1], this);
@@ -268,12 +270,17 @@ public class Player {
 					// System.out.println(child.getObject().toString());
 					
 					gameTree.addChild(child, node);
+					//output the tree as a visio file
+					//System.out.println(System.getProperty("user.dir") + "\\gameTreeAsVisioFile.dot");
+					//gameTree.printToVisioFile(System.getProperty("user.dir") + "\\gameTreeAsVisioFile.dot");
+					//buildGameTree_recursive2(gameTree, child, alpha, beta, false, opponent, indent + 1);
 					buildGameTree_recursive2(gameTree, child, alpha, beta, true, opponent, indent + 1);
 
 					// System.out.println("===returned to node===");
 					// System.out.println(node.getObject().toString());
 
 					alpha = Math.max(alpha, child.scoreIfStateIsReached);
+					child.alpha=alpha;
 
 					if (alpha >= beta) {
 						// prune
@@ -286,6 +293,8 @@ public class Player {
 				for (int i = 0; i < turns.size(); i++) {
 					// duplicate the table
 					GameJTable child = node.clone();
+					child.alpha=alpha;
+					child.beta=beta;
 
 					// do the turn
 					child.setPlayerAt(turns.get(i)[0], turns.get(i)[1], opponent);
@@ -295,12 +304,16 @@ public class Player {
 					// System.out.println(child.getObject().toString());
 
 					gameTree.addChild(child, node);
+					//output the tree as a visio file
+					//System.out.println(System.getProperty("user.dir") + "\\gameTreeAsVisioFile.dot");
+					//gameTree.printToVisioFile(System.getProperty("user.dir") + "\\gameTreeAsVisioFile.dot");
 					buildGameTree_recursive2(gameTree, child, alpha, beta, false, opponent, indent + 1);
 
 					// System.out.println("===returned to node===");
 					// System.out.println(node.getObject().toString());
 
 					beta = Math.min(beta, child.scoreIfStateIsReached);
+					child.beta=beta;
 
 					if (alpha >= beta) {
 						// prune
