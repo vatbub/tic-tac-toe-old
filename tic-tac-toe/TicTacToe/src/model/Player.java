@@ -149,22 +149,24 @@ public class Player {
 
 					// debugGameTree.print();
 
-					//output the tree as a visio file
-					System.out.println(System.getProperty("user.dir") + "\\gameTreeAsVisioFile.dot");
-					gameTree.printToVisioFile(System.getProperty("user.dir") + "\\gameTreeAsVisioFile.dot");
-					
+					// output the tree as a visio file
+					System.out.println(System.getProperty("user.dir") + "\\gameTreeAsVisioFile.graphml");
+					gameTree.printToVisioFile(System.getProperty("user.dir") + "\\gameTreeAsVisioFile.graphml");
+					// gameTree.clone(3)
+					// .printToVisioFile(System.getProperty("user.dir") +
+					// "\\gameTreeAsVisioFile.graphml");
+
 					// print some stats
 					System.out.println("Score of the root: " + gameTree.getRoot().scoreIfStateIsReached);
 					for (int i = 0; i < gameTree.getChildCount(); i++) {
-						System.out.println("Score at " + i + ": " + gameTree.getTotalScore(gameTree.getChildAt(i))
+						System.out.println("Score at " + i + ": " + gameTree.getTotalScore2(gameTree.getChildAt(i))
 								+ " - " + gameTree.getChildAt(i).playedAtRow + "/"
 								+ gameTree.getChildAt(i).playedAtColumn);
 					}
-					
+
 					int bestTurn = gameTree.getBestTurnFromChildren();
 
-					if 
-					(gameTree.getChildAt(bestTurn) != null) {
+					if (gameTree.getChildAt(bestTurn) != null) {
 						// There is a turn to do
 						// print some more stats
 						System.out.println("R: " + gameTree.getChildAt(bestTurn).playedAtRow);
@@ -204,10 +206,10 @@ public class Player {
 		// not found
 
 		GameTree gameTree = new GameTree(currentGameTable);
-		
+
 		buildGameTree_recursive2(gameTree, currentGameTable, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, false,
 				opponent, 1);
-		
+
 		return gameTree;
 	}
 
@@ -229,8 +231,8 @@ public class Player {
 	 *            The Player object representing the opponent
 	 * @return The explored gameTree
 	 */
-	private void buildGameTree_recursive2(GameTree gameTree, GameJTable node, double alpha, double beta, boolean opponentsTurn,
-			Player opponent, int indent) {
+	private void buildGameTree_recursive2(GameTree gameTree, GameJTable node, double alpha, double beta,
+			boolean opponentsTurn, Player opponent, int indent) {
 
 		// initialize the return tree
 		// GameTree gameTree = node.clone();
@@ -238,8 +240,8 @@ public class Player {
 		// determine if somebody has won
 		Player winner = node.winDetector();
 
-		double intentWeight = 0.000000001;
-		// double intentWeight = 2;
+		// double intentWeight = 0.000000001;
+		double intentWeight = 2;
 
 		if (winner == null) {
 			// determine all possible turns
@@ -256,31 +258,34 @@ public class Player {
 			}
 
 			if (opponentsTurn == false) {
+				// my turn
+
 				for (int i = 0; i < turns.size(); i++) {
 					// duplicate the table
 					GameJTable child = node.clone();
-					child.alpha=alpha;
-					child.beta=beta;
+					child.alpha = alpha;
+					child.beta = beta;
 
 					// do the turn
 					child.setPlayerAt(turns.get(i)[0], turns.get(i)[1], this);
-					//child.playedAtRow = turns.get(i)[0];
-					//child.playedAtColumn = turns.get(i)[1];
+					// child.playedAtRow = turns.get(i)[0];
+					// child.playedAtColumn = turns.get(i)[1];
 
 					// System.out.println(child.getObject().toString());
-					
+
 					gameTree.addChild(child, node);
-					//output the tree as a visio file
-					//System.out.println(System.getProperty("user.dir") + "\\gameTreeAsVisioFile.dot");
-					//gameTree.printToVisioFile(System.getProperty("user.dir") + "\\gameTreeAsVisioFile.dot");
-					//buildGameTree_recursive2(gameTree, child, alpha, beta, false, opponent, indent + 1);
+					// output the tree as a visio file
+					// System.out.println(System.getProperty("user.dir") +
+					// "\\gameTreeAsVisioFile.graphml");
+					// gameTree.printToVisioFile(System.getProperty("user.dir")
+					// + "\\gameTreeAsVisioFile.graphml");
 					buildGameTree_recursive2(gameTree, child, alpha, beta, true, opponent, indent + 1);
 
 					// System.out.println("===returned to node===");
 					// System.out.println(node.getObject().toString());
 
 					alpha = Math.max(alpha, child.scoreIfStateIsReached);
-					child.alpha=alpha;
+					child.alpha = alpha;
 
 					if (alpha >= beta) {
 						// prune
@@ -290,30 +295,34 @@ public class Player {
 
 				node.scoreIfStateIsReached = alpha;
 			} else {
+				// opponents turn
+
 				for (int i = 0; i < turns.size(); i++) {
 					// duplicate the table
 					GameJTable child = node.clone();
-					child.alpha=alpha;
-					child.beta=beta;
+					child.alpha = alpha;
+					child.beta = beta;
 
 					// do the turn
 					child.setPlayerAt(turns.get(i)[0], turns.get(i)[1], opponent);
-					//child.playedAtRow = turns.get(i)[0];
-					//child.playedAtColumn = turns.get(i)[1];
+					// child.playedAtRow = turns.get(i)[0];
+					// child.playedAtColumn = turns.get(i)[1];
 
 					// System.out.println(child.getObject().toString());
 
 					gameTree.addChild(child, node);
-					//output the tree as a visio file
-					//System.out.println(System.getProperty("user.dir") + "\\gameTreeAsVisioFile.dot");
-					//gameTree.printToVisioFile(System.getProperty("user.dir") + "\\gameTreeAsVisioFile.dot");
+					// output the tree as a visio file
+					// System.out.println(System.getProperty("user.dir") +
+					// "\\gameTreeAsVisioFile.graphml");
+					// gameTree.printToVisioFile(System.getProperty("user.dir")
+					// + "\\gameTreeAsVisioFile.graphml");
 					buildGameTree_recursive2(gameTree, child, alpha, beta, false, opponent, indent + 1);
 
 					// System.out.println("===returned to node===");
 					// System.out.println(node.getObject().toString());
 
 					beta = Math.min(beta, child.scoreIfStateIsReached);
-					child.beta=beta;
+					child.beta = beta;
 
 					if (alpha >= beta) {
 						// prune
@@ -324,11 +333,14 @@ public class Player {
 				node.scoreIfStateIsReached = beta;
 			}
 		} else if (winner.equals(this)) {
-			node.scoreIfStateIsReached = 15.0 / (intentWeight * indent + 1);
+			// I won
+			node.scoreIfStateIsReached = 15.0 / (Math.pow(intentWeight, indent + 1));
 		} else if (winner.equals(opponent)) {
-			node.scoreIfStateIsReached = -100.0 / (intentWeight * indent + 1);
+			// opponent won
+			node.scoreIfStateIsReached = -15.0 / (Math.pow(intentWeight, indent + 1));
 			// (15.0 / (intentWeight * intent + 1))
 		} else {
+			// It's a tie
 			node.scoreIfStateIsReached = 0;
 		}
 	}

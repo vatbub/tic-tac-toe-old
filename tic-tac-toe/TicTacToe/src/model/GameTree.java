@@ -23,6 +23,7 @@ public class GameTree extends SimpleDirectedGraph<GameJTable, DefaultEdge> {
 	 */
 	private static final long serialVersionUID = -7983775946054813350L;
 	private GameJTable root;
+	
 	// private GameJTable object;
 	// public int playedAtRow;
 	// public int playedAtColumn;
@@ -47,7 +48,7 @@ public class GameTree extends SimpleDirectedGraph<GameJTable, DefaultEdge> {
 
 	public GameTree(EdgeFactory<GameJTable, DefaultEdge> ef, GameJTable object) {
 		super(ef);
-
+		
 		root = object;
 		this.addVertex(root);
 	}
@@ -74,21 +75,6 @@ public class GameTree extends SimpleDirectedGraph<GameJTable, DefaultEdge> {
 	}
 
 	/**
-	 * Adds a child to the tree at the specified position
-	 * 
-	 * @param index
-	 *            Index where the child should be added
-	 * @param child
-	 *            The child node to be added
-	 */
-	/*
-	 * public void addChildAt(int index, TreeNode child) { if (children == null)
-	 * { children = new ArrayList<TreeNode>(); }
-	 * 
-	 * children.add(index, child); }
-	 */
-
-	/**
 	 * Returns the child at the specified index
 	 * 
 	 * @param index
@@ -102,7 +88,7 @@ public class GameTree extends SimpleDirectedGraph<GameJTable, DefaultEdge> {
 	public GameJTable getChildAt(int index, GameJTable node) {
 		return this.getEdgeTarget((DefaultEdge) this.outgoingEdgesOf(node).toArray()[index]);
 	}
-
+	
 	public int getChildCount() {
 		return getChildCount(root);
 	}
@@ -119,13 +105,18 @@ public class GameTree extends SimpleDirectedGraph<GameJTable, DefaultEdge> {
 	 * @return The total score of this node
 	 */
 	public double getTotalScore(GameJTable child) {
+		return getTotalScore_recursive(child, 0);
+	}
+	
+	private double getTotalScore_recursive(GameJTable child, int indent){
 		double sum = 0;
-		//System.out.println(this.getChildCount(child));
-		if (this.getChildCount(child) == 0) {
+		// System.out.println(this.getChildCount(child));
+		if (this.getChildCount(child) == 0 || indent>=9) {
+			System.out.println(child.scoreIfStateIsReached);
 			return child.scoreIfStateIsReached;
 		} else {
 			for (int i = 0; i < this.getChildCount(child); i++) {
-				sum = sum + getTotalScore(this.getChildAt(i));
+				sum = sum + getTotalScore_recursive(this.getChildAt(i), indent+1);
 			}
 			return sum;
 		}
@@ -151,11 +142,11 @@ public class GameTree extends SimpleDirectedGraph<GameJTable, DefaultEdge> {
 	 * @return The child index with the best turn
 	 */
 	public int getBestTurnFromChildren() {
-		ArrayList<int[]> maxIndeces = new ArrayList<int[]>();
+		ArrayList<Integer> maxIndeces = new ArrayList<Integer>();
 		int maxIndex = 0;
 		if (this.getChildCount() != 0) {
 			for (int i = 0; i < this.getChildCount(); i++) {
-				if (getTotalScore(this.getChildAt(i)) > getTotalScore(this.getChildAt(maxIndex))) {
+				if (getTotalScore2(this.getChildAt(i)) > getTotalScore2(this.getChildAt(maxIndex))) {
 					maxIndex = i;
 				}
 			}
@@ -164,14 +155,14 @@ public class GameTree extends SimpleDirectedGraph<GameJTable, DefaultEdge> {
 
 			// randomize between all equal maxes
 			for (int i = 0; i < this.getChildCount(); i++) {
-				if (getTotalScore(this.getChildAt(i)) == getTotalScore(this.getChildAt(maxIndex))) {
-					int[] e = { i };
-					maxIndeces.add(e);
+				if (getTotalScore2(this.getChildAt(i)) == getTotalScore2(this.getChildAt(maxIndex))) {
+					maxIndeces.add(i);
 				}
 			}
 
+			
 			int randIndex = (int) Math.round(Math.random() * (maxIndeces.size() - 1));
-			maxIndex = maxIndeces.get(randIndex)[0];
+			maxIndex = maxIndeces.get(randIndex);
 		}
 
 		return maxIndex;
@@ -179,14 +170,16 @@ public class GameTree extends SimpleDirectedGraph<GameJTable, DefaultEdge> {
 
 	public void printToVisioFile(String fileName) {
 		FileWriter fileWriter = null;
-		DOTExporter<GameJTable, DefaultEdge> exporter=new DOTExporter<GameJTable, DefaultEdge>(new IntegerNameProvider<GameJTable>(), new StringNameProvider<GameJTable>(), new IntegerEdgeNameProvider<DefaultEdge>());
+		GraphMLExporter<GameJTable, DefaultEdge> exporter = new GraphMLExporter<GameJTable, DefaultEdge>(
+				new IntegerNameProvider<GameJTable>(), new StringNameProvider<GameJTable>(),
+				new IntegerEdgeNameProvider<DefaultEdge>(), new IntegerEdgeNameProvider<DefaultEdge>());
 
 		try {
 
 			fileWriter = new FileWriter(fileName);
 
 			exporter.export(fileWriter, this);
-			
+
 			System.out.println("DOT file was created successfully !!!");
 
 		} catch (Exception e) {
@@ -211,6 +204,42 @@ public class GameTree extends SimpleDirectedGraph<GameJTable, DefaultEdge> {
 
 			}
 
+		}
+	}
+	
+	@Override
+	public GameTree clone(){
+		return this.clone(-1);
+	}
+
+	/**
+	 * Clones the GameTree
+	 * 
+	 * @param desiredDepth
+	 *            The number of levels the new GameTree. All nodes deeper than
+	 *            the specified level are cut off.<br>
+	 *            {@code desiredDepth=-1 } will lead to a complete clone.
+	 * @return A clone of this GameTree with the specified depth.
+	 */
+	public GameTree clone(long desiredDepth) {
+		GameTree res = new GameTree(this.getRoot().clone());
+
+		cloneChildren_recursive(res, res.getRoot(), this.getRoot(), 1, desiredDepth);
+
+		return res;
+	}
+
+	private void cloneChildren_recursive(GameTree newGameTree, GameJTable curNewRootNode, GameJTable curRootNode,
+			long indent, long desiredDepth) {
+		if (this.getChildCount(curRootNode) != 0) {
+			if (indent < desiredDepth || desiredDepth == -1) {
+				for (int i = 0; i < this.getChildCount(curRootNode); i++) {
+					GameJTable child = this.getChildAt(i, curRootNode).clone();
+					newGameTree.addChild(child, curNewRootNode);
+					cloneChildren_recursive(newGameTree, child, this.getChildAt(i, curRootNode), indent = indent + 1,
+							desiredDepth);
+				}
+			}
 		}
 	}
 	/*
