@@ -10,6 +10,7 @@ import org.jgrapht.ext.GraphMLExporter;
 import org.jgrapht.graph.ClassBasedEdgeFactory;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.SimpleDirectedGraph;
+import org.jgrapht.ext.*;
 
 /**
  * A node of a game tree (A Tree that contains all possible turns in a tic tac
@@ -178,7 +179,7 @@ public class GameTree extends SimpleDirectedGraph<GameJTable, DefaultEdge> {
 
 	public void printToVisioFile(String fileName) {
 		FileWriter fileWriter = null;
-		GraphMLExporter<GameJTable, DefaultEdge> exporter=new GraphMLExporter<GameJTable, DefaultEdge>();
+		DOTExporter<GameJTable, DefaultEdge> exporter=new DOTExporter<GameJTable, DefaultEdge>(new IntegerNameProvider<GameJTable>(), new StringNameProvider<GameJTable>(), new IntegerEdgeNameProvider<DefaultEdge>());
 
 		try {
 
@@ -186,7 +187,7 @@ public class GameTree extends SimpleDirectedGraph<GameJTable, DefaultEdge> {
 
 			exporter.export(fileWriter, this);
 			
-			System.out.println("GraphML file was created successfully !!!");
+			System.out.println("DOT file was created successfully !!!");
 
 		} catch (Exception e) {
 
