@@ -58,7 +58,7 @@ public class GameTree extends SimpleDirectedGraph<GameJTable, DefaultEdge> {
 		}
 	
 	/**
-	 * Adds a child to the tree
+	 * Adds a child to the root of the tree
 	 * 
 	 * @param child
 	 *            The child node to be added
@@ -67,13 +67,18 @@ public class GameTree extends SimpleDirectedGraph<GameJTable, DefaultEdge> {
 		addChild(child, root);
 	}
 
+	/**
+	 * Adds a child to a node of the tree
+	 * @param child The child node to be added
+	 * @param node The parent node of the child
+	 */
 	public void addChild(GameJTable child, GameJTable node) {
 		this.addVertex(child);
 		this.addEdge(node, child);
 	}
 
 	/**
-	 * Returns the child at the specified index
+	 * Returns the child of the root node at the specified index
 	 * 
 	 * @param index
 	 *            The index of the desired child
@@ -83,14 +88,29 @@ public class GameTree extends SimpleDirectedGraph<GameJTable, DefaultEdge> {
 		return getChildAt(index, root);
 	}
 
+	/**
+	 * Returns the child of the specified node at the specified index
+	 * @param index The index of the node
+	 * @param node The parent node
+	 * @return The child node of node at the specified index
+	 */
 	public GameJTable getChildAt(int index, GameJTable node) {
 		return this.getEdgeTarget((DefaultEdge) this.outgoingEdgesOf(node).toArray()[index]);
 	}
 	
+	/**
+	 * Gets the child count of the root node
+	 * @return The child count of the root node
+	 */
 	public int getChildCount() {
 		return getChildCount(root);
 	}
 
+	/**
+	 * Gets the child count of the specified node
+	 * @param node The node where the children should be counted
+	 * @return The child count of node
+	 */
 	public int getChildCount(GameJTable node) {
 		return this.outgoingEdgesOf(node).size();
 	}
@@ -121,7 +141,7 @@ public class GameTree extends SimpleDirectedGraph<GameJTable, DefaultEdge> {
 	}
 
 	/**
-	 * Sums up the score of this node and all of its child nodes.
+	 * Returns the score of the specified child (Does not sum up child nodes)
 	 * 
 	 * @param child
 	 *            The child the score will be calculated for
@@ -134,7 +154,7 @@ public class GameTree extends SimpleDirectedGraph<GameJTable, DefaultEdge> {
 	/**
 	 * Determines the best possible turn of all of this nodes children by
 	 * determining the turn with the highest score. If there is more than one
-	 * turn with the highest score, a turn will be piyked by random among the
+	 * turn with the highest score, a turn will be picked by random among the
 	 * best turns.
 	 * 
 	 * @return The child index with the best turn
@@ -166,6 +186,10 @@ public class GameTree extends SimpleDirectedGraph<GameJTable, DefaultEdge> {
 		return maxIndex;
 	}
 
+	/**
+	 * Prints this GameTree into a GraphML file that can be viewed with a software like <a href="https://www.yworks.com/products/yed">yED</a>
+	 * @param fileName The absolute file name of the new file. If no path is specified, the file will be saved to the current bin directory
+	 */
 	public void printToVisioFile(String fileName) {
 		FileWriter fileWriter = null;
 		GraphMLExporter<GameJTable, DefaultEdge> exporter = new GraphMLExporter<GameJTable, DefaultEdge>(
@@ -206,6 +230,11 @@ public class GameTree extends SimpleDirectedGraph<GameJTable, DefaultEdge> {
 	}
 	
 	@Override
+	/**
+	 * Clones this gameTree
+	 * 
+	 * @return A clone of this GameTree
+	 */
 	public GameTree clone(){
 		return this.clone(-1);
 	}
