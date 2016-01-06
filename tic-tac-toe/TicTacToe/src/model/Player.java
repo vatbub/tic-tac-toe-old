@@ -46,7 +46,6 @@ public class Player {
 	 * Switches Player.Player1 and Player.player2
 	 */
 	public static void switchPlayers() {
-		// Switches Player1 and Player 2
 		Player player1Copy = Player1;
 		Player player2Copy = Player2;
 
@@ -139,17 +138,10 @@ public class Player {
 		if (currentGameTable != null) {
 			if (currentGameTable.isEmpty() == false) {
 				// get the best turn
-				// TreeNode gameTree = buildGameTree2(currentGameTable,
-				// opponent);
-				// buildGameTree2(GameJTable currentGameTable, int
-				// lastPlayedAtRow, int lastPlayedAtRow,
-				// Player opponent) {
+				
 				GameTree gameTree = buildGameTree2(currentGameTable, opponent);
 				if (gameTree.getChildCount() != 0) {
-
-					// debugGameTree.print();
-
-					// output the tree as a visio file
+					// output the tree as a GraphML file
 					System.out.println(System.getProperty("user.dir") + "\\gameTreeAsVisioFile.graphml");
 					gameTree.printToGraphMLFile(System.getProperty("user.dir") + "\\gameTreeAsVisioFile.graphml");
 					// gameTree.clone(3)
@@ -234,9 +226,6 @@ public class Player {
 	private void buildGameTree_recursive2(GameTree gameTree, GameJTable node, double alpha, double beta,
 			boolean opponentsTurn, Player opponent, int indent) {
 
-		// initialize the return tree
-		// GameTree gameTree = node.clone();
-
 		// determine if somebody has won
 		Player winner = node.winDetector();
 
@@ -268,21 +257,14 @@ public class Player {
 
 					// do the turn
 					child.setPlayerAt(turns.get(i)[0], turns.get(i)[1], this);
-					// child.playedAtRow = turns.get(i)[0];
-					// child.playedAtColumn = turns.get(i)[1];
-
-					// System.out.println(child.getObject().toString());
 
 					gameTree.addChild(child, node);
-					// output the tree as a visio file
+					// output the tree as a GraphML file
 					// System.out.println(System.getProperty("user.dir") +
 					// "\\gameTreeAsVisioFile.graphml");
 					// gameTree.printToVisioFile(System.getProperty("user.dir")
 					// + "\\gameTreeAsVisioFile.graphml");
 					buildGameTree_recursive2(gameTree, child, alpha, beta, true, opponent, indent + 1);
-
-					// System.out.println("===returned to node===");
-					// System.out.println(node.getObject().toString());
 
 					alpha = Math.max(alpha, child.scoreIfStateIsReached);
 					child.alpha = alpha;
@@ -305,21 +287,14 @@ public class Player {
 
 					// do the turn
 					child.setPlayerAt(turns.get(i)[0], turns.get(i)[1], opponent);
-					// child.playedAtRow = turns.get(i)[0];
-					// child.playedAtColumn = turns.get(i)[1];
-
-					// System.out.println(child.getObject().toString());
 
 					gameTree.addChild(child, node);
-					// output the tree as a visio file
+					// output the tree as a GraphML file
 					// System.out.println(System.getProperty("user.dir") +
 					// "\\gameTreeAsVisioFile.graphml");
 					// gameTree.printToVisioFile(System.getProperty("user.dir")
 					// + "\\gameTreeAsVisioFile.graphml");
 					buildGameTree_recursive2(gameTree, child, alpha, beta, false, opponent, indent + 1);
-
-					// System.out.println("===returned to node===");
-					// System.out.println(node.getObject().toString());
 
 					beta = Math.min(beta, child.scoreIfStateIsReached);
 					child.beta = beta;
