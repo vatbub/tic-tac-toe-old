@@ -16,6 +16,8 @@ import model.*;
  */
 public class GameJTable extends JTable {
 	private static final long serialVersionUID = -1925175781596366195L;
+	public double alpha=0;
+	public double beta=0;
 
 	/**
 	 * Score assigned to this turn by the minimax-Algorithm of the AI while
@@ -498,7 +500,7 @@ public class GameJTable extends JTable {
 		for (int r = 0; r < this.getRowCount(); r++) {
 			for (int c = 0; c < this.getColumnCount(); c++) {
 				if (this.getPlayerAt(r, c) == null) {
-					res = res + " ";
+					res = res + "_";
 				} else if (this.getPlayerAt(r, c).equals(Player.Player1)) {
 					res = res + Config.player1String;
 				} else if (this.getPlayerAt(r, c).equals(Player.Player2)) {
@@ -510,7 +512,8 @@ public class GameJTable extends JTable {
 
 		}
 
-		res = res + "===end of table===";
+		res = res + "===end of table===\n";
+		res=res+"alpha = " + alpha + ", beta = " + beta;
 		return res;
 	}
 
