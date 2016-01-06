@@ -50,9 +50,6 @@ public class GameGUI {
 	private JButton btnThinkForMe;
 	private JLabel labelSpacing1;
 	
-	private int lastPlayedAtRow;
-	private int lastPlayedAtColumn;
-
 	/**
 	 * Launch the GameGUI window. ATTENTION: It is highly recommended to launch
 	 * the WelcomeGUI or the Main-class since launching GameGUI directly will
@@ -269,9 +266,6 @@ public class GameGUI {
 		}
 		setTurnLabel();
 		
-		lastPlayedAtRow=row;
-		lastPlayedAtColumn=column;
-
 		// Check for win
 		Player winningPlayer = gameTable.winDetector(row, column, true);
 		if (!(winningPlayer == null)) {
