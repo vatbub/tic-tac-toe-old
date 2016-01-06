@@ -16,7 +16,15 @@ import model.*;
  */
 public class GameJTable extends JTable {
 	private static final long serialVersionUID = -1925175781596366195L;
+	
+	/**
+	 * The alpha value of this game state for the MiniMax algorithm with AlphaBeta pruning
+	 */
 	public double alpha=0;
+	
+	/**
+	 * The beta value of this game state for the MiniMax algorithm with AlphaBeta pruning
+	 */
 	public double beta=0;
 
 	/**
@@ -72,7 +80,8 @@ public class GameJTable extends JTable {
 	}
 
 	/**
-	 * Set the cell contet of the specified cell to the players String and Color
+	 * Set the cell content of the specified cell to the players String and Color.<br>
+	 * Throws{@code InvalidPlayerException} if player does not equal Player.Player1 or Player.Player2 or null.
 	 * 
 	 * @param row
 	 *            The row of the cell that will be changed
@@ -109,13 +118,13 @@ public class GameJTable extends JTable {
 	}
 
 	/**
-	 * Returns the Player at the specified position
+	 * Returns the Player at the specified position.
 	 * 
 	 * @param row
 	 *            The row of the specified cell
 	 * @param column
 	 *            The column of the specified cell
-	 * @return The Player in the specified cell
+	 * @return The Player in the specified cell. This can be Player.Player1 oder Player.Player2 or null if the cell is not occupied.
 	 */
 	public Player getPlayerAt(int row, int column) {
 		String value = (String) this.getValueAt(row, column);
@@ -133,9 +142,8 @@ public class GameJTable extends JTable {
 	}
 
 	/**
-	 * Sets the symbol and color for the player who just played in the JTable of
-	 * the GameGUI. Also checks if a player won the game and shows the
-	 * win-message and quits the game then.
+	 * Sets the symbol and color for the player.<br>
+	 * If the cell is already occupied, the cell will NOT be overwritten.
 	 * 
 	 * @param row
 	 *            Row where the player played
@@ -143,7 +151,7 @@ public class GameJTable extends JTable {
 	 *            Column where the player played.
 	 * @param player
 	 *            The player that did the turn
-	 * @return Returns whether the player was set successfully
+	 * @return Returns whether the player was set successfully. If false, the cell was already occupied.
 	 */
 	public boolean playerPlayed(int row, int column, Player player) {
 		if (this.getPlayerAt(row, column) == null) {
@@ -462,6 +470,11 @@ public class GameJTable extends JTable {
 		}
 	}
 
+	/**
+	 * Clones this object.
+	 * 
+	 * @return A copy of this object.
+	 */
 	public GameJTable clone() {
 		// clone the TableModel
 		MyTableModel model = ((MyTableModel) this.getModel()).clone();
