@@ -474,6 +474,10 @@ public class GameJTable extends JTable {
 				res.setPlayerAt(r, c, this.getPlayerAt(r, c));
 			}
 		}
+		
+		// Transfer alpha and beta
+		res.alpha=this.alpha;
+		res.beta=this.beta;
 
 		return res;
 	}
