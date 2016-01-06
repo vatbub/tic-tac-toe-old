@@ -495,17 +495,6 @@ public class GameJTable extends JTable {
 		return res;
 	}
 
-	@Deprecated
-	/**
-	 * negate the scoreIfStateIsReached value
-	 * 
-	 * @return the negated scoreIfStateIsReached.
-	 */
-	public double invertScoreIfStateIsReached() {
-		scoreIfStateIsReached = -scoreIfStateIsReached;
-		return scoreIfStateIsReached;
-	}
-
 	/**
 	 * Prints the gameTable to a String for debug purposes
 	 * 
