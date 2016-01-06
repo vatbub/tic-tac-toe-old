@@ -190,7 +190,7 @@ public class GameTree extends SimpleDirectedGraph<GameJTable, DefaultEdge> {
 	 * Prints this GameTree into a GraphML file that can be viewed with a software like <a href="https://www.yworks.com/products/yed">yED</a>
 	 * @param fileName The absolute file name of the new file. If no path is specified, the file will be saved to the current bin directory
 	 */
-	public void printToVisioFile(String fileName) {
+	public void printToGraphMLFile(String fileName) {
 		FileWriter fileWriter = null;
 		GraphMLExporter<GameJTable, DefaultEdge> exporter = new GraphMLExporter<GameJTable, DefaultEdge>(
 				new IntegerNameProvider<GameJTable>(), new StringNameProvider<GameJTable>(),

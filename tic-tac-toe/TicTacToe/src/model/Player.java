@@ -151,7 +151,7 @@ public class Player {
 
 					// output the tree as a visio file
 					System.out.println(System.getProperty("user.dir") + "\\gameTreeAsVisioFile.graphml");
-					gameTree.printToVisioFile(System.getProperty("user.dir") + "\\gameTreeAsVisioFile.graphml");
+					gameTree.printToGraphMLFile(System.getProperty("user.dir") + "\\gameTreeAsVisioFile.graphml");
 					// gameTree.clone(3)
 					// .printToVisioFile(System.getProperty("user.dir") +
 					// "\\gameTreeAsVisioFile.graphml");
