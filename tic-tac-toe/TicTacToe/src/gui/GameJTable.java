@@ -517,7 +517,8 @@ public class GameJTable extends JTable {
 		}
 
 		res = res + "===end of table===\n";
-		res=res+"alpha = " + alpha + ", beta = " + beta;
+		res=res+"alpha = " + alpha + ", beta = " + beta + "\n";
+		res=res+"score = " + this.scoreIfStateIsReached;
 		return res;
 	}
 
