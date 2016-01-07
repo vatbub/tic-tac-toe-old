@@ -246,7 +246,7 @@ public class Player {
 		Player winner = node.winDetector();
 
 		// double intentWeight = 0.000000001;
-		double intentWeight = 2;
+		double intentWeight = 1;
 
 		if (winner == null) {
 			// determine all possible turns
@@ -287,7 +287,7 @@ public class Player {
 
 					if (alpha >= beta) {
 						// prune
-						break;
+						//break;
 					}
 				}
 
@@ -317,7 +317,7 @@ public class Player {
 
 					if (alpha >= beta) {
 						// prune
-						break;
+						//break;
 					}
 				}
 
