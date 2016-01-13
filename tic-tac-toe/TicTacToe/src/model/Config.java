@@ -78,7 +78,7 @@ public class Config {
 	/**
 	 * Specifies if the players should switch positions after each game
 	 */
-	public static boolean doNotSwitchPlayerAfterGame=true;
+	public static boolean doNotSwitchPlayerAfterGame=false;
 
 	/**
 	 * Validates the config and throws exceptions or warnings if the game is configured improperly
