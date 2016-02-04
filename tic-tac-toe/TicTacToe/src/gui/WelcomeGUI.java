@@ -18,6 +18,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ActionEvent;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.Toolkit;
 
 /**
  * The Main Menu
@@ -69,6 +70,7 @@ public class WelcomeGUI {
 	 */
 	private void initialize() {
 		frmTicTacToe = new JFrame();
+		frmTicTacToe.setIconImage(Toolkit.getDefaultToolkit().getImage(WelcomeGUI.class.getResource("/gui/images/tic.png")));
 		frmTicTacToe.addComponentListener(new ComponentAdapter() {
 			@Override
 			/**

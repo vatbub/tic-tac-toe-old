@@ -21,6 +21,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.ActionListener;
+import java.awt.Toolkit;
 
 /**
  * The Game window
@@ -119,6 +120,7 @@ public class GameGUI {
 	 */
 	private void initialize() {
 		frmTicTacToe = new JFrame();
+		frmTicTacToe.setIconImage(Toolkit.getDefaultToolkit().getImage(GameGUI.class.getResource("/gui/images/tic.png")));
 		frmTicTacToe.addWindowListener(new MyWindowAdapter(this) {
 			@Override
 			public void windowClosing(WindowEvent e) {
