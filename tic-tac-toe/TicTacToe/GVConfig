@@ -1,6 +1,0 @@
-graph[fontsize="12"]
-graph[dpi="8000"]
-node[fontsize="12"]
-edge[fontsize="12"]
-graph[defaultdist="80"]
-edge[penwidth="5"]
