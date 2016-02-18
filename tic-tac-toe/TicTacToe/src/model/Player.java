@@ -13,9 +13,25 @@ import gui.GameJTable;
  * @author Frederik Kammel
  */
 public class Player {
+	
+	/**
+	 * An object representing Player1
+	 */
 	public static Player Player1;
+	
+	/**
+	 * An object representing Player2
+	 */
 	public static Player Player2;
+	
+	/**
+	 * Object to represent a tie in the game
+	 */
 	public static Player PlayerTie;
+	
+	/**
+	 * The number of initialized players
+	 */
 	public static int playerCount;
 
 	public String name;
@@ -46,7 +62,6 @@ public class Player {
 	 * Switches Player.Player1 and Player.player2
 	 */
 	public static void switchPlayers() {
-		// Switches Player1 and Player 2
 		Player player1Copy = Player1;
 		Player player2Copy = Player2;
 
@@ -122,7 +137,7 @@ public class Player {
 
 	/**
 	 * Decides where the AI will do its next turn by implementing the
-	 * Mini-Max-Algorithm.
+	 * Mini-Max-Algorithm with AlphaBeta pruning.
 	 * 
 	 * Needs the reference to the callerGUI to send it the info about the played
 	 * spot
@@ -134,24 +149,27 @@ public class Player {
 	 * @param opponent
 	 *            The Player object of the opponent
 	 */
-	public void doAiTurn(GameJTable currentGameTable, int lastPlayedAtRow, int lastPlayedAtColumn, GameGUI callerGUI,
-			Player opponent) {
+	public void doAiTurn(GameJTable currentGameTable, GameGUI callerGUI, Player opponent) {
 
 		if (currentGameTable != null) {
 			if (currentGameTable.isEmpty() == false) {
 				// get the best turn
-				// TreeNode gameTree = buildGameTree2(currentGameTable,
-				// opponent);
-				// buildGameTree2(GameJTable currentGameTable, int
-				// lastPlayedAtRow, int lastPlayedAtRow,
-				// Player opponent) {
-				TreeNode gameTree = buildGameTree2(currentGameTable, lastPlayedAtRow, lastPlayedAtRow, opponent);
+				
+				GameTree gameTree = buildGameTree2(currentGameTable, opponent);
 				if (gameTree.getChildCount() != 0) {
+					// output the tree as a GraphML file
+					System.out.println(System.getProperty("user.dir") + "\\gameTreeAsVisioFile.graphml");
+					gameTree.printToGraphMLFile(System.getProperty("user.dir") + "\\gameTreeAsVisioFile.graphml");
+					// gameTree.clone(3)
+					// .printToVisioFile(System.getProperty("user.dir") +
+					// "\\gameTreeAsVisioFile.graphml");
+
 					// print some stats
-					System.out.println("Score of the root: " + gameTree.getObject().scoreIfStateIsReached);
+					System.out.println("Score of the root: " + gameTree.getRoot().scoreIfStateIsReached);
 					for (int i = 0; i < gameTree.getChildCount(); i++) {
-						System.out.println("Score at " + i + ": " + gameTree.getChildAt(i).getTotalScore() + " - "
-								+ gameTree.getChildAt(i).playedAtRow + "/" + gameTree.getChildAt(i).playedAtColumn);
+						System.out.println("Score at " + i + ": " + gameTree.getTotalScore2(gameTree.getChildAt(i))
+								+ " - " + gameTree.getChildAt(i).playedAtRow + "/"
+								+ gameTree.getChildAt(i).playedAtColumn);
 					}
 
 					int bestTurn = gameTree.getBestTurnFromChildren();
@@ -168,7 +186,7 @@ public class Player {
 								gameTree.getChildAt(bestTurn).playedAtColumn);
 					}
 				} else {
-					// Tree is only one intent deep, so pick a random field
+					// Tree is only one indent deep, so pick a random field
 					callerGUI.playerPlayed((int) Math.round(Math.random() * (currentGameTable.getRowCount() - 1)),
 							(int) Math.round(Math.random() * (currentGameTable.getColumnCount() - 1)));
 				}
@@ -181,8 +199,9 @@ public class Player {
 	}
 
 	/**
-	 * Builds a tree with all possible turn combinations ATTENTION: For speed
-	 * reasons the tree will be cut at Config.cutGameTreeAtIntent
+	 * Builds a tree with all possible turn combinations for use with the Mini
+	 * Max Algorithm.<br>
+	 * This method uses alpha beta pruning.
 	 * 
 	 * @param currentGameTable
 	 *            The current gameTable
@@ -190,124 +209,16 @@ public class Player {
 	 *            The Player object of the opponent
 	 * @return The tree containing all possible turn combinations
 	 */
-	private TreeNode buildGameTree(GameJTable currentGameTable, Player opponent) {
+	private GameTree buildGameTree2(GameJTable currentGameTable, Player opponent) {
 		// We only arrive here if no tree was built before or if the child was
 		// not found
-		return buildGameTree_recursive(currentGameTable, false, opponent, 1);
-	}
 
-	/**
-	 * Builds a tree with all possible turn combinations ATTENTION: For speed
-	 * reasons the tree will be cut at Config.cutGameTreeAtIntent
-	 * 
-	 * @param currentGameTable
-	 *            The current gameTable
-	 * @param opponentsTurn
-	 *            Specifies if scores should be inverted in this part of the
-	 *            tree because its the opponents turn
-	 * @param opponent
-	 *            The Player object of the opponent
-	 * @param intent
-	 *            the current intent of the tree
-	 * @return The tree containing all possible turn combinations
-	 */
-	private TreeNode buildGameTree_recursive(GameJTable currentGameTable, boolean opponentsTurn, Player opponent,
-			int intent) {
-		TreeNode gameTree = new TreeNode();
+		GameTree gameTree = new GameTree(currentGameTable);
 
-		int scoreCoeff = 1;
-
-		// invert scores eventually
-		if (opponentsTurn == true) {
-			scoreCoeff = -1;
-		}
-
-		// determine all possible turns
-		ArrayList<int[]> turns;
-		turns = new ArrayList<int[]>();
-
-		for (int r = 0; r < currentGameTable.getRowCount(); r++) {
-			for (int c = 0; c < currentGameTable.getColumnCount(); c++) {
-				if (currentGameTable.getPlayerAt(r, c) == null) {
-					int[] rc = { r, c };
-					turns.add(rc);
-				}
-			}
-		}
-
-		gameTree.setObject(currentGameTable.clone());
-
-		for (int i = 0; i < turns.size(); i++) {
-			// duplicate the table
-			GameJTable tableTemp = gameTree.getObject().clone();
-
-			// do the turn
-
-			if (opponentsTurn == false) {
-				// My turn
-				tableTemp.setPlayerAt(turns.get(i)[0], turns.get(i)[1], this);
-			} else {
-				// opponents turn
-				tableTemp.setPlayerAt(turns.get(i)[0], turns.get(i)[1], opponent);
-			}
-
-			// check if somebody won
-			Player playerWonTemp = tableTemp.winDetector(turns.get(i)[0], turns.get(i)[1]);
-
-			// set the score to 10 if I would win and to -10 if the opponent
-			// would win and continue if nobody would win
-			if (playerWonTemp == null) {
-				// opponents turn
-				// cut the tree at a specific intent
-				if (intent + 1 <= Config.cutGameTreeAtIntent || Config.cutGameTreeAtIntent == 0) {
-					TreeNode child = buildGameTree_recursive(tableTemp, !opponentsTurn, opponent, intent + 1);
-					child.playedAtColumn = turns.get(i)[1];
-					child.playedAtRow = turns.get(i)[0];
-					gameTree.addChild(child);
-				}
-			} else {
-				double intentWeight = 0.000000001;
-				if (playerWonTemp.equals(this)) {
-					tableTemp.scoreIfStateIsReached = (int) (10.0 / (intentWeight * intent + 1)) * scoreCoeff;
-				} else if (playerWonTemp.equals(PlayerTie)) {
-					// its a tie
-					// tableTemp.scoreIfStateIsReached = (int) (0.0 /
-					// 0.00000001*(intent)) * scoreCoeff;
-					tableTemp.scoreIfStateIsReached = 0;
-				} else {
-					// opponent wins
-					tableTemp.scoreIfStateIsReached = (int) (15.0 / (intentWeight * intent + 1)) * scoreCoeff;
-				}
-				TreeNode childNode = new TreeNode(tableTemp);
-				childNode.playedAtColumn = turns.get(i)[1];
-				childNode.playedAtRow = turns.get(i)[0];
-				gameTree.addChild(childNode);
-			}
-		}
+		buildGameTree_recursive2(gameTree, currentGameTable, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, false,
+				opponent, 1);
 
 		return gameTree;
-	}
-
-	/**
-	 * Builds a tree with all possible turn combinations ATTENTION: For speed
-	 * reasons the tree will be cut at Config.cutGameTreeAtIntent
-	 * 
-	 * @param currentGameTable
-	 *            The current gameTable
-	 * @param opponent
-	 *            The Player object of the opponent
-	 * @return The tree containing all possible turn combinations
-	 */
-	private TreeNode buildGameTree2(GameJTable currentGameTable, int lastPlayedAtRow, int lastPlayedAtColumn,
-			Player opponent) {
-		// We only arrive here if no tree was built before or if the child was
-		// not found
-
-		TreeNode gameTreeRoot = new TreeNode(currentGameTable);
-		gameTreeRoot.playedAtRow = lastPlayedAtRow;
-		gameTreeRoot.playedAtColumn = lastPlayedAtColumn;
-		return buildGameTree_recursive2(gameTreeRoot, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, false,
-				opponent, 1);
 	}
 
 	/**
@@ -328,26 +239,23 @@ public class Player {
 	 *            The Player object representing the opponent
 	 * @return The explored gameTree
 	 */
-	private TreeNode buildGameTree_recursive2(TreeNode node, double alpha, double beta, boolean opponentsTurn,
-			Player opponent, int intent) {
-
-		// initialize the return tree
-		TreeNode gameTree = node.clone();
+	private void buildGameTree_recursive2(GameTree gameTree, GameJTable node, double alpha, double beta,
+			boolean opponentsTurn, Player opponent, int indent) {
 
 		// determine if somebody has won
-		Player winner = node.getObject().winDetector(node.playedAtRow, node.playedAtColumn, false);
+		Player winner = node.winDetector();
 
-		double intentWeight = 0.000000001;
-		//double intentWeight = 2;
-		
+		// double intentWeight = 0.000000001;
+		double intentWeight = 1;
+
 		if (winner == null) {
 			// determine all possible turns
 			ArrayList<int[]> turns;
 			turns = new ArrayList<int[]>();
 
-			for (int r = 0; r < node.getObject().getRowCount(); r++) {
-				for (int c = 0; c < node.getObject().getColumnCount(); c++) {
-					if (node.getObject().getPlayerAt(r, c) == null) {
+			for (int r = 0; r < node.getRowCount(); r++) {
+				for (int c = 0; c < node.getColumnCount(); c++) {
+					if (node.getPlayerAt(r, c) == null) {
 						int[] rc = { r, c };
 						turns.add(rc);
 					}
@@ -355,69 +263,76 @@ public class Player {
 			}
 
 			if (opponentsTurn == false) {
+				// my turn
+
 				for (int i = 0; i < turns.size(); i++) {
 					// duplicate the table
-					TreeNode child = new TreeNode(gameTree.getObject().clone());
+					GameJTable child = node.clone();
+					child.alpha = alpha;
+					child.beta = beta;
 
 					// do the turn
-					child.getObject().setPlayerAt(turns.get(i)[0], turns.get(i)[1], this);
-					child.playedAtRow=turns.get(i)[0];
-					child.playedAtColumn=turns.get(i)[1];
-					
-					//System.out.println(child.getObject().toString());
-					
-					child = buildGameTree_recursive2(child, alpha, beta, true, opponent, intent + 1);
-					
-					//System.out.println("===returned to node===");
-					//System.out.println(node.getObject().toString());
-					
-					alpha = Math.max(alpha, child.getObject().scoreIfStateIsReached);
-					gameTree.addChild(child);
+					child.setPlayerAt(turns.get(i)[0], turns.get(i)[1], this);
+
+					gameTree.addChild(child, node);
+					// output the tree as a GraphML file
+					// System.out.println(System.getProperty("user.dir") +
+					// "\\gameTreeAsVisioFile.graphml");
+					// gameTree.printToVisioFile(System.getProperty("user.dir")
+					// + "\\gameTreeAsVisioFile.graphml");
+					buildGameTree_recursive2(gameTree, child, alpha, beta, true, opponent, indent + 1);
+
+					alpha = Math.max(alpha, child.scoreIfStateIsReached);
+					child.alpha = alpha;
 
 					if (alpha >= beta) {
 						// prune
-						break;
+						//break;
 					}
 				}
 
-				gameTree.getObject().scoreIfStateIsReached = alpha;
+				node.scoreIfStateIsReached = alpha;
 			} else {
+				// opponents turn
+
 				for (int i = 0; i < turns.size(); i++) {
 					// duplicate the table
-					TreeNode child = new TreeNode(gameTree.getObject().clone());
+					GameJTable child = node.clone();
+					child.alpha = alpha;
+					child.beta = beta;
 
 					// do the turn
-					child.getObject().setPlayerAt(turns.get(i)[0], turns.get(i)[1], opponent);
-					child.playedAtRow=turns.get(i)[0];
-					child.playedAtColumn=turns.get(i)[1];
-					
-					//System.out.println(child.getObject().toString());
+					child.setPlayerAt(turns.get(i)[0], turns.get(i)[1], opponent);
 
-					child = buildGameTree_recursive2(child, alpha, beta, false, opponent, intent + 1);
-					
-					//System.out.println("===returned to node===");
-					//System.out.println(node.getObject().toString());
-					
-					beta = Math.min(beta, child.getObject().scoreIfStateIsReached);
-					gameTree.addChild(child);
+					gameTree.addChild(child, node);
+					// output the tree as a GraphML file
+					// System.out.println(System.getProperty("user.dir") +
+					// "\\gameTreeAsVisioFile.graphml");
+					// gameTree.printToVisioFile(System.getProperty("user.dir")
+					// + "\\gameTreeAsVisioFile.graphml");
+					buildGameTree_recursive2(gameTree, child, alpha, beta, false, opponent, indent + 1);
+
+					beta = Math.min(beta, child.scoreIfStateIsReached);
+					child.beta = beta;
 
 					if (alpha >= beta) {
 						// prune
-						break;
+						//break;
 					}
 				}
 
-				gameTree.getObject().scoreIfStateIsReached = beta;
+				node.scoreIfStateIsReached = beta;
 			}
 		} else if (winner.equals(this)) {
-			gameTree.getObject().scoreIfStateIsReached = 15.0/ (intentWeight * intent + 1);
+			// I won
+			node.scoreIfStateIsReached = 15.0 / (Math.pow(intentWeight, indent + 1));
 		} else if (winner.equals(opponent)) {
-			gameTree.getObject().scoreIfStateIsReached = -100.0/ (intentWeight * intent + 1);
-			//(15.0 / (intentWeight * intent + 1))
+			// opponent won
+			node.scoreIfStateIsReached = -15.0 / (Math.pow(intentWeight, indent + 1));
+			// (15.0 / (intentWeight * intent + 1))
 		} else {
-			gameTree.getObject().scoreIfStateIsReached = 0;
+			// It's a tie
+			node.scoreIfStateIsReached = 0;
 		}
-		
-		return gameTree;
 	}
 }

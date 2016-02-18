@@ -16,12 +16,33 @@ import model.*;
  */
 public class GameJTable extends JTable {
 	private static final long serialVersionUID = -1925175781596366195L;
+	
+	/**
+	 * The alpha value of this game state for the MiniMax algorithm with AlphaBeta pruning
+	 */
+	public double alpha=0;
+	
+	/**
+	 * The beta value of this game state for the MiniMax algorithm with AlphaBeta pruning
+	 */
+	public double beta=0;
 
 	/**
 	 * Score assigned to this turn by the minimax-Algorithm of the AI while
 	 * computing all possible turns
 	 */
 	public double scoreIfStateIsReached;
+	
+	/**
+	 * Row, where the PLayer did his last turn
+	 */
+	public int playedAtRow;
+	
+	/**
+	 * Column, where the PLayer did his last turn
+	 */
+	public int playedAtColumn;
+	
 
 	public GameJTable() {
 		super.setDefaultRenderer(String.class, new MyCellRenderer());
@@ -59,7 +80,8 @@ public class GameJTable extends JTable {
 	}
 
 	/**
-	 * Set the cell contet of the specified cell to the players String and Color
+	 * Set the cell content of the specified cell to the players String and Color.<br>
+	 * Throws{@code InvalidPlayerException} if player does not equal Player.Player1 or Player.Player2 or null.
 	 * 
 	 * @param row
 	 *            The row of the cell that will be changed
@@ -69,6 +91,9 @@ public class GameJTable extends JTable {
 	 *            The player that should be set at the specified position
 	 */
 	public void setPlayerAt(int row, int column, Player player) {
+		this.playedAtColumn=column;
+		this.playedAtRow=row;
+		
 		if (player == null) {
 			this.setValueAt("", row, column);
 		} else if (player.equals(Player.Player1)) {
@@ -93,13 +118,13 @@ public class GameJTable extends JTable {
 	}
 
 	/**
-	 * Returns the Player at the specified position
+	 * Returns the Player at the specified position.
 	 * 
 	 * @param row
 	 *            The row of the specified cell
 	 * @param column
 	 *            The column of the specified cell
-	 * @return The Player in the specified cell
+	 * @return The Player in the specified cell. This can be Player.Player1 oder Player.Player2 or null if the cell is not occupied.
 	 */
 	public Player getPlayerAt(int row, int column) {
 		String value = (String) this.getValueAt(row, column);
@@ -117,9 +142,8 @@ public class GameJTable extends JTable {
 	}
 
 	/**
-	 * Sets the symbol and color for the player who just played in the JTable of
-	 * the GameGUI. Also checks if a player won the game and shows the
-	 * win-message and quits the game then.
+	 * Sets the symbol and color for the player.<br>
+	 * If the cell is already occupied, the cell will NOT be overwritten.
 	 * 
 	 * @param row
 	 *            Row where the player played
@@ -127,7 +151,7 @@ public class GameJTable extends JTable {
 	 *            Column where the player played.
 	 * @param player
 	 *            The player that did the turn
-	 * @return Returns whether the player was set successfully
+	 * @return Returns whether the player was set successfully. If false, the cell was already occupied.
 	 */
 	public boolean playerPlayed(int row, int column, Player player) {
 		if (this.getPlayerAt(row, column) == null) {
@@ -140,6 +164,17 @@ public class GameJTable extends JTable {
 		}
 	}
 
+	/**
+	 * Checks if a player has won the game
+	 * 
+	 * @return Player.Player1 if Player 1 has won, Player.Player2 if Player 2
+	 *         has won, Player.PlayerTie if the game is a tie, null if the game
+	 *         is not finished yet
+	 */
+	public Player winDetector(){
+		return winDetector(this.playedAtRow, this.playedAtColumn);
+	}
+	
 	/**
 	 * Checks if a player has won the game
 	 * 
@@ -435,6 +470,11 @@ public class GameJTable extends JTable {
 		}
 	}
 
+	/**
+	 * Clones this object.
+	 * 
+	 * @return A copy of this object.
+	 */
 	public GameJTable clone() {
 		// clone the TableModel
 		MyTableModel model = ((MyTableModel) this.getModel()).clone();
@@ -447,19 +487,12 @@ public class GameJTable extends JTable {
 				res.setPlayerAt(r, c, this.getPlayerAt(r, c));
 			}
 		}
+		
+		// Transfer alpha and beta
+		res.alpha=this.alpha;
+		res.beta=this.beta;
 
 		return res;
-	}
-
-	@Deprecated
-	/**
-	 * negate the scoreIfStateIsReached value
-	 * 
-	 * @return the negated scoreIfStateIsReached.
-	 */
-	public double invertScoreIfStateIsReached() {
-		scoreIfStateIsReached = -scoreIfStateIsReached;
-		return scoreIfStateIsReached;
 	}
 
 	/**
@@ -473,7 +506,7 @@ public class GameJTable extends JTable {
 		for (int r = 0; r < this.getRowCount(); r++) {
 			for (int c = 0; c < this.getColumnCount(); c++) {
 				if (this.getPlayerAt(r, c) == null) {
-					res = res + " ";
+					res = res + "_";
 				} else if (this.getPlayerAt(r, c).equals(Player.Player1)) {
 					res = res + Config.player1String;
 				} else if (this.getPlayerAt(r, c).equals(Player.Player2)) {
@@ -485,7 +518,9 @@ public class GameJTable extends JTable {
 
 		}
 
-		res = res + "===end of table===";
+		res = res + "===end of table===\n";
+		res=res+"alpha = " + alpha + ", beta = " + beta + "\n";
+		res=res+"score = " + this.scoreIfStateIsReached;
 		return res;
 	}
 

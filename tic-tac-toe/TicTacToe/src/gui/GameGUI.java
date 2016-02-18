@@ -21,6 +21,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.ActionListener;
+import java.awt.Toolkit;
 
 /**
  * The Game window
@@ -50,9 +51,6 @@ public class GameGUI {
 	private JButton btnThinkForMe;
 	private JLabel labelSpacing1;
 	
-	private int lastPlayedAtRow;
-	private int lastPlayedAtColumn;
-
 	/**
 	 * Launch the GameGUI window. ATTENTION: It is highly recommended to launch
 	 * the WelcomeGUI or the Main-class since launching GameGUI directly will
@@ -112,7 +110,7 @@ public class GameGUI {
 		// Let the AI do her first turn if Player1 is AI
 		if (playerForNextTurn.isAi == true) {
 			//Player player, GameJTable currentGameTable,int lastPlayedAtRow, int lastPlayedAtColumn, GameGUI callerGUI, Player opponent
-			MySwingWorker SWorker = new MySwingWorker(playerForNextTurn, gameTable,0, 0, this, opponentOfPlayerForNextTurn);
+			MySwingWorker SWorker = new MySwingWorker(playerForNextTurn, gameTable,this, opponentOfPlayerForNextTurn);
 			SWorker.doInBackground();
 		}
 	}
@@ -122,6 +120,7 @@ public class GameGUI {
 	 */
 	private void initialize() {
 		frmTicTacToe = new JFrame();
+		frmTicTacToe.setIconImage(Toolkit.getDefaultToolkit().getImage(GameGUI.class.getResource("/gui/images/tic.png")));
 		frmTicTacToe.addWindowListener(new MyWindowAdapter(this) {
 			@Override
 			public void windowClosing(WindowEvent e) {
@@ -269,9 +268,6 @@ public class GameGUI {
 		}
 		setTurnLabel();
 		
-		lastPlayedAtRow=row;
-		lastPlayedAtColumn=column;
-
 		// Check for win
 		Player winningPlayer = gameTable.winDetector(row, column, true);
 		if (!(winningPlayer == null)) {
@@ -288,14 +284,14 @@ public class GameGUI {
 		// Do AI turns if selected
 		if (playerForNextTurn.isAi == true) {
 			//Player player, GameJTable currentGameTable,int lastPlayedAtRow, int lastPlayedAtColumn, GameGUI callerGUI, Player opponent
-			MySwingWorker SWorker = new MySwingWorker(playerForNextTurn, gameTable,row,column, this, opponentOfPlayerForNextTurn);
+			MySwingWorker SWorker = new MySwingWorker(playerForNextTurn, gameTable,this, opponentOfPlayerForNextTurn);
 			SWorker.doInBackground();
 		}
 	}
 
 	private void thinkForMe() {
 		if (guiLocked == false) {
-			MySwingWorker SWorker = new MySwingWorker(playerForNextTurn, gameTable,lastPlayedAtRow,lastPlayedAtColumn, this, opponentOfPlayerForNextTurn);
+			MySwingWorker SWorker = new MySwingWorker(playerForNextTurn, gameTable,this, opponentOfPlayerForNextTurn);
 			SWorker.doInBackground();
 		}
 	}

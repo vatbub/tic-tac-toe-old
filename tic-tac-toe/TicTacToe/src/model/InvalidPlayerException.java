@@ -1,10 +1,11 @@
 package model;
 
+/**
+ * Exception that is thrown when GameJTable.setPlayerAt() is called with a player unequal to Player.Player1 or Player.Player2 or null
+ * @author Frederik Kammel
+ *
+ */
 public class InvalidPlayerException extends RuntimeException {
-
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -7102087643546228380L;
 
 	public InvalidPlayerException() {

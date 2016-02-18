@@ -1,2 +1,7 @@
 /bin/
 /target/
+<<<<<<< HEAD
+=======
+/gameTreeAsVisioFile.csv
+/gameTreeAsVisioFile.graphml
+>>>>>>> refs/remotes/origin/newTreeModel
