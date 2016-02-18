@@ -2,7 +2,6 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>FOKProjects</groupId>
   <artifactId>TicTacToe</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
   <name>TicTacToe</name>
   <description>An implementation of Tic Tac Toe</description>
   <build>
@@ -62,4 +61,5 @@
   		<version>0.9.1</version>
   	</dependency>
   </dependencies>
+  <version>8.0</version>
 </project>
