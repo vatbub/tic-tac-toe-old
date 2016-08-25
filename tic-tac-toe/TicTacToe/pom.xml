@@ -97,7 +97,7 @@ http://www.ethnologue.com/terms-use#CodeTables</comments>
 						<configuration>
 							<archive>
 								<manifest>
-									<mainClass>Main</mainClass>
+									<mainClass>gui.Main</mainClass>
 								</manifest>
 							</archive>
 						</configuration>
