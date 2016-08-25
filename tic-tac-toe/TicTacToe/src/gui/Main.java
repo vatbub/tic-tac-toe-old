@@ -1,3 +1,4 @@
+package gui;
 /**
  * Starts the game
  * 
