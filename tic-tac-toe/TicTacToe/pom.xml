@@ -41,7 +41,7 @@
 		<connection>scm:git:git@gitlab.lrz.de:ga59tim/tic-tac-toe.git</connection>
 		<url>scm:git:git@gitlab.lrz.de:ga59tim/tic-tac-toe.git</url>
 		<developerConnection>scm:git:git@gitlab.lrz.de:ga59tim/tic-tac-toe.git</developerConnection>
-	  <tag>tictactoe-8.0</tag>
+	  <tag>HEAD</tag>
   </scm>
 	
 	<licenses>
@@ -119,5 +119,5 @@ http://www.ethnologue.com/terms-use#CodeTables</comments>
 			<version>0.9.1</version>
 		</dependency>
 	</dependencies>
-	<version>8.0</version>
+	<version>8.1-SNAPSHOT</version>
 </project>
