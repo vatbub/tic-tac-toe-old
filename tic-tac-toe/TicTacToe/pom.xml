@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>tictactoe</artifactId>
 	<name>TicTacToe</name>
@@ -30,20 +31,20 @@
 			<url>http://dl.bintray.com/vatbub/fokprojectsSnapshots</url>
 		</pluginRepository>
 	</pluginRepositories>
-	
+
 	<parent>
 		<groupId>fokprojects</groupId>
 		<artifactId>parentPom</artifactId>
 		<version>0.0.10</version>
 	</parent>
-	
+
 	<scm>
 		<connection>scm:git:git@gitlab.lrz.de:ga59tim/tic-tac-toe.git</connection>
 		<url>scm:git:git@gitlab.lrz.de:ga59tim/tic-tac-toe.git</url>
 		<developerConnection>scm:git:git@gitlab.lrz.de:ga59tim/tic-tac-toe.git</developerConnection>
-	  <tag>HEAD</tag>
-  </scm>
-	
+		<tag>HEAD</tag>
+	</scm>
+
 	<licenses>
 		<license>
 			<comments>LICENSE
@@ -84,6 +85,11 @@ http://www.ethnologue.com/terms-use#CodeTables</comments>
 
 	<build>
 		<sourceDirectory>src</sourceDirectory>
+		<resources>
+			<resource>
+				<directory>resources</directory>
+			</resource>
+		</resources>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -106,7 +112,7 @@ http://www.ethnologue.com/terms-use#CodeTables</comments>
 			</plugin>
 		</plugins>
 	</build>
-	
+
 	<dependencies>
 		<dependency>
 			<groupId>org.jgrapht</groupId>
