@@ -13,22 +13,22 @@ import gui.GameJTable;
  * @author Frederik Kammel
  */
 public class Player {
-	
+
 	/**
 	 * An object representing Player1
 	 */
 	public static Player Player1;
-	
+
 	/**
 	 * An object representing Player2
 	 */
 	public static Player Player2;
-	
+
 	/**
 	 * Object to represent a tie in the game
 	 */
 	public static Player PlayerTie;
-	
+
 	/**
 	 * The number of initialized players
 	 */
@@ -154,12 +154,14 @@ public class Player {
 		if (currentGameTable != null) {
 			if (currentGameTable.isEmpty() == false) {
 				// get the best turn
-				
+
 				GameTree gameTree = buildGameTree2(currentGameTable, opponent);
 				if (gameTree.getChildCount() != 0) {
 					// output the tree as a GraphML file
-					System.out.println(System.getProperty("user.dir") + "\\gameTreeAsVisioFile.graphml");
-					gameTree.printToGraphMLFile(System.getProperty("user.dir") + "\\gameTreeAsVisioFile.graphml");
+					// System.out.println(System.getProperty("user.dir") +
+					// "\\gameTreeAsVisioFile.graphml");
+					// gameTree.printToGraphMLFile(System.getProperty("user.dir")
+					// + "\\gameTreeAsVisioFile.graphml");
 					// gameTree.clone(3)
 					// .printToVisioFile(System.getProperty("user.dir") +
 					// "\\gameTreeAsVisioFile.graphml");
@@ -287,7 +289,7 @@ public class Player {
 
 					if (alpha >= beta) {
 						// prune
-						//break;
+						// break;
 					}
 				}
 
@@ -317,7 +319,7 @@ public class Player {
 
 					if (alpha >= beta) {
 						// prune
-						//break;
+						// break;
 					}
 				}
 
