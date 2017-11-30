@@ -7,7 +7,8 @@ It was done as an exercise by Frederik Kammel.
 A newer, fancier version with a perfect AI and online multiplayer can be found [on GitHub](https://github.com/vatbub/tictactoe).
 
 ## Download
-To be able to play this game, you need to download the FOKLauncher ([Binary](https://bintray.com/vatbub/fokprojectsReleases/foklauncher#downloads) | [GitHub repo](https://github.com/vatbub/foklauncher))
+To be able to play this game, you need to download the FOKLauncher ([Binary](https://bintray.com/vatbub/fokprojectsReleases/foklauncher#downloads) | [GitHub repo](https://github.com/vatbub/foklauncher)).
+In the FOKLauncher, select `Tic Tac Toe (old version)` and click `Download & launch`
 
 ## Build
 ### Prerequisites
